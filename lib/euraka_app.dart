@@ -11,15 +11,18 @@ class EurakaApp extends StatelessWidget {
     return ScreenUtilInit(
       splitScreenMode: true,
       minTextAdapt: true,
-      designSize: Size(426, 926),
+      designSize: const Size(426, 926),
       child: MaterialApp(
+        themeAnimationCurve: Curves.fastEaseInToSlowEaseOut,
+        themeAnimationDuration: Duration(milliseconds: 750),
+
         debugShowCheckedModeBanner: false,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
-
-        home: Scaffold(),
+        themeMode: ThemeMode.dark,
+        home: const Scaffold(),
       ),
     );
   }
