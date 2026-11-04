@@ -1,7 +1,9 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:euraka/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toastification/toastification.dart';
+import 'core/routers/app_routes.dart';
+import 'core/theme/app_theme.dart';
 
 class EurakaApp extends StatelessWidget {
   const EurakaApp({super.key});
@@ -9,21 +11,24 @@ class EurakaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      splitScreenMode: true,
+      designSize: const Size(824, 926),
       minTextAdapt: true,
-      designSize: const Size(426, 926),
-      child: MaterialApp(
-        themeAnimationCurve: Curves.fastEaseInToSlowEaseOut,
-        themeAnimationDuration: Duration(milliseconds: 750),
-
-        debugShowCheckedModeBanner: false,
-        locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.dark,
-        home: const Scaffold(),
-      ),
+      splitScreenMode: true,
+      builder: (context, child) {
+        return ToastificationWrapper(
+          child: MaterialApp.router(
+            title: 'Eureka',
+            debugShowCheckedModeBanner: false,
+            locale: DevicePreview.locale(context) ?? const Locale('ar'),
+            builder: DevicePreview.appBuilder,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: ThemeMode.system,
+            routerConfig: AppRoutes.router,
+          ),
+        );
+      },
     );
   }
 }
+
