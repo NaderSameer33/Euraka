@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../services/get_it_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/logic/theme_cubit.dart';
+import '../theme/logic/theme_state.dart';
 
 class AnimatedThemeSwitcher extends StatelessWidget {
   final double? width;
@@ -19,10 +20,10 @@ class AnimatedThemeSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeCubit = getIt<ThemeCubit>();
 
-    return BlocBuilder<ThemeCubit, ThemeMode>(
+    return BlocBuilder<ThemeCubit, ThemeState>(
       bloc: themeCubit,
-      builder: (context, themeMode) {
-        final isDark = themeCubit.isDarkMode;
+      builder: (context, themeState) {
+        final isDark = themeState.isDark;
         final switcherWidth = width ?? 62.w;
         final switcherHeight = height ?? 34.h;
         final knobSize = switcherHeight - 6.h;
@@ -112,4 +113,3 @@ class AnimatedThemeSwitcher extends StatelessWidget {
     );
   }
 }
-

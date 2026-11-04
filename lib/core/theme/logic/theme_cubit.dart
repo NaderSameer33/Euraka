@@ -2,40 +2,58 @@ import 'package:flutter/material.dart';
 import '../../base/safe_cubit.dart';
 import '../../caching/shared_pref_service.dart';
 import '../../constants/app_constants.dart';
+import 'theme_state.dart';
 
-class ThemeCubit extends SafeCubit<ThemeMode> {
+class ThemeCubit extends SafeCubit<ThemeState> {
   final SharedPrefService _sharedPrefService;
 
-  ThemeCubit(this._sharedPrefService) : super(_getInitialTheme(_sharedPrefService));
+  ThemeCubit(this._sharedPrefService) : super(_getInitialState(_sharedPrefService));
 
-  static ThemeMode _getInitialTheme(SharedPrefService service) {
-    final isDark = service.getBool(AppConstants.isDarkModeKey);
-    if (isDark == null) {
-      return ThemeMode.system;
+  static ThemeState _getInitialState(SharedPrefService service) {
+    final isDarkSaved = service.getBool(AppConstants.isDarkModeKey);
+    if (isDarkSaved == null) {
+      final isPlatformDark =
+          WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark;
+      return ThemeInitialState(
+        themeMode: ThemeMode.system,
+        isDark: isPlatformDark,
+      );
     }
-    return isDark ? ThemeMode.dark : ThemeMode.light;
+    return ThemeInitialState(
+      themeMode: isDarkSaved ? ThemeMode.dark : ThemeMode.light,
+      isDark: isDarkSaved,
+    );
   }
 
-  bool get isDarkMode {
-    if (state == ThemeMode.system) {
-      return WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark;
-    }
-    return state == ThemeMode.dark;
+  bool get isDarkMode => state.isDark;
+
+  Future<void> toggleTheme() async {
+    final nextIsDark = !state.isDark;
+    final nextMode = nextIsDark ? ThemeMode.dark : ThemeMode.light;
+    await _sharedPrefService.setBool(AppConstants.isDarkModeKey, nextIsDark);
+    emit(
+      ThemeChangedState(
+        themeMode: nextMode,
+        isDark: nextIsDark,
+      ),
+    );
   }
 
-  void toggleTheme() {
-    final nextMode = isDarkMode ? ThemeMode.light : ThemeMode.dark;
-    _sharedPrefService.setBool(AppConstants.isDarkModeKey, nextMode == ThemeMode.dark);
-    emit(nextMode);
-  }
-
-  void setTheme(ThemeMode mode) {
+  Future<void> setTheme(ThemeMode mode) async {
+    final bool nextIsDark;
     if (mode == ThemeMode.system) {
-      _sharedPrefService.remove(AppConstants.isDarkModeKey);
+      await _sharedPrefService.remove(AppConstants.isDarkModeKey);
+      nextIsDark =
+          WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark;
     } else {
-      _sharedPrefService.setBool(AppConstants.isDarkModeKey, mode == ThemeMode.dark);
+      nextIsDark = mode == ThemeMode.dark;
+      await _sharedPrefService.setBool(AppConstants.isDarkModeKey, nextIsDark);
     }
-    emit(mode);
+    emit(
+      ThemeChangedState(
+        themeMode: mode,
+        isDark: nextIsDark,
+      ),
+    );
   }
 }
-

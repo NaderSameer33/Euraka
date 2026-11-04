@@ -8,6 +8,7 @@ import 'core/routers/app_routes.dart';
 import 'core/services/get_it_service.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/logic/theme_cubit.dart';
+import 'core/theme/logic/theme_state.dart';
 
 class EurakaApp extends StatelessWidget {
   const EurakaApp({super.key});
@@ -21,9 +22,9 @@ class EurakaApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return BlocBuilder<ThemeCubit, ThemeMode>(
+        return BlocBuilder<ThemeCubit, ThemeState>(
           bloc: themeCubit,
-          builder: (context, themeMode) {
+          builder: (context, themeState) {
             return ToastificationWrapper(
               child: MaterialApp.router(
                 title: 'Eureka',
@@ -32,7 +33,7 @@ class EurakaApp extends StatelessWidget {
                 builder: DevicePreview.appBuilder,
                 theme: AppTheme.lightTheme,
                 darkTheme: AppTheme.darkTheme,
-                themeMode: themeMode,
+                themeMode: themeState.themeMode,
                 routerConfig: AppRoutes.router,
                 supportedLocales: const [
                   Locale('ar'),
