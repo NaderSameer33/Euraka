@@ -73,3 +73,12 @@ Whenever initiating a new feature or scaffolding code, ensure the following pack
 4. **Responsive UI:** Every dimension, padding, radius, and font size must use `flutter_screenutil` (`.w`, `.h`, `.r`, `.sp`).
 5. **No Comments Rule:** **DO NOT write any comments in the code** (no `//` and no `/* */` comments). Code must be self-explanatory through clean naming conventions and clean architecture.
 6. **Feature Completion & Git Workflow:** After finishing any feature, **ALWAYS ask the user** whether to push the branch, suggest a clean and professional commit message, and confirm with them before pushing.
+
+
+Use the Figma MCP tool (download_figma_images) to export all image assets and icons from the provided Figma node/frame:
+- Figma URL/Node: [https://www.figma.com/design/nDS0eiJHNkUFKPGHBb4MS8/Eureka?node-id=0-1&p=f&t=mBtODKOSzcw1RQdD-0
+- Target Directory: assets/images/ (or assets/icons/)
+- Ensure the downloaded assets are properly formatted (PNG/SVG) and mapped correctly into the Flutter project's assets structure without manual intervention.
+
+
+
