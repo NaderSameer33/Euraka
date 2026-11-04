@@ -6,29 +6,28 @@ class OnboardingRepo {
     return const [
       OnboardingItemModel(
         image: AppAssets.onboarding1,
-        title: 'إدارة المجموعات والطلاب بسهولة',
+        title: 'تعلم بذكاء ، ليس بجهد',
         description:
-            'نظم مجموعاتك الدراسية وتابع حضور وغياب الطلاب وتفاصيل كل مجموعة بدقة وسرعة من مكان واحد.',
-      ),
-      OnboardingItemModel(
-        image: AppAssets.onboarding2,
-        title: 'إنشاء الواجبات والاختبارات',
-        description:
-            'صمم اختبارات وواجبات إلكترونية ومقالية مع إمكانية التصحيح التلقائي ورصد الدرجات فورياً.',
-      ),
-      OnboardingItemModel(
-        image: AppAssets.onboarding3,
-        title: 'متابعة الدخل والتحصيل المالي',
-        description:
-            'سجل مدفوعات واشتراكات الطلاب لكل حصة ومجموعة وتابع التقارير المالية بكل وضوح.',
+            'منصه تعليميه تجمع الطلاب والمدرسين في تجربه ذكيه وسهله',
       ),
       OnboardingItemModel(
         image: AppAssets.onboarding4,
-        title: 'تواصل فوري ومستمر مع الطلاب',
+        title: 'كل شئ في مكان واحد',
         description:
-            'تواصل مع طلابك وأولياء الأمور وأرسل التنبيهات والإشعارات المهمة لضمان أفضل تجربة تعليمية.',
+            'فيديوهات ملفات واجبات ... كل حاجه منظمه وسهله الوصول',
+      ),
+      OnboardingItemModel(
+        image: AppAssets.onboarding2,
+        title: 'ابق علي تواصل دائما',
+        description:
+            'تواصل مباشر بين الطالب والمدرس + اشعارات فوريه كلا الطرفين',
+      ),
+      OnboardingItemModel(
+        image: AppAssets.onboarding3,
+        title: 'جاهز للبدأ',
+        description:
+            'منهجك، أدواتك، وكل ما تحتاجه كطالب.. متاح في مكان واحد',
       ),
     ];
   }
 }
-
