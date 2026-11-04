@@ -1,4 +1,6 @@
-abstract class OnboardingState {
+import 'package:equatable/equatable.dart';
+
+abstract class OnboardingState extends Equatable {
   final int currentPage;
   final bool isLastPage;
 
@@ -6,6 +8,9 @@ abstract class OnboardingState {
     required this.currentPage,
     required this.isLastPage,
   });
+
+  @override
+  List<Object?> get props => [currentPage, isLastPage];
 }
 
 class OnboardingInitialState extends OnboardingState {
@@ -22,4 +27,3 @@ class OnboardingPageChangedState extends OnboardingState {
     required super.isLastPage,
   });
 }
-
