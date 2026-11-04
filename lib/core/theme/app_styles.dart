@@ -55,6 +55,15 @@ class AppStyles {
     );
   }
 
+  static TextStyle font18Regular(BuildContext context) {
+    return TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 18.sp,
+      fontWeight: AppFontWeight.regular,
+      color: Theme.of(context).colorScheme.onSurfaceVariant,
+    );
+  }
+
   static TextStyle font16Bold(BuildContext context) {
     return TextStyle(
       fontFamily: fontFamily,

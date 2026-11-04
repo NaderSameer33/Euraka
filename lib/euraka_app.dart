@@ -20,11 +20,11 @@ class EurakaApp extends StatelessWidget {
           child: MaterialApp.router(
             title: 'Eureka',
             debugShowCheckedModeBanner: false,
-            locale: DevicePreview.locale(context) ?? const Locale('ar'),
+            locale: const Locale('ar'),
             builder: DevicePreview.appBuilder,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode: ThemeMode.light,
+            themeMode: ThemeMode.system,
             routerConfig: AppRoutes.router,
             supportedLocales: const [
               Locale('ar'),
