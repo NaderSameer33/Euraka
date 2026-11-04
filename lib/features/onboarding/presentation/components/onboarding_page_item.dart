@@ -34,7 +34,7 @@ class OnboardingPageItem extends StatelessWidget {
           16.verticalSpace,
           Text(
             item.description,
-            style: AppStyles.font14Regular(context),
+            style: AppStyles.font18Regular(context),
             textAlign: TextAlign.center,
           ),
         ],
@@ -42,4 +42,3 @@ class OnboardingPageItem extends StatelessWidget {
     );
   }
 }
-
