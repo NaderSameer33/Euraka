@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/splash/presentation/views/splash_view.dart';
 import 'app_router_name.dart';
 
 class AppRoutes {
@@ -10,16 +11,24 @@ class AppRoutes {
     routes: [
       GoRoute(
         path: AppRouterName.splash,
+        builder: (context, state) => const SplashView(),
+      ),
+      GoRoute(
+        path: AppRouterName.onboarding,
         builder: (context, state) => const Scaffold(
           body: Center(
-            child: Text(
-              'Eureka',
-              style: TextStyle(fontFamily: 'Tajawal', fontSize: 24),
-            ),
+            child: Text('Onboarding'),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterName.login,
+        builder: (context, state) => const Scaffold(
+          body: Center(
+            child: Text('Login'),
           ),
         ),
       ),
     ],
   );
 }
-

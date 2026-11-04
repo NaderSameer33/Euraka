@@ -1,6 +1,7 @@
 # Flutter Architecture & Coding Rules
 
 ## 1. Project Directory Structure
+
 Strictly adhere to the following directory structure inside `lib/`:
 
 ```text
@@ -33,6 +34,7 @@ lib/
 ---
 
 ## 2. Mandatory Core Reuse (Always Use Core)
+
 - **Always prioritize and use files from `lib/core/`:**
   - **Colors & Styles:** Never hardcode colors (`Color(0xFF...)`) or inline `TextStyle`. Always use `AppColors` and `AppStyles` from `core/theme/`.
   - **UI Components:** Always reuse standard widgets from `core/widgets/` (`AppButton`, `AppInput`, `AppLoading`). Never recreate custom text fields, primary buttons, or loading indicators in features.
@@ -46,6 +48,7 @@ lib/
 ---
 
 ## 3. Strict DRY Principle (Zero Code Duplication)
+
 - **No Duplicate Code:** Never write duplicate code or copy-paste identical logic/widgets across screens or features.
 - **Rule of Reusability:**
   - If a widget or utility is used across multiple features, it **must** be extracted and placed into `lib/core/widgets/` or `lib/core/utils/`.
@@ -55,7 +58,9 @@ lib/
 ---
 
 ## 4. Mandatory Dependencies
+
 Whenever initiating a new feature or scaffolding code, ensure the following packages are utilized:
+
 - **State Management:** `flutter_bloc`
 - **Networking:** `dio`
 - **Dependency Injection:** `get_it`
@@ -67,9 +72,24 @@ Whenever initiating a new feature or scaffolding code, ensure the following pack
 ---
 
 ## 5. Architectural & Implementation Rules
+
 1. **State Management:** Always use `Cubit` (extending `SafeCubit`) inside `features/[feature]/logic/`.
 2. **Separation of Concerns:** Never put API calls or business logic directly inside UI views. All data operations must flow through feature repositories in `data/repos/` consuming `ApiService`.
 3. **Security & Secrets:** Sensitive values (tokens, credentials, API keys, base URLs) must never be hardcoded. Use `flutter_dotenv` with `.env` and `flutter_secure_storage`.
 4. **Responsive UI:** Every dimension, padding, radius, and font size must use `flutter_screenutil` (`.w`, `.h`, `.r`, `.sp`).
 5. **No Comments Rule:** **DO NOT write any comments in the code** (no `//` and no `/* */` comments). Code must be self-explanatory through clean naming conventions and clean architecture.
 6. **Feature Completion & Git Workflow:** After finishing any feature, **ALWAYS ask the user** whether to push the branch, suggest a clean and professional commit message, and confirm with them before pushing.
+
+Use the Figma MCP tool (download_figma_images) to export all image assets and icons from the provided Figma node/frame:
+
+- Figma URL/Node: [https://www.figma.com/design/nDS0eiJHNkUFKPGHBb4MS8/Eureka?node-id=0-1&p=f&t=mBtODKOSzcw1RQdD-0]
+- Target Directory: assets/images/ (or assets/icons/)
+- Ensure the downloaded assets are properly formatted (PNG/SVG) and mapped correctly into the Flutter project's assets structure without manual intervention.
+
+Before generating the UI for this screen:
+
+1. Inspect our existing project design system in:
+   - `lib/core/theme/` (or `AppColors`, `AppTextStyles`, `AppTheme`)
+   - `lib/core/widgets/` (reusable buttons, custom text fields, cards)
+2. Match every Figma color and typography style directly to our defined constants instead of hardcoding `Color(0x...)` or `TextStyle(...)`.
+3. Reuse existing components (e.g., `CustomButton`, `CustomTextField`) wherever Figma components appear. If a Figma component has variants, map it to the corresponding widget properties.
