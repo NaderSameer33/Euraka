@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/onboarding/presentation/views/onboarding_view.dart';
+import '../../features/role_selection/presentation/views/role_selection_view.dart';
 import '../../features/splash/presentation/views/splash_view.dart';
 import 'app_router_name.dart';
 import 'smooth_page_transition.dart';
@@ -32,11 +33,7 @@ class AppRoutes {
         pageBuilder: (context, state) => buildSmoothTransitionPage(
           context: context,
           state: state,
-          child: const Scaffold(
-            body: Center(
-              child: Text('Role Selection'),
-            ),
-          ),
+          child: const RoleSelectionView(),
         ),
       ),
       GoRoute(

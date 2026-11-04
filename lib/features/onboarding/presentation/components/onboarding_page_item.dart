@@ -19,19 +19,21 @@ class OnboardingPageItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            item.image,
-            height: 320.h,
-            width: double.infinity,
-            fit: BoxFit.contain,
+          Flexible(
+            child: Image.asset(
+              item.image,
+              height: 280.h,
+              width: double.infinity,
+              fit: BoxFit.contain,
+            ),
           ),
-          32.verticalSpace,
+          24.verticalSpace,
           Text(
             item.title,
             style: AppStyles.font24Bold(context),
             textAlign: TextAlign.center,
           ),
-          16.verticalSpace,
+          12.verticalSpace,
           Text(
             item.description,
             style: AppStyles.font18Regular(context),
