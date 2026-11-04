@@ -8,6 +8,17 @@ class AppStyles {
 
   static const String fontFamily = 'Tajawal';
 
+  static TextStyle font34Bold(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 34.sp,
+      fontWeight: AppFontWeight.bold,
+      color: isDark ? AppColors.white : AppColors.primary,
+      letterSpacing: 1.2,
+    );
+  }
+
   static TextStyle font24Bold(BuildContext context) {
     return TextStyle(
       fontFamily: fontFamily,
@@ -98,6 +109,26 @@ class AppStyles {
     );
   }
 
+  static TextStyle font14RegularMuted(BuildContext context) {
+    return TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 14.sp,
+      fontWeight: AppFontWeight.regular,
+      color: AppColors.textMutedLight,
+    );
+  }
+
+  static TextStyle font13MediumLetterSpacing(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 13.sp,
+      fontWeight: AppFontWeight.medium,
+      color: isDark ? AppColors.textSecondaryDark : AppColors.primaryDark,
+      letterSpacing: 4.0,
+    );
+  }
+
   static TextStyle font12Medium(BuildContext context) {
     return TextStyle(
       fontFamily: fontFamily,
@@ -144,4 +175,3 @@ class AppStyles {
     color: AppColors.primary,
   );
 }
-
