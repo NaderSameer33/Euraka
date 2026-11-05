@@ -181,12 +181,7 @@ class OtpCubit extends SafeCubit<OtpState> {
         canResend: state.canResend,
       ));
       if (context.mounted) {
-        final role = _otpRepo.getSavedRole();
-        if (role == 'TEACHER') {
-          context.go(AppRouterName.teacherHome);
-        } else {
-          context.go(AppRouterName.studentHome);
-        }
+        context.go(AppRouterName.login);
       }
     }
   }
