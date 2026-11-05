@@ -43,7 +43,7 @@ class OnboardingCubit extends SafeCubit<OnboardingState> {
     final sharedPref = getIt<SharedPrefService>();
     await sharedPref.setBool(AppConstants.isOnboardingCompletedKey, true);
     if (context.mounted) {
-      context.go(AppRouterName.roleSelection);
+      context.go(AppRouterName.login);
     }
   }
 
