@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../features/auth/forgot_password/data/repos/forgot_password_repo.dart';
 import '../../features/auth/login/data/repos/auth_repo.dart';
 import '../../features/auth/otp/data/repos/otp_repo.dart';
 import '../../features/auth/register/data/repos/register_repo.dart';
@@ -48,5 +49,9 @@ Future<void> setupGetIt() async {
       getIt<SecureStorageService>(),
       getIt<SharedPrefService>(),
     ),
+  );
+
+  getIt.registerLazySingleton<ForgotPasswordRepo>(
+    () => ForgotPasswordRepo(getIt<ApiService>()),
   );
 }

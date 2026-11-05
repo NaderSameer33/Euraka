@@ -11,6 +11,7 @@ class AppAssets {
   static const String onboarding4 = 'assets/images/onBoradin4.png';
   static const String verifyImage = 'assets/images/verifiy.png';
   static const String forgetPasswordImage = 'assets/images/forget_password.png';
+  static const String resetPasswordImage = 'assets/images/reset_passwrod.png';
 
   static const String emailIcon = 'assets/icons/email.svg';
   static const String lockIcon = 'assets/icons/lock.svg';

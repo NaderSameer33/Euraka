@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/auth/forgot_password/presentation/views/forgot_password_view.dart';
 import '../../features/auth/login/presentation/views/login_view.dart';
 import '../../features/auth/otp/presentation/views/otp_view.dart';
 import '../../features/auth/register/presentation/views/register_view.dart';
@@ -45,6 +46,14 @@ class AppRoutes {
           context: context,
           state: state,
           child: const LoginView(),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterName.forgotPassword,
+        pageBuilder: (context, state) => buildSmoothTransitionPage(
+          context: context,
+          state: state,
+          child: const ForgotPasswordView(),
         ),
       ),
       GoRoute(
