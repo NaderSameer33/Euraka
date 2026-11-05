@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/constants/app_assets.dart';
-import '../../../../core/extension/spacing_extension.dart';
-import '../../../../core/theme/app_styles.dart';
-import '../../../../core/widgets/animated_theme_switcher.dart';
+import '../../../../../core/constants/app_assets.dart';
+import '../../../../../core/extension/spacing_extension.dart';
+import '../../../../../core/theme/app_styles.dart';
+import '../../../../../core/widgets/animated_theme_switcher.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({super.key});
@@ -50,4 +50,3 @@ class LoginHeader extends StatelessWidget {
     );
   }
 }
-

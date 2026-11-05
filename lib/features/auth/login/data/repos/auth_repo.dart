@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import '../../../../core/caching/secure_storage_service.dart';
-import '../../../../core/caching/shared_pref_service.dart';
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/errors/failure.dart';
-import '../../../../core/services/api_service.dart';
+import '../../../../../core/caching/secure_storage_service.dart';
+import '../../../../../core/caching/shared_pref_service.dart';
+import '../../../../../core/constants/app_constants.dart';
+import '../../../../../core/errors/failure.dart';
+import '../../../../../core/services/api_service.dart';
 import '../models/login_request_body.dart';
 import '../models/login_response_model.dart';
 
@@ -60,4 +60,3 @@ class AuthRepo {
     }
   }
 }
-
