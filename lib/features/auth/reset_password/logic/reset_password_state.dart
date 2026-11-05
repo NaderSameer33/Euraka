@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import '../data/models/reset_password_response_model.dart';
 
 abstract class ResetPasswordState extends Equatable {
-  final bool isCurrentPasswordObscured;
   final bool isNewPasswordObscured;
   final bool isConfirmPasswordObscured;
   final double passwordStrength;
@@ -11,7 +10,6 @@ abstract class ResetPasswordState extends Equatable {
   final bool hasSpecialChar;
 
   const ResetPasswordState({
-    this.isCurrentPasswordObscured = true,
     this.isNewPasswordObscured = true,
     this.isConfirmPasswordObscured = true,
     this.passwordStrength = 0.0,
@@ -22,7 +20,6 @@ abstract class ResetPasswordState extends Equatable {
 
   @override
   List<Object?> get props => [
-        isCurrentPasswordObscured,
         isNewPasswordObscured,
         isConfirmPasswordObscured,
         passwordStrength,
@@ -34,7 +31,6 @@ abstract class ResetPasswordState extends Equatable {
 
 class ResetPasswordInitialState extends ResetPasswordState {
   const ResetPasswordInitialState({
-    super.isCurrentPasswordObscured,
     super.isNewPasswordObscured,
     super.isConfirmPasswordObscured,
     super.passwordStrength,
@@ -46,7 +42,6 @@ class ResetPasswordInitialState extends ResetPasswordState {
 
 class ResetPasswordUpdatedState extends ResetPasswordState {
   const ResetPasswordUpdatedState({
-    super.isCurrentPasswordObscured,
     super.isNewPasswordObscured,
     super.isConfirmPasswordObscured,
     super.passwordStrength,
@@ -58,7 +53,6 @@ class ResetPasswordUpdatedState extends ResetPasswordState {
 
 class ResetPasswordLoadingState extends ResetPasswordState {
   const ResetPasswordLoadingState({
-    super.isCurrentPasswordObscured,
     super.isNewPasswordObscured,
     super.isConfirmPasswordObscured,
     super.passwordStrength,
@@ -73,7 +67,6 @@ class ResetPasswordSuccessState extends ResetPasswordState {
 
   const ResetPasswordSuccessState({
     required this.response,
-    super.isCurrentPasswordObscured,
     super.isNewPasswordObscured,
     super.isConfirmPasswordObscured,
     super.passwordStrength,
@@ -91,7 +84,6 @@ class ResetPasswordErrorState extends ResetPasswordState {
 
   const ResetPasswordErrorState({
     required this.message,
-    super.isCurrentPasswordObscured,
     super.isNewPasswordObscured,
     super.isConfirmPasswordObscured,
     super.passwordStrength,
@@ -103,4 +95,3 @@ class ResetPasswordErrorState extends ResetPasswordState {
   @override
   List<Object?> get props => [message, ...super.props];
 }
-

@@ -11,7 +11,6 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
   final String? resetToken;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController currentPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
@@ -22,21 +21,8 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
   })  : _repo = repo ?? getIt<ResetPasswordRepo>(),
         super(const ResetPasswordInitialState());
 
-  void toggleCurrentPasswordVisibility() {
-    emit(ResetPasswordUpdatedState(
-      isCurrentPasswordObscured: !state.isCurrentPasswordObscured,
-      isNewPasswordObscured: state.isNewPasswordObscured,
-      isConfirmPasswordObscured: state.isConfirmPasswordObscured,
-      passwordStrength: state.passwordStrength,
-      isLengthValid: state.isLengthValid,
-      hasNumber: state.hasNumber,
-      hasSpecialChar: state.hasSpecialChar,
-    ));
-  }
-
   void toggleNewPasswordVisibility() {
     emit(ResetPasswordUpdatedState(
-      isCurrentPasswordObscured: state.isCurrentPasswordObscured,
       isNewPasswordObscured: !state.isNewPasswordObscured,
       isConfirmPasswordObscured: state.isConfirmPasswordObscured,
       passwordStrength: state.passwordStrength,
@@ -48,7 +34,6 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
 
   void toggleConfirmPasswordVisibility() {
     emit(ResetPasswordUpdatedState(
-      isCurrentPasswordObscured: state.isCurrentPasswordObscured,
       isNewPasswordObscured: state.isNewPasswordObscured,
       isConfirmPasswordObscured: !state.isConfirmPasswordObscured,
       passwordStrength: state.passwordStrength,
@@ -69,7 +54,6 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
     if (hasSpecialChar) strength += 0.33;
 
     emit(ResetPasswordUpdatedState(
-      isCurrentPasswordObscured: state.isCurrentPasswordObscured,
       isNewPasswordObscured: state.isNewPasswordObscured,
       isConfirmPasswordObscured: state.isConfirmPasswordObscured,
       passwordStrength: strength,
@@ -83,7 +67,6 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
     if (!formKey.currentState!.validate()) return;
 
     emit(ResetPasswordLoadingState(
-      isCurrentPasswordObscured: state.isCurrentPasswordObscured,
       isNewPasswordObscured: state.isNewPasswordObscured,
       isConfirmPasswordObscured: state.isConfirmPasswordObscured,
       passwordStrength: state.passwordStrength,
@@ -98,16 +81,12 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
         resetToken: resetToken,
         newPassword: newPasswordController.text,
         confirmPassword: confirmPasswordController.text,
-        currentPassword: currentPasswordController.text.isNotEmpty
-            ? currentPasswordController.text
-            : null,
       ),
     );
 
     if (result.failure != null) {
       emit(ResetPasswordErrorState(
         message: result.failure!.message,
-        isCurrentPasswordObscured: state.isCurrentPasswordObscured,
         isNewPasswordObscured: state.isNewPasswordObscured,
         isConfirmPasswordObscured: state.isConfirmPasswordObscured,
         passwordStrength: state.passwordStrength,
@@ -118,7 +97,6 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
     } else if (result.response != null) {
       emit(ResetPasswordSuccessState(
         response: result.response!,
-        isCurrentPasswordObscured: state.isCurrentPasswordObscured,
         isNewPasswordObscured: state.isNewPasswordObscured,
         isConfirmPasswordObscured: state.isConfirmPasswordObscured,
         passwordStrength: state.passwordStrength,
@@ -131,10 +109,8 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
 
   @override
   Future<void> close() {
-    currentPasswordController.dispose();
     newPasswordController.dispose();
     confirmPasswordController.dispose();
     return super.close();
   }
 }
-

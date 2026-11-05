@@ -31,34 +31,6 @@ class ResetPasswordForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppInput(
-            controller: cubit.currentPasswordController,
-            title: 'كلمه المرور الحاليه',
-            hintText: 'ادخل كلمه المرور',
-            isObscure: state.isCurrentPasswordObscured,
-            textInputAction: TextInputAction.next,
-            prefixIcon: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14.w),
-              child: SvgPicture.asset(
-                AppAssets.lockIcon,
-                width: 20.sp,
-                height: 20.sp,
-                colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-              ),
-            ),
-            suffixIcon: IconButton(
-              onPressed: cubit.toggleCurrentPasswordVisibility,
-              icon: SvgPicture.asset(
-                state.isCurrentPasswordObscured
-                    ? AppAssets.visibilityOffIcon
-                    : AppAssets.visibilityIcon,
-                width: 20.sp,
-                height: 20.sp,
-                colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-              ),
-            ),
-          ),
-          16.verticalSpace,
-          AppInput(
             controller: cubit.newPasswordController,
             title: 'كلمه المرور الجديده',
             hintText: 'ادخل كلمه المرور',
