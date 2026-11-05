@@ -70,3 +70,4 @@ class _ForgotPasswordViewBody extends StatelessWidget {
     );
   }
 }
+

@@ -9,3 +9,4 @@ class ForgotPasswordRequestBody {
     'email': email,
   };
 }
+

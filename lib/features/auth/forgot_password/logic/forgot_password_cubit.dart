@@ -47,3 +47,4 @@ class ForgotPasswordCubit extends SafeCubit<ForgotPasswordState> {
     return super.close();
   }
 }
+
