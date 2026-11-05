@@ -6,6 +6,7 @@ import '../../features/auth/forgot_password/data/repos/forgot_password_repo.dart
 import '../../features/auth/login/data/repos/auth_repo.dart';
 import '../../features/auth/otp/data/repos/otp_repo.dart';
 import '../../features/auth/register/data/repos/register_repo.dart';
+import '../../features/auth/reset_password/data/repos/reset_password_repo.dart';
 import '../caching/secure_storage_service.dart';
 import '../caching/shared_pref_service.dart';
 import '../theme/logic/theme_cubit.dart';
@@ -53,5 +54,9 @@ Future<void> setupGetIt() async {
 
   getIt.registerLazySingleton<ForgotPasswordRepo>(
     () => ForgotPasswordRepo(getIt<ApiService>()),
+  );
+
+  getIt.registerLazySingleton<ResetPasswordRepo>(
+    () => ResetPasswordRepo(getIt<ApiService>()),
   );
 }

@@ -5,6 +5,7 @@ import '../../../../core/base/safe_cubit.dart';
 import '../../../../core/routers/app_router_name.dart';
 import '../../../../core/services/get_it_service.dart';
 import '../data/models/verify_email_request_body.dart';
+import '../data/models/verify_email_response_model.dart';
 import '../data/repos/otp_repo.dart';
 import 'otp_state.dart';
 
@@ -116,6 +117,49 @@ class OtpCubit extends SafeCubit<OtpState> {
       remainingSeconds: state.remainingSeconds,
       canResend: state.canResend,
     ));
+
+    if (token == null) {
+      final result = await _otpRepo.verifyOtp(
+        email: email,
+        otpCode: code,
+      );
+      if (result.failure != null) {
+        emit(OtpErrorState(
+          message: result.failure!.message,
+          otpCode: code,
+          remainingSeconds: state.remainingSeconds,
+          canResend: state.canResend,
+        ));
+      } else {
+        String? resetToken;
+        if (result.response is Map) {
+          resetToken = result.response['data']?['resetToken'] as String? ??
+              result.response['resetToken'] as String?;
+        }
+        emit(OtpSuccessState(
+          response: VerifyEmailResponseModel(
+            success: true,
+            statusCode: 200,
+            message: result.response is Map
+                ? (result.response['message'] as String? ?? 'تم التحقق من الرمز بنجاح')
+                : 'تم التحقق من الرمز بنجاح',
+          ),
+          otpCode: code,
+          remainingSeconds: state.remainingSeconds,
+          canResend: state.canResend,
+        ));
+        if (context.mounted) {
+          context.push(
+            AppRouterName.resetPassword,
+            extra: {
+              'email': email,
+              'resetToken': resetToken,
+            },
+          );
+        }
+      }
+      return;
+    }
 
     final result = await _otpRepo.verifyEmail(
       VerifyEmailRequestBody(otpCode: code),

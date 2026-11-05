@@ -20,4 +20,5 @@ class AppAssets {
   static const String accountIcon = 'assets/icons/account.svg';
   static const String phoneIcon = 'assets/icons/phone.svg';
   static const String personIcon = 'assets/icons/account.svg';
+  static const String checkIcon = 'assets/icons/right.svg';
 }

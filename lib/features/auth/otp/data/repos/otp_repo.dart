@@ -53,6 +53,35 @@ class OtpRepo {
     }
   }
 
+  Future<({Failure? failure, dynamic response})> verifyOtp({
+    required String email,
+    required String otpCode,
+  }) async {
+    try {
+      final res = await _apiService.post(
+        endpoint: '/auth/verify-otp',
+        data: {
+          'email': email,
+          'otpCode': otpCode,
+        },
+      );
+      return (failure: null, response: res.data);
+    } on DioException catch (e) {
+      final message = e.response?.data is Map
+          ? (e.response?.data['message'] as String? ?? 'الرمز غير صحيح أو انتهت صلاحيته. حاول مرة أخرى')
+          : 'حدث خطأ في الاتصال بالخادم';
+      return (
+        failure: ServerFailure(message, e.response?.statusCode),
+        response: null,
+      );
+    } catch (e) {
+      return (
+        failure: ServerFailure(e.toString()),
+        response: null,
+      );
+    }
+  }
+
   String getSavedRole() {
     final saved = _sharedPrefService.getString(AppConstants.userRoleKey);
     if (saved != null && saved.toLowerCase().contains('student')) {
