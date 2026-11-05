@@ -9,3 +9,4 @@ class VerifyEmailRequestBody {
     'otpCode': otpCode,
   };
 }
+

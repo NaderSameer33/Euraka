@@ -159,3 +159,4 @@ class OtpCubit extends SafeCubit<OtpState> {
     return super.close();
   }
 }
+

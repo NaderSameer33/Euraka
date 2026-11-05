@@ -75,3 +75,4 @@ class OtpErrorState extends OtpState {
   @override
   List<Object?> get props => [message, otpCode, remainingSeconds, canResend];
 }
+

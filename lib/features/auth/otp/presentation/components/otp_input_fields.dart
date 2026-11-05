@@ -102,3 +102,4 @@ class OtpInputFields extends StatelessWidget {
     );
   }
 }
+
