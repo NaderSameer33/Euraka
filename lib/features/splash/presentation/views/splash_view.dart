@@ -2,8 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/caching/shared_pref_service.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/extension/context_extension.dart';
 import '../../../../core/routers/app_router_name.dart';
+import '../../../../core/services/get_it_service.dart';
 import '../components/splash_ambient_glow.dart';
 import '../components/splash_loading_indicator.dart';
 import '../components/splash_logo_widget.dart';
@@ -91,7 +94,14 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
   void _scheduleNavigation() {
     _navigationTimer = Timer(const Duration(milliseconds: 1400), () {
       if (mounted) {
-        context.go(AppRouterName.onboarding);
+        final sharedPref = getIt<SharedPrefService>();
+        final isOnboardingCompleted =
+            sharedPref.getBool(AppConstants.isOnboardingCompletedKey) ?? false;
+        if (isOnboardingCompleted) {
+          context.go(AppRouterName.login);
+        } else {
+          context.go(AppRouterName.onboarding);
+        }
       }
     });
   }
@@ -136,4 +146,3 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
     );
   }
 }
-
