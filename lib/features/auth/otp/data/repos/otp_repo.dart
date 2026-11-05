@@ -82,6 +82,62 @@ class OtpRepo {
     }
   }
 
+  Future<({Failure? failure, dynamic response})> resendVerificationEmail({
+    String? token,
+  }) async {
+    try {
+      final authToken = token ?? await _secureStorageService.read(AppConstants.userTokenKey);
+      final headers = <String, dynamic>{};
+      if (authToken != null && authToken.isNotEmpty) {
+        headers['Authorization'] = 'Bearer $authToken';
+      }
+
+      final res = await _apiService.post(
+        endpoint: '/auth/send-verification-email',
+        headers: headers,
+      );
+      return (failure: null, response: res.data);
+    } on DioException catch (e) {
+      final message = e.response?.data is Map
+          ? (e.response?.data['message'] as String? ?? 'حدث خطأ في إعادة إرسال الرمز')
+          : 'حدث خطأ في الاتصال بالخادم';
+      return (
+        failure: ServerFailure(message, e.response?.statusCode),
+        response: null,
+      );
+    } catch (e) {
+      return (
+        failure: ServerFailure(e.toString()),
+        response: null,
+      );
+    }
+  }
+
+  Future<({Failure? failure, dynamic response})> resendForgotPasswordOtp({
+    required String email,
+  }) async {
+    try {
+      final res = await _apiService.post(
+        endpoint: '/auth/forgot-password',
+        data: {'email': email},
+      );
+      return (failure: null, response: res.data);
+    } on DioException catch (e) {
+      final message = e.response?.data is Map
+          ? (e.response?.data['message'] as String? ?? 'حدث خطأ في إعادة إرسال الرمز')
+          : 'حدث خطأ في الاتصال بالخادم';
+      return (
+        failure: ServerFailure(message, e.response?.statusCode),
+        response: null,
+      );
+    } catch (e) {
+      return (
+        failure: ServerFailure(e.toString()),
+        response: null,
+      );
+    }
+  }
+
   String getSavedRole() {
     final saved = _sharedPrefService.getString(AppConstants.userRoleKey);
     if (saved != null && saved.toLowerCase().contains('student')) {

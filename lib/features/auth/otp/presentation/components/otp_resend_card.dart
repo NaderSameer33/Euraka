@@ -56,7 +56,7 @@ class OtpResendCard extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: state.canResend ? cubit.resendOtp : null,
+            onTap: state.canResend ? () => cubit.resendOtp(context) : null,
             borderRadius: BorderRadius.circular(6.r),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),

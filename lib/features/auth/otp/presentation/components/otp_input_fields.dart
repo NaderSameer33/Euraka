@@ -38,7 +38,6 @@ class OtpInputFields extends StatelessWidget {
                   focusNode: cubit.focusNodes[index],
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
-                  maxLength: 1,
                   style: AppStyles.font20Bold(context),
                   decoration: InputDecoration(
                     counterText: '',
