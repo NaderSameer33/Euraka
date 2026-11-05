@@ -177,6 +177,20 @@ class AppStyles {
     color: AppColors.primary,
   );
 
+  static TextStyle font12MediumPrimary = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 12.sp,
+    fontWeight: AppFontWeight.medium,
+    color: AppColors.primary,
+  );
+
+  static TextStyle font12MediumError = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 12.sp,
+    fontWeight: AppFontWeight.medium,
+    color: AppColors.error,
+  );
+
   static TextStyle font16BoldPrimary = TextStyle(
     fontFamily: fontFamily,
     fontSize: 16.sp,

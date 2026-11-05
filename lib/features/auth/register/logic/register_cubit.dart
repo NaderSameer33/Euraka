@@ -92,7 +92,13 @@ class RegisterCubit extends SafeCubit<RegisterState> {
         ),
       );
       if (context.mounted) {
-        context.go(AppRouterName.login);
+        context.push(
+          AppRouterName.otp,
+          extra: {
+            'email': emailController.text.trim(),
+            'token': result.response?.data?.token,
+          },
+        );
       }
     }
   }
