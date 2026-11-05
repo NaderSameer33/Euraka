@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/base/safe_cubit.dart';
+import '../../../../core/caching/shared_pref_service.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/services/get_it_service.dart';
 import '../data/models/reset_password_request_body.dart';
 import '../data/repos/reset_password_repo.dart';
@@ -20,6 +22,17 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
     this.resetToken,
   })  : _repo = repo ?? getIt<ResetPasswordRepo>(),
         super(const ResetPasswordInitialState());
+
+  String get effectiveEmail {
+    if (email.isNotEmpty && email != 'student.journey@eureka-test.com') {
+      return email;
+    }
+    final cached = getIt<SharedPrefService>().getString(AppConstants.userEmailKey);
+    if (cached != null && cached.isNotEmpty) {
+      return cached;
+    }
+    return email;
+  }
 
   void toggleNewPasswordVisibility() {
     emit(ResetPasswordUpdatedState(
@@ -75,9 +88,10 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
       hasSpecialChar: state.hasSpecialChar,
     ));
 
+    final targetEmail = effectiveEmail;
     final result = await _repo.resetPassword(
       ResetPasswordRequestBody(
-        email: email,
+        email: targetEmail,
         resetToken: resetToken,
         newPassword: newPasswordController.text,
         confirmPassword: confirmPasswordController.text,

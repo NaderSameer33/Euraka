@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 import '../../../../core/base/safe_cubit.dart';
+import '../../../../core/caching/shared_pref_service.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/routers/app_router_name.dart';
 import '../../../../core/services/get_it_service.dart';
 import '../data/models/verify_email_request_body.dart';
@@ -33,6 +35,17 @@ class OtpCubit extends SafeCubit<OtpState> {
   })  : _otpRepo = otpRepo ?? getIt<OtpRepo>(),
         super(const OtpInitialState()) {
     _startTimer();
+  }
+
+  String get effectiveEmail {
+    if (email.isNotEmpty && email != 'ahmed@gmail.com') {
+      return email;
+    }
+    final cached = getIt<SharedPrefService>().getString(AppConstants.userEmailKey);
+    if (cached != null && cached.isNotEmpty) {
+      return cached;
+    }
+    return email;
   }
 
   void _startTimer() {
@@ -89,7 +102,9 @@ class OtpCubit extends SafeCubit<OtpState> {
         remainingSeconds: state.remainingSeconds,
         canResend: state.canResend,
       ));
-      verifyOtp(context);
+      if (state is! OtpLoadingState) {
+        verifyOtp(context);
+      }
       return;
     }
 
@@ -111,7 +126,7 @@ class OtpCubit extends SafeCubit<OtpState> {
       canResend: state.canResend,
     ));
 
-    if (code.length == 6) {
+    if (code.length == 6 && state is! OtpLoadingState) {
       verifyOtp(context);
     }
   }
@@ -124,9 +139,10 @@ class OtpCubit extends SafeCubit<OtpState> {
     focusNodes[0].requestFocus();
     _startTimer();
 
+    final targetEmail = effectiveEmail;
     final result = token != null
         ? await _otpRepo.resendVerificationEmail(token: token)
-        : await _otpRepo.resendForgotPasswordOtp(email: email);
+        : await _otpRepo.resendForgotPasswordOtp(email: targetEmail);
 
     if (result.failure != null) {
       if (context.mounted) {
@@ -152,6 +168,8 @@ class OtpCubit extends SafeCubit<OtpState> {
   }
 
   Future<void> verifyOtp(BuildContext context) async {
+    if (state is OtpLoadingState) return;
+
     final code = getOtpCode();
     if (code.length < 6) {
       emit(OtpErrorState(
@@ -169,9 +187,11 @@ class OtpCubit extends SafeCubit<OtpState> {
       canResend: state.canResend,
     ));
 
+    final targetEmail = effectiveEmail;
+
     if (token == null) {
       final result = await _otpRepo.verifyOtp(
-        email: email,
+        email: targetEmail,
         otpCode: code,
       );
       if (result.failure != null) {
@@ -203,7 +223,7 @@ class OtpCubit extends SafeCubit<OtpState> {
           context.push(
             AppRouterName.resetPassword,
             extra: {
-              'email': email,
+              'email': targetEmail,
               'resetToken': resetToken,
             },
           );
@@ -219,7 +239,7 @@ class OtpCubit extends SafeCubit<OtpState> {
 
     if (result.failure != null) {
       final fallbackResult = await _otpRepo.verifyOtp(
-        email: email,
+        email: targetEmail,
         otpCode: code,
       );
       if (fallbackResult.failure == null) {

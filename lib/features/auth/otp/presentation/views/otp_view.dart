@@ -28,15 +28,13 @@ class OtpView extends StatelessWidget {
         email: email,
         token: token,
       ),
-      child: _OtpViewBody(email: email),
+      child: const _OtpViewBody(),
     );
   }
 }
 
 class _OtpViewBody extends StatelessWidget {
-  final String email;
-
-  const _OtpViewBody({required this.email});
+  const _OtpViewBody();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +60,7 @@ class _OtpViewBody extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
               child: Column(
                 children: [
-                  OtpHeader(email: email),
+                  OtpHeader(email: cubit.effectiveEmail),
                   24.verticalSpace,
                   OtpInputFields(
                     cubit: cubit,
