@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/auth/login/data/repos/auth_repo.dart';
+import '../../features/auth/register/data/repos/register_repo.dart';
 import '../caching/secure_storage_service.dart';
 import '../caching/shared_pref_service.dart';
 import '../theme/logic/theme_cubit.dart';
@@ -26,6 +27,14 @@ Future<void> setupGetIt() async {
 
   getIt.registerLazySingleton<AuthRepo>(
     () => AuthRepo(
+      getIt<ApiService>(),
+      getIt<SecureStorageService>(),
+      getIt<SharedPrefService>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<RegisterRepo>(
+    () => RegisterRepo(
       getIt<ApiService>(),
       getIt<SecureStorageService>(),
       getIt<SharedPrefService>(),

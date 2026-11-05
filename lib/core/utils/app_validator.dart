@@ -1,6 +1,16 @@
 class AppValidator {
   AppValidator._();
 
+  static String? validateName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'الاسم مطلوب';
+    }
+    if (value.trim().length < 3) {
+      return 'يرجى إدخال اسم صحيح';
+    }
+    return null;
+  }
+
   static String? validateEmpty(String? value, String fieldName) {
     if (value == null || value.trim().isEmpty) {
       return '$fieldName مطلوب';
