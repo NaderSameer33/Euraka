@@ -97,6 +97,7 @@ class RegisterCubit extends SafeCubit<RegisterState> {
           extra: {
             'email': emailController.text.trim(),
             'token': result.response?.data?.token,
+            'isForgotPassword': false,
           },
         );
       }

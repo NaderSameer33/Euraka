@@ -14,11 +14,13 @@ import '../../logic/otp_state.dart';
 class OtpView extends StatelessWidget {
   final String email;
   final String? token;
+  final bool isForgotPassword;
 
   const OtpView({
     super.key,
-    this.email = 'ahmed@gmail.com',
+    this.email = 'student.journey@eureka-test.com',
     this.token,
+    this.isForgotPassword = false,
   });
 
   @override
@@ -27,16 +29,15 @@ class OtpView extends StatelessWidget {
       create: (context) => OtpCubit(
         email: email,
         token: token,
+        isForgotPassword: isForgotPassword,
       ),
-      child: _OtpViewBody(email: email),
+      child: const _OtpViewBody(),
     );
   }
 }
 
 class _OtpViewBody extends StatelessWidget {
-  final String email;
-
-  const _OtpViewBody({required this.email});
+  const _OtpViewBody();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class _OtpViewBody extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
               child: Column(
                 children: [
-                  OtpHeader(email: email),
+                  OtpHeader(email: cubit.effectiveEmail),
                   24.verticalSpace,
                   OtpInputFields(
                     cubit: cubit,

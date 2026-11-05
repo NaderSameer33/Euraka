@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/base/safe_cubit.dart';
+import '../../../../core/caching/shared_pref_service.dart';
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/routers/app_router_name.dart';
 import '../../../../core/services/get_it_service.dart';
 import '../data/models/forgot_password_request_body.dart';
@@ -29,12 +31,14 @@ class ForgotPasswordCubit extends SafeCubit<ForgotPasswordState> {
     if (result.failure != null) {
       emit(ForgotPasswordErrorState(message: result.failure!.message));
     } else if (result.response != null) {
+      await getIt<SharedPrefService>().setString(AppConstants.userEmailKey, email);
       emit(ForgotPasswordSuccessState(response: result.response!));
       if (context.mounted) {
         context.push(
           AppRouterName.otp,
           extra: {
             'email': email,
+            'isForgotPassword': true,
           },
         );
       }
