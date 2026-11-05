@@ -37,8 +37,8 @@ class RegisterData {
   factory RegisterData.fromJson(Map<String, dynamic> json) {
     return RegisterData(
       user: RegisterUserModel.fromJson(json['user'] as Map<String, dynamic>),
-      token: json['token'] as String?,
-      refreshToken: json['refreshToken'] as String?,
+      token: (json['token'] ?? json['accessToken']) as String?,
+      refreshToken: (json['refreshToken']) as String?,
     );
   }
 }

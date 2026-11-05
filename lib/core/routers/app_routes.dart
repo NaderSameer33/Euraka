@@ -75,12 +75,14 @@ class AppRoutes {
           final cachedEmail = getIt<SharedPrefService>().getString(AppConstants.userEmailKey);
           final email = extra?['email'] as String? ?? cachedEmail ?? 'student.journey@eureka-test.com';
           final token = extra?['token'] as String?;
+          final isForgotPassword = extra?['isForgotPassword'] as bool? ?? (token == null);
           return buildSmoothTransitionPage(
             context: context,
             state: state,
             child: OtpView(
               email: email,
               token: token,
+              isForgotPassword: isForgotPassword,
             ),
           );
         },

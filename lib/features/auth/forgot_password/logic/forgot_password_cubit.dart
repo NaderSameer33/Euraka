@@ -38,6 +38,7 @@ class ForgotPasswordCubit extends SafeCubit<ForgotPasswordState> {
           AppRouterName.otp,
           extra: {
             'email': email,
+            'isForgotPassword': true,
           },
         );
       }

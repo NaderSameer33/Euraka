@@ -16,6 +16,7 @@ class OtpCubit extends SafeCubit<OtpState> {
   final OtpRepo _otpRepo;
   final String email;
   final String? token;
+  final bool isForgotPassword;
 
   final List<TextEditingController> controllers = List.generate(
     6,
@@ -32,6 +33,7 @@ class OtpCubit extends SafeCubit<OtpState> {
     OtpRepo? otpRepo,
     required this.email,
     this.token,
+    this.isForgotPassword = false,
   })  : _otpRepo = otpRepo ?? getIt<OtpRepo>(),
         super(const OtpInitialState()) {
     _startTimer();
@@ -140,9 +142,9 @@ class OtpCubit extends SafeCubit<OtpState> {
     _startTimer();
 
     final targetEmail = effectiveEmail;
-    final result = token != null
-        ? await _otpRepo.resendVerificationEmail(token: token)
-        : await _otpRepo.resendForgotPasswordOtp(email: targetEmail);
+    final result = isForgotPassword
+        ? await _otpRepo.resendForgotPasswordOtp(email: targetEmail)
+        : await _otpRepo.resendVerificationEmail(token: token);
 
     if (result.failure != null) {
       if (context.mounted) {
@@ -189,7 +191,7 @@ class OtpCubit extends SafeCubit<OtpState> {
 
     final targetEmail = effectiveEmail;
 
-    if (token == null) {
+    if (isForgotPassword) {
       final result = await _otpRepo.verifyOtp(
         email: targetEmail,
         otpCode: code,
@@ -238,27 +240,6 @@ class OtpCubit extends SafeCubit<OtpState> {
     );
 
     if (result.failure != null) {
-      final fallbackResult = await _otpRepo.verifyOtp(
-        email: targetEmail,
-        otpCode: code,
-      );
-      if (fallbackResult.failure == null) {
-        emit(OtpSuccessState(
-          response: const VerifyEmailResponseModel(
-            success: true,
-            statusCode: 200,
-            message: 'تم التحقق من الرمز بنجاح',
-          ),
-          otpCode: code,
-          remainingSeconds: state.remainingSeconds,
-          canResend: state.canResend,
-        ));
-        if (context.mounted) {
-          context.go(AppRouterName.login);
-        }
-        return;
-      }
-
       emit(OtpErrorState(
         message: result.failure!.message,
         otpCode: code,
