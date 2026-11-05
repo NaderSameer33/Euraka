@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../core/base/safe_cubit.dart';
-import '../../../../core/routers/app_router_name.dart';
 import '../../../../core/services/get_it_service.dart';
 import '../data/models/reset_password_request_body.dart';
 import '../data/repos/reset_password_repo.dart';
@@ -128,9 +126,6 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
         hasNumber: state.hasNumber,
         hasSpecialChar: state.hasSpecialChar,
       ));
-      if (context.mounted) {
-        context.go(AppRouterName.login);
-      }
     }
   }
 
@@ -142,3 +137,4 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
     return super.close();
   }
 }
+

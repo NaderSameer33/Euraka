@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 import '../../../../../core/extension/spacing_extension.dart';
+import '../../../../../core/routers/app_router_name.dart';
+import '../../../../../core/widgets/app_success_dialog.dart';
 import '../components/reset_password_form.dart';
 import '../components/reset_password_header.dart';
 import '../../logic/reset_password_cubit.dart';
@@ -51,12 +54,18 @@ class _ResetPasswordViewBody extends StatelessWidget {
                 autoCloseDuration: const Duration(seconds: 4),
               );
             } else if (state is ResetPasswordSuccessState) {
-              toastification.show(
+              showDialog(
                 context: context,
-                type: ToastificationType.success,
-                style: ToastificationStyle.fillColored,
-                title: Text(state.response.message),
-                autoCloseDuration: const Duration(seconds: 4),
+                barrierDismissible: false,
+                builder: (dialogContext) => AppSuccessDialog(
+                  title: 'تم تحديث كلمه المرور بنجاح',
+                  subtitle: 'يمكنك الان تسجيل الدخول باستخدام\nكلمه المرور الجديده',
+                  buttonText: 'متابعه',
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    context.go(AppRouterName.login);
+                  },
+                ),
               );
             }
           },
@@ -80,3 +89,4 @@ class _ResetPasswordViewBody extends StatelessWidget {
     );
   }
 }
+

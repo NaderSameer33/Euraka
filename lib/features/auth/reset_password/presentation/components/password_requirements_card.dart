@@ -82,3 +82,4 @@ class PasswordRequirementsCard extends StatelessWidget {
     );
   }
 }
+

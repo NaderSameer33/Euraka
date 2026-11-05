@@ -103,3 +103,4 @@ class ResetPasswordErrorState extends ResetPasswordState {
   @override
   List<Object?> get props => [message, ...super.props];
 }
+

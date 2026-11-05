@@ -11,6 +11,7 @@ import '../caching/secure_storage_service.dart';
 import '../caching/shared_pref_service.dart';
 import '../theme/logic/theme_cubit.dart';
 import 'api_service.dart';
+import 'auth_interceptor.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -24,7 +25,16 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<SecureStorageService>(() => SecureStorageService(getIt<FlutterSecureStorage>()));
 
   getIt.registerLazySingleton<Dio>(() => Dio());
-  getIt.registerLazySingleton<ApiService>(() => ApiService(getIt<Dio>()));
+  getIt.registerLazySingleton<ApiService>(() {
+    final dio = getIt<Dio>();
+    dio.interceptors.add(
+      AuthInterceptor(
+        dio: dio,
+        secureStorageService: getIt<SecureStorageService>(),
+      ),
+    );
+    return ApiService(dio);
+  });
 
   getIt.registerSingleton<ThemeCubit>(ThemeCubit(getIt<SharedPrefService>()));
 
