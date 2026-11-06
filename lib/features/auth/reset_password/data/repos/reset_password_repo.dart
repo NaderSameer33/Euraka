@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import '../../../../../core/errors/failure.dart';
 import '../../../../../core/services/api_service.dart';
@@ -9,7 +10,7 @@ class ResetPasswordRepo {
 
   ResetPasswordRepo(this._apiService);
 
-  Future<({Failure? failure, ResetPasswordResponseModel? response})> resetPassword(
+  Future<Either<Failure, ResetPasswordResponseModel>> resetPassword(
     ResetPasswordRequestBody body,
   ) async {
     try {
@@ -19,7 +20,7 @@ class ResetPasswordRepo {
       );
 
       final responseModel = ResetPasswordResponseModel.fromJson(res.data as Map<String, dynamic>);
-      return (failure: null, response: responseModel);
+      return Right(responseModel);
     } on DioException catch (e) {
       String message = 'حدث خطأ في إعادة تعيين كلمة المرور';
       if (e.response?.data is Map) {
@@ -33,15 +34,9 @@ class ResetPasswordRepo {
           }
         }
       }
-      return (
-        failure: ServerFailure(message, e.response?.statusCode),
-        response: null,
-      );
+      return Left(ServerFailure(message, e.response?.statusCode));
     } catch (e) {
-      return (
-        failure: ServerFailure(e.toString()),
-        response: null,
-      );
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

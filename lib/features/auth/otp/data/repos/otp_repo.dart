@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import '../../../../../core/caching/secure_storage_service.dart';
 import '../../../../../core/caching/shared_pref_service.dart';
@@ -18,7 +19,7 @@ class OtpRepo {
     this._sharedPrefService,
   );
 
-  Future<({Failure? failure, VerifyEmailResponseModel? response})> verifyEmail(
+  Future<Either<Failure, VerifyEmailResponseModel>> verifyEmail(
     VerifyEmailRequestBody body, {
     String? token,
   }) async {
@@ -36,24 +37,18 @@ class OtpRepo {
       );
 
       final responseModel = VerifyEmailResponseModel.fromJson(res.data as Map<String, dynamic>);
-      return (failure: null, response: responseModel);
+      return Right(responseModel);
     } on DioException catch (e) {
       final message = e.response?.data is Map
           ? (e.response?.data['message'] as String? ?? 'رمز التحقق غير صحيح أو انتهت صلاحيته')
           : 'حدث خطأ في الاتصال بالخادم';
-      return (
-        failure: ServerFailure(message, e.response?.statusCode),
-        response: null,
-      );
+      return Left(ServerFailure(message, e.response?.statusCode));
     } catch (e) {
-      return (
-        failure: ServerFailure(e.toString()),
-        response: null,
-      );
+      return Left(ServerFailure(e.toString()));
     }
   }
 
-  Future<({Failure? failure, dynamic response})> verifyOtp({
+  Future<Either<Failure, dynamic>> verifyOtp({
     required String email,
     required String otpCode,
   }) async {
@@ -65,24 +60,18 @@ class OtpRepo {
           'otpCode': otpCode,
         },
       );
-      return (failure: null, response: res.data);
+      return Right(res.data);
     } on DioException catch (e) {
       final message = e.response?.data is Map
           ? (e.response?.data['message'] as String? ?? 'الرمز غير صحيح أو انتهت صلاحيته. حاول مرة أخرى')
           : 'حدث خطأ في الاتصال بالخادم';
-      return (
-        failure: ServerFailure(message, e.response?.statusCode),
-        response: null,
-      );
+      return Left(ServerFailure(message, e.response?.statusCode));
     } catch (e) {
-      return (
-        failure: ServerFailure(e.toString()),
-        response: null,
-      );
+      return Left(ServerFailure(e.toString()));
     }
   }
 
-  Future<({Failure? failure, dynamic response})> resendVerificationEmail({
+  Future<Either<Failure, dynamic>> resendVerificationEmail({
     String? token,
   }) async {
     try {
@@ -96,24 +85,18 @@ class OtpRepo {
         endpoint: '/auth/send-verification-email',
         headers: headers,
       );
-      return (failure: null, response: res.data);
+      return Right(res.data);
     } on DioException catch (e) {
       final message = e.response?.data is Map
           ? (e.response?.data['message'] as String? ?? 'حدث خطأ في إعادة إرسال الرمز')
           : 'حدث خطأ في الاتصال بالخادم';
-      return (
-        failure: ServerFailure(message, e.response?.statusCode),
-        response: null,
-      );
+      return Left(ServerFailure(message, e.response?.statusCode));
     } catch (e) {
-      return (
-        failure: ServerFailure(e.toString()),
-        response: null,
-      );
+      return Left(ServerFailure(e.toString()));
     }
   }
 
-  Future<({Failure? failure, dynamic response})> resendForgotPasswordOtp({
+  Future<Either<Failure, dynamic>> resendForgotPasswordOtp({
     required String email,
   }) async {
     try {
@@ -121,20 +104,14 @@ class OtpRepo {
         endpoint: '/auth/forgot-password',
         data: {'email': email},
       );
-      return (failure: null, response: res.data);
+      return Right(res.data);
     } on DioException catch (e) {
       final message = e.response?.data is Map
           ? (e.response?.data['message'] as String? ?? 'حدث خطأ في إعادة إرسال الرمز')
           : 'حدث خطأ في الاتصال بالخادم';
-      return (
-        failure: ServerFailure(message, e.response?.statusCode),
-        response: null,
-      );
+      return Left(ServerFailure(message, e.response?.statusCode));
     } catch (e) {
-      return (
-        failure: ServerFailure(e.toString()),
-        response: null,
-      );
+      return Left(ServerFailure(e.toString()));
     }
   }
 

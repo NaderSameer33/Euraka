@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toastification/toastification.dart';
 import '../../../../core/base/safe_cubit.dart';
 import '../../../../core/caching/shared_pref_service.dart';
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/helper/helper_method.dart';
 import '../../../../core/routers/app_router_name.dart';
 import '../../../../core/services/get_it_service.dart';
 import '../data/models/verify_email_request_body.dart';
@@ -146,27 +146,24 @@ class OtpCubit extends SafeCubit<OtpState> {
         ? await _otpRepo.resendForgotPasswordOtp(email: targetEmail)
         : await _otpRepo.resendVerificationEmail(token: token);
 
-    if (result.failure != null) {
-      if (context.mounted) {
-        toastification.show(
-          context: context,
-          type: ToastificationType.error,
-          style: ToastificationStyle.fillColored,
-          title: Text(result.failure!.message),
-          autoCloseDuration: const Duration(seconds: 4),
-        );
-      }
-    } else {
-      if (context.mounted) {
-        toastification.show(
-          context: context,
-          type: ToastificationType.success,
-          style: ToastificationStyle.fillColored,
-          title: const Text('تم إرسال رمز التحقق إلى بريدك الإلكتروني'),
-          autoCloseDuration: const Duration(seconds: 4),
-        );
-      }
-    }
+    result.fold(
+      (failure) {
+        if (context.mounted) {
+          HelperMethod.showErrorToast(
+            context: context,
+            message: failure.message,
+          );
+        }
+      },
+      (_) {
+        if (context.mounted) {
+          HelperMethod.showSuccessToast(
+            context: context,
+            message: 'تم إرسال رمز التحقق إلى بريدك الإلكتروني',
+          );
+        }
+      },
+    );
   }
 
   Future<void> verifyOtp(BuildContext context) async {
@@ -196,41 +193,44 @@ class OtpCubit extends SafeCubit<OtpState> {
         email: targetEmail,
         otpCode: code,
       );
-      if (result.failure != null) {
-        emit(OtpErrorState(
-          message: result.failure!.message,
-          otpCode: code,
-          remainingSeconds: state.remainingSeconds,
-          canResend: state.canResend,
-        ));
-      } else {
-        String? resetToken;
-        if (result.response is Map) {
-          resetToken = result.response['data']?['resetToken'] as String? ??
-              result.response['resetToken'] as String?;
-        }
-        emit(OtpSuccessState(
-          response: VerifyEmailResponseModel(
-            success: true,
-            statusCode: 200,
-            message: result.response is Map
-                ? (result.response['message'] as String? ?? 'تم التحقق من الرمز بنجاح')
-                : 'تم التحقق من الرمز بنجاح',
-          ),
-          otpCode: code,
-          remainingSeconds: state.remainingSeconds,
-          canResend: state.canResend,
-        ));
-        if (context.mounted) {
-          context.push(
-            AppRouterName.resetPassword,
-            extra: {
-              'email': targetEmail,
-              'resetToken': resetToken,
-            },
-          );
-        }
-      }
+      result.fold(
+        (failure) {
+          emit(OtpErrorState(
+            message: failure.message,
+            otpCode: code,
+            remainingSeconds: state.remainingSeconds,
+            canResend: state.canResend,
+          ));
+        },
+        (response) {
+          String? resetToken;
+          if (response is Map) {
+            resetToken = response['data']?['resetToken'] as String? ??
+                response['resetToken'] as String?;
+          }
+          emit(OtpSuccessState(
+            response: VerifyEmailResponseModel(
+              success: true,
+              statusCode: 200,
+              message: response is Map
+                  ? (response['message'] as String? ?? 'تم التحقق من الرمز بنجاح')
+                  : 'تم التحقق من الرمز بنجاح',
+            ),
+            otpCode: code,
+            remainingSeconds: state.remainingSeconds,
+            canResend: state.canResend,
+          ));
+          if (context.mounted) {
+            context.push(
+              AppRouterName.resetPassword,
+              extra: {
+                'email': targetEmail,
+                'resetToken': resetToken,
+              },
+            );
+          }
+        },
+      );
       return;
     }
 
@@ -239,24 +239,27 @@ class OtpCubit extends SafeCubit<OtpState> {
       token: token,
     );
 
-    if (result.failure != null) {
-      emit(OtpErrorState(
-        message: result.failure!.message,
-        otpCode: code,
-        remainingSeconds: state.remainingSeconds,
-        canResend: state.canResend,
-      ));
-    } else if (result.response != null) {
-      emit(OtpSuccessState(
-        response: result.response!,
-        otpCode: code,
-        remainingSeconds: state.remainingSeconds,
-        canResend: state.canResend,
-      ));
-      if (context.mounted) {
-        context.go(AppRouterName.login);
-      }
-    }
+    result.fold(
+      (failure) {
+        emit(OtpErrorState(
+          message: failure.message,
+          otpCode: code,
+          remainingSeconds: state.remainingSeconds,
+          canResend: state.canResend,
+        ));
+      },
+      (response) {
+        emit(OtpSuccessState(
+          response: response,
+          otpCode: code,
+          remainingSeconds: state.remainingSeconds,
+          canResend: state.canResend,
+        ));
+        if (context.mounted) {
+          context.go(AppRouterName.login);
+        }
+      },
+    );
   }
 
   @override

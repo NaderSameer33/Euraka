@@ -75,33 +75,36 @@ class RegisterCubit extends SafeCubit<RegisterState> {
       ),
     );
 
-    if (result.failure != null) {
-      emit(
-        RegisterErrorState(
-          message: result.failure!.message,
-          isPasswordObscured: state.isPasswordObscured,
-          isConfirmPasswordObscured: state.isConfirmPasswordObscured,
-        ),
-      );
-    } else if (result.response != null) {
-      emit(
-        RegisterSuccessState(
-          response: result.response!,
-          isPasswordObscured: state.isPasswordObscured,
-          isConfirmPasswordObscured: state.isConfirmPasswordObscured,
-        ),
-      );
-      if (context.mounted) {
-        context.push(
-          AppRouterName.otp,
-          extra: {
-            'email': emailController.text.trim(),
-            'token': result.response?.data?.token,
-            'isForgotPassword': false,
-          },
+    result.fold(
+      (failure) {
+        emit(
+          RegisterErrorState(
+            message: failure.message,
+            isPasswordObscured: state.isPasswordObscured,
+            isConfirmPasswordObscured: state.isConfirmPasswordObscured,
+          ),
         );
-      }
-    }
+      },
+      (response) {
+        emit(
+          RegisterSuccessState(
+            response: response,
+            isPasswordObscured: state.isPasswordObscured,
+            isConfirmPasswordObscured: state.isConfirmPasswordObscured,
+          ),
+        );
+        if (context.mounted) {
+          context.push(
+            AppRouterName.otp,
+            extra: {
+              'email': emailController.text.trim(),
+              'token': response.data?.token,
+              'isForgotPassword': false,
+            },
+          );
+        }
+      },
+    );
   }
 
   @override

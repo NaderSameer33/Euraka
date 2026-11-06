@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:toastification/toastification.dart';
 import '../../../../../core/extension/spacing_extension.dart';
+import '../../../../../core/helper/helper_method.dart';
 import '../components/forgot_password_form.dart';
 import '../components/forgot_password_header.dart';
 import '../../logic/forgot_password_cubit.dart';
@@ -33,20 +33,14 @@ class _ForgotPasswordViewBody extends StatelessWidget {
         child: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
           listener: (context, state) {
             if (state is ForgotPasswordErrorState) {
-              toastification.show(
+              HelperMethod.showErrorToast(
                 context: context,
-                type: ToastificationType.error,
-                style: ToastificationStyle.fillColored,
-                title: Text(state.message),
-                autoCloseDuration: const Duration(seconds: 4),
+                message: state.message,
               );
             } else if (state is ForgotPasswordSuccessState) {
-              toastification.show(
+              HelperMethod.showSuccessToast(
                 context: context,
-                type: ToastificationType.success,
-                style: ToastificationStyle.fillColored,
-                title: Text(state.response.message),
-                autoCloseDuration: const Duration(seconds: 4),
+                message: state.response.message,
               );
             }
           },

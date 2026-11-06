@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import '../../../../../core/errors/failure.dart';
 import '../../../../../core/services/api_service.dart';
@@ -9,7 +10,7 @@ class ForgotPasswordRepo {
 
   ForgotPasswordRepo(this._apiService);
 
-  Future<({Failure? failure, ForgotPasswordResponseModel? response})> forgotPassword(
+  Future<Either<Failure, ForgotPasswordResponseModel>> forgotPassword(
     ForgotPasswordRequestBody body,
   ) async {
     try {
@@ -19,20 +20,14 @@ class ForgotPasswordRepo {
       );
 
       final responseModel = ForgotPasswordResponseModel.fromJson(res.data as Map<String, dynamic>);
-      return (failure: null, response: responseModel);
+      return Right(responseModel);
     } on DioException catch (e) {
       final message = e.response?.data is Map
           ? (e.response?.data['message'] as String? ?? 'حدث خطأ في إرسال رمز التحقق')
           : 'حدث خطأ في الاتصال بالخادم';
-      return (
-        failure: ServerFailure(message, e.response?.statusCode),
-        response: null,
-      );
+      return Left(ServerFailure(message, e.response?.statusCode));
     } catch (e) {
-      return (
-        failure: ServerFailure(e.toString()),
-        response: null,
-      );
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

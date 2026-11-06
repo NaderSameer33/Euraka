@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:toastification/toastification.dart';
 import '../../../../../core/extension/spacing_extension.dart';
+import '../../../../../core/helper/helper_method.dart';
 import '../components/login_divider.dart';
 import '../components/login_footer.dart';
 import '../components/login_form.dart';
@@ -35,12 +35,9 @@ class _LoginViewBody extends StatelessWidget {
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginErrorState) {
-              toastification.show(
+              HelperMethod.showErrorToast(
                 context: context,
-                type: ToastificationType.error,
-                style: ToastificationStyle.fillColored,
-                title: Text(state.message),
-                autoCloseDuration: const Duration(seconds: 4),
+                message: state.message,
               );
             }
           },
