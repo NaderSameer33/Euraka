@@ -79,6 +79,8 @@ Whenever initiating a new feature or scaffolding code, ensure the following pack
 4. **Responsive UI:** Every dimension, padding, radius, and font size must use `flutter_screenutil` (`.w`, `.h`, `.r`, `.sp`).
 5. **No Comments Rule:** **DO NOT write any comments in the code** (no `//` and no `/* */` comments). Code must be self-explanatory through clean naming conventions and clean architecture.
 6. **Feature Completion & Git Workflow:** After finishing any feature, **ALWAYS ask the user** whether to push the branch, suggest a clean and professional commit message, and confirm with them before pushing.
+7. **ThemeData & Theme-Driven Styling:** When supporting light and dark modes, always consume styling, surface colors, text colors, and borders directly through `ThemeData`, `Theme.of(context)`, and `Theme.of(context).colorScheme`. **NEVER use manual `isDark` checks** (e.g., `final isDark = ...` or ternary operators `isDark ? ... : ...`) inside UI components or widgets. All UI styling must be theme-driven and centralized in `AppTheme`.
+8. **Pixel-Perfect Figma Replication & Layout Integrity:** Always build views strictly identical to the Figma design down to the smallest detail. **DO NOT swap or alter the order/positions of layout elements** (such as headers, buttons, cards, lists, and navigation). Ensure zero layout errors, zero overflow issues, and strict adherence to the visual hierarchy and structure defined in Figma.
 
 Use the Figma MCP tool (download_figma_images) to export all image assets and icons from the provided Figma node/frame:
 
