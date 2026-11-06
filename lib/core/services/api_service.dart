@@ -30,7 +30,7 @@ class ApiService {
     return await dio.get(
       endpoint,
       queryParameters: queryParameters,
-      options: Options(headers: headers),
+      options: headers != null ? Options(headers: headers) : null,
     );
   }
 
@@ -44,7 +44,7 @@ class ApiService {
       endpoint,
       data: data,
       queryParameters: queryParameters,
-      options: Options(headers: headers),
+      options: headers != null ? Options(headers: headers) : null,
     );
   }
 
@@ -58,7 +58,7 @@ class ApiService {
       endpoint,
       data: data,
       queryParameters: queryParameters,
-      options: Options(headers: headers),
+      options: headers != null ? Options(headers: headers) : null,
     );
   }
 
@@ -72,7 +72,7 @@ class ApiService {
       endpoint,
       data: data,
       queryParameters: queryParameters,
-      options: Options(headers: headers),
+      options: headers != null ? Options(headers: headers) : null,
     );
   }
 }
