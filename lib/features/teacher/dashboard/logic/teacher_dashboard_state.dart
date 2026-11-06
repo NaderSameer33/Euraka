@@ -37,3 +37,4 @@ class TeacherDashboardErrorState extends TeacherDashboardState {
   @override
   List<Object?> get props => [message];
 }
+
