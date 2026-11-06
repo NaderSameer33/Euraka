@@ -9,11 +9,13 @@ import '../../../../../../core/theme/app_styles.dart';
 class TeacherDashboardHeader extends StatelessWidget {
   final String teacherName;
   final int pendingTasksCount;
+  final String? avatarUrl;
 
   const TeacherDashboardHeader({
     super.key,
     required this.teacherName,
     this.pendingTasksCount = 3,
+    this.avatarUrl,
   });
 
   @override
@@ -114,24 +116,20 @@ class TeacherDashboardHeader extends StatelessWidget {
               height: 48.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
+                color: isDark ? const Color(0xFF1E2836) : const Color(0xFFE8F5E9),
                 border: Border.all(
                   color: AppColors.primary.withValues(alpha: 0.3),
                   width: 2.0,
                 ),
               ),
               child: ClipOval(
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, error, stackTrace) => Container(
-                    color: AppColors.primary.withValues(alpha: 0.15),
-                    child: Icon(
-                      Icons.person,
-                      color: AppColors.primary,
-                      size: 28.sp,
-                    ),
-                  ),
-                ),
+                child: avatarUrl != null && avatarUrl!.isNotEmpty
+                    ? Image.network(
+                        avatarUrl!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, error, stackTrace) => _buildDefaultAvatar(),
+                      )
+                    : _buildDefaultAvatar(),
               ),
             ),
           ],
@@ -139,4 +137,18 @@ class TeacherDashboardHeader extends StatelessWidget {
       ],
     );
   }
+
+  Widget _buildDefaultAvatar() {
+    return Container(
+      color: AppColors.primary.withValues(alpha: 0.12),
+      child: Center(
+        child: Icon(
+          Icons.person_rounded,
+          color: AppColors.primary,
+          size: 28.sp,
+        ),
+      ),
+    );
+  }
 }
+

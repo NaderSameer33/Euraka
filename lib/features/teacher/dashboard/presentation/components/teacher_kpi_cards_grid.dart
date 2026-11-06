@@ -42,10 +42,14 @@ class TeacherKpiCardsGrid extends StatelessWidget {
             12.horizontalSpace,
             Expanded(
               child: TeacherKpiCard(
-                icon: Image.asset(
+                icon: SvgPicture.asset(
                   AppAssets.studentsIcon,
-                  width: 28.sp,
-                  height: 28.sp,
+                  width: 26.sp,
+                  height: 26.sp,
+                  colorFilter: const ColorFilter.mode(
+                    Color(0xFF10B981),
+                    BlendMode.srcIn,
+                  ),
                 ),
                 value: '${kpis.totalStudents}',
                 title: 'عدد الطلاب',
