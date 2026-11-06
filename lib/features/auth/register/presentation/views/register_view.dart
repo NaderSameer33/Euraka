@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extension/spacing_extension.dart';
 import '../../../../../core/helper/helper_method.dart';
+import '../../../../../core/services/get_it_service.dart';
 import '../../../../../core/widgets/auth_divider.dart';
 import '../components/register_footer.dart';
 import '../components/register_form.dart';
@@ -16,7 +17,7 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RegisterCubit(),
+      create: (context) => getIt<RegisterCubit>(),
       child: const _RegisterViewBody(),
     );
   }

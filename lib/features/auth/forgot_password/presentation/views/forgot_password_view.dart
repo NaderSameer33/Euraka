@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extension/spacing_extension.dart';
 import '../../../../../core/helper/helper_method.dart';
+import '../../../../../core/services/get_it_service.dart';
 import '../components/forgot_password_form.dart';
 import '../components/forgot_password_header.dart';
 import '../../logic/forgot_password_cubit.dart';
@@ -14,7 +15,7 @@ class ForgotPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ForgotPasswordCubit(),
+      create: (context) => getIt<ForgotPasswordCubit>(),
       child: const _ForgotPasswordViewBody(),
     );
   }

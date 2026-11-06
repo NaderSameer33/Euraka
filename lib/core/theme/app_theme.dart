@@ -11,11 +11,16 @@ class AppTheme {
       brightness: Brightness.light,
       fontFamily: AppStyles.fontFamily,
       primaryColor: AppColors.primary,
+      cardColor: AppColors.surfaceLight,
+      dividerColor: AppColors.borderLight,
       scaffoldBackgroundColor: AppColors.scaffoldLight,
+      shadowColor: Colors.black.withValues(alpha: 0.05),
       colorScheme: const ColorScheme.light(
         primary: AppColors.primary,
         onPrimary: AppColors.white,
         surface: AppColors.surfaceLight,
+        surfaceContainerHighest: Color(0xFFE5E7EB),
+        surfaceContainer: Color(0xFFF3F4F6),
         onSurface: AppColors.textPrimaryLight,
         onSurfaceVariant: AppColors.textSecondaryLight,
         outline: AppColors.borderLight,
@@ -43,11 +48,16 @@ class AppTheme {
       brightness: Brightness.dark,
       fontFamily: AppStyles.fontFamily,
       primaryColor: AppColors.primary,
+      cardColor: AppColors.surfaceDark,
+      dividerColor: AppColors.borderDark,
       scaffoldBackgroundColor: AppColors.backgroundDark,
+      shadowColor: Colors.black.withValues(alpha: 0.3),
       colorScheme: const ColorScheme.dark(
         primary: AppColors.primary,
         onPrimary: AppColors.white,
         surface: AppColors.surfaceDark,
+        surfaceContainerHighest: Color(0xFF1E242C),
+        surfaceContainer: Color(0xFF2A323D),
         onSurface: AppColors.textPrimaryDark,
         onSurfaceVariant: AppColors.textSecondaryDark,
         outline: AppColors.borderDark,
@@ -69,4 +79,3 @@ class AppTheme {
     );
   }
 }
-

@@ -11,6 +11,9 @@ import '../../features/auth/reset_password/presentation/views/reset_password_vie
 import '../../features/onboarding/presentation/views/onboarding_view.dart';
 import '../../features/role_selection/presentation/views/role_selection_view.dart';
 import '../../features/splash/presentation/views/splash_view.dart';
+import '../../features/teacher/dashboard/presentation/views/teacher_dashboard_view.dart';
+import '../../features/teacher/main/presentation/views/teacher_main_view.dart';
+import '../../features/teacher/main/presentation/views/teacher_tab_placeholder_view.dart';
 import 'app_router_name.dart';
 import 'smooth_page_transition.dart';
 
@@ -104,17 +107,64 @@ class AppRoutes {
           );
         },
       ),
-      GoRoute(
-        path: AppRouterName.teacherHome,
-        pageBuilder: (context, state) => buildSmoothTransitionPage(
-          context: context,
-          state: state,
-          child: const Scaffold(
-            body: Center(
-              child: Text('Teacher Home Dashboard'),
-            ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return TeacherMainView(navigationShell: navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRouterName.teacherGroups,
+                builder: (context, state) => const TeacherTabPlaceholderView(
+                  title: 'المجموعات',
+                  icon: Icons.groups_rounded,
+                ),
+              ),
+            ],
           ),
-        ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRouterName.teacherSubjects,
+                builder: (context, state) => const TeacherTabPlaceholderView(
+                  title: 'المواد',
+                  icon: Icons.menu_book_rounded,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRouterName.teacherHome,
+                builder: (context, state) => const TeacherDashboardView(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRouterName.teacherTasks,
+                builder: (context, state) => const TeacherTabPlaceholderView(
+                  title: 'المهام',
+                  icon: Icons.task_alt_rounded,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRouterName.teacherWallet,
+                builder: (context, state) => const TeacherTabPlaceholderView(
+                  title: 'المالية',
+                  icon: Icons.account_balance_wallet_rounded,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       GoRoute(
         path: AppRouterName.studentHome,

@@ -10,5 +10,9 @@ class AppRouterName {
   static const String otp = '/otp';
   static const String resetPassword = '/reset-password';
   static const String teacherHome = '/teacher-home';
+  static const String teacherGroups = '/teacher-groups';
+  static const String teacherSubjects = '/teacher-subjects';
+  static const String teacherTasks = '/teacher-tasks';
+  static const String teacherWallet = '/teacher-wallet';
   static const String studentHome = '/student-home';
 }

@@ -4,20 +4,21 @@ import '../../../../core/base/safe_cubit.dart';
 import '../../../../core/caching/shared_pref_service.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/routers/app_router_name.dart';
-import '../../../../core/services/get_it_service.dart';
 import '../data/models/onboarding_item_model.dart';
 import '../data/repos/onboarding_repo.dart';
 import 'onboarding_state.dart';
 
 class OnboardingCubit extends SafeCubit<OnboardingState> {
   final OnboardingRepo _repo;
+  final SharedPrefService _sharedPrefService;
   final PageController pageController = PageController();
 
   late final List<OnboardingItemModel> items;
 
-  OnboardingCubit({OnboardingRepo? repo})
-      : _repo = repo ?? OnboardingRepo(),
-        super(const OnboardingInitialState()) {
+  OnboardingCubit(
+    this._repo,
+    this._sharedPrefService,
+  ) : super(const OnboardingInitialState()) {
     items = _repo.getOnboardingItems();
   }
 
@@ -40,8 +41,7 @@ class OnboardingCubit extends SafeCubit<OnboardingState> {
   }
 
   Future<void> completeOnboarding(BuildContext context) async {
-    final sharedPref = getIt<SharedPrefService>();
-    await sharedPref.setBool(AppConstants.isOnboardingCompletedKey, true);
+    await _sharedPrefService.setBool(AppConstants.isOnboardingCompletedKey, true);
     if (context.mounted) {
       context.go(AppRouterName.login);
     }
@@ -53,4 +53,3 @@ class OnboardingCubit extends SafeCubit<OnboardingState> {
     return super.close();
   }
 }
-

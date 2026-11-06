@@ -21,4 +21,16 @@ class AppAssets {
   static const String phoneIcon = 'assets/icons/phone.svg';
   static const String personIcon = 'assets/icons/account.svg';
   static const String checkIcon = 'assets/icons/right.svg';
+
+  static const String activeExamIcon = 'assets/icons/active_exam.svg';
+  static const String bellIcon = 'assets/icons/bellsvg.svg';
+  static const String groupsIcon = 'assets/icons/groups.svg';
+  static const String studentsIcon = 'assets/icons/students.svg';
+  static const String walletIcon = 'assets/icons/wallet.svg';
+
+  static const String homeNavIcon = 'assets/icons/home_nav.svg';
+  static const String subjectNavIcon = 'assets/icons/subject_nav.svg';
+  static const String groupsNavIcon = 'assets/icons/groups_nav.svg';
+  static const String taskNavIcon = 'assets/icons/task_nav.svg';
+  static const String walletNavIcon = 'assets/icons/wallet_nav.svg';
 }

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../../../../core/base/safe_cubit.dart';
 import '../../../../core/caching/shared_pref_service.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/services/get_it_service.dart';
 import '../data/models/reset_password_request_body.dart';
 import '../data/repos/reset_password_repo.dart';
 import 'reset_password_state.dart';
 
 class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
   final ResetPasswordRepo _repo;
+  final SharedPrefService _sharedPrefService;
   final String email;
   final String? resetToken;
 
@@ -16,18 +16,18 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
-  ResetPasswordCubit({
-    ResetPasswordRepo? repo,
+  ResetPasswordCubit(
+    this._repo,
+    this._sharedPrefService, {
     required this.email,
     this.resetToken,
-  })  : _repo = repo ?? getIt<ResetPasswordRepo>(),
-        super(const ResetPasswordInitialState());
+  }) : super(const ResetPasswordInitialState());
 
   String get effectiveEmail {
     if (email.isNotEmpty && email != 'student.journey@eureka-test.com') {
       return email;
     }
-    final cached = getIt<SharedPrefService>().getString(AppConstants.userEmailKey);
+    final cached = _sharedPrefService.getString(AppConstants.userEmailKey);
     if (cached != null && cached.isNotEmpty) {
       return cached;
     }

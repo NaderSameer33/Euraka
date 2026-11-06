@@ -4,10 +4,21 @@ import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/auth/forgot_password/data/repos/forgot_password_repo.dart';
+import '../../features/auth/forgot_password/logic/forgot_password_cubit.dart';
 import '../../features/auth/login/data/repos/auth_repo.dart';
+import '../../features/auth/login/logic/login_cubit.dart';
 import '../../features/auth/otp/data/repos/otp_repo.dart';
+import '../../features/auth/otp/logic/otp_cubit.dart';
 import '../../features/auth/register/data/repos/register_repo.dart';
+import '../../features/auth/register/logic/register_cubit.dart';
 import '../../features/auth/reset_password/data/repos/reset_password_repo.dart';
+import '../../features/auth/reset_password/logic/reset_password_cubit.dart';
+import '../../features/onboarding/data/repos/onboarding_repo.dart';
+import '../../features/onboarding/logic/onboarding_cubit.dart';
+import '../../features/role_selection/data/repos/role_selection_repo.dart';
+import '../../features/role_selection/logic/role_selection_cubit.dart';
+import '../../features/teacher/dashboard/data/repos/teacher_dashboard_repo.dart';
+import '../../features/teacher/dashboard/logic/teacher_dashboard_cubit.dart';
 import '../caching/secure_storage_service.dart';
 import '../caching/shared_pref_service.dart';
 import '../theme/logic/theme_cubit.dart';
@@ -48,6 +59,14 @@ Future<void> setupGetIt() async {
 
   getIt.registerSingleton<ThemeCubit>(ThemeCubit(getIt<SharedPrefService>()));
 
+  getIt.registerLazySingleton<OnboardingRepo>(
+    () => OnboardingRepo(),
+  );
+
+  getIt.registerLazySingleton<RoleSelectionRepo>(
+    () => RoleSelectionRepo(getIt<SharedPrefService>()),
+  );
+
   getIt.registerLazySingleton<AuthRepo>(
     () => AuthRepo(
       getIt<ApiService>(),
@@ -67,7 +86,6 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<OtpRepo>(
     () => OtpRepo(
       getIt<ApiService>(),
-      getIt<SecureStorageService>(),
       getIt<SharedPrefService>(),
     ),
   );
@@ -78,5 +96,61 @@ Future<void> setupGetIt() async {
 
   getIt.registerLazySingleton<ResetPasswordRepo>(
     () => ResetPasswordRepo(getIt<ApiService>()),
+  );
+
+  getIt.registerLazySingleton<TeacherDashboardRepo>(
+    () => TeacherDashboardRepo(getIt<ApiService>()),
+  );
+
+  getIt.registerFactory<OnboardingCubit>(
+    () => OnboardingCubit(
+      getIt<OnboardingRepo>(),
+      getIt<SharedPrefService>(),
+    ),
+  );
+
+  getIt.registerFactory<RoleSelectionCubit>(
+    () => RoleSelectionCubit(getIt<RoleSelectionRepo>()),
+  );
+
+  getIt.registerFactory<LoginCubit>(
+    () => LoginCubit(getIt<AuthRepo>()),
+  );
+
+  getIt.registerFactory<RegisterCubit>(
+    () => RegisterCubit(getIt<RegisterRepo>()),
+  );
+
+  getIt.registerFactory<ForgotPasswordCubit>(
+    () => ForgotPasswordCubit(
+      getIt<ForgotPasswordRepo>(),
+      getIt<SharedPrefService>(),
+    ),
+  );
+
+  getIt.registerFactoryParam<ResetPasswordCubit, ({String email, String? resetToken}), void>(
+    (param, _) => ResetPasswordCubit(
+      getIt<ResetPasswordRepo>(),
+      getIt<SharedPrefService>(),
+      email: param.email,
+      resetToken: param.resetToken,
+    ),
+  );
+
+  getIt.registerFactoryParam<OtpCubit, ({String email, String? token, bool isForgotPassword}), void>(
+    (param, _) => OtpCubit(
+      getIt<OtpRepo>(),
+      getIt<SharedPrefService>(),
+      email: param.email,
+      token: param.token,
+      isForgotPassword: param.isForgotPassword,
+    ),
+  );
+
+  getIt.registerFactory<TeacherDashboardCubit>(
+    () => TeacherDashboardCubit(
+      getIt<TeacherDashboardRepo>(),
+      getIt<SharedPrefService>(),
+    ),
   );
 }

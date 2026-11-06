@@ -45,6 +45,14 @@ class RegisterRepo {
           AppConstants.userRoleKey,
           responseModel.data!.user.role,
         );
+        await _sharedPrefService.setString(
+          AppConstants.userFullNameKey,
+          responseModel.data!.user.fullName,
+        );
+        await _sharedPrefService.setString(
+          AppConstants.userEmailKey,
+          responseModel.data!.user.email,
+        );
       }
       return Right(responseModel);
     } on DioException catch (e) {
@@ -65,4 +73,3 @@ class RegisterRepo {
     return 'TEACHER';
   }
 }
-

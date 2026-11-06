@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/extension/spacing_extension.dart';
 import '../../../../../core/helper/helper_method.dart';
+import '../../../../../core/services/get_it_service.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../components/otp_header.dart';
 import '../components/otp_input_fields.dart';
@@ -26,10 +27,12 @@ class OtpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OtpCubit(
-        email: email,
-        token: token,
-        isForgotPassword: isForgotPassword,
+      create: (context) => getIt<OtpCubit>(
+        param1: (
+          email: email,
+          token: token,
+          isForgotPassword: isForgotPassword,
+        ),
       ),
       child: const _OtpViewBody(),
     );
