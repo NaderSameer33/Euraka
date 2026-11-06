@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/caching/secure_storage_service.dart';
 import '../../../../core/caching/shared_pref_service.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/extension/context_extension.dart';
@@ -92,16 +93,35 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
   }
 
   void _scheduleNavigation() {
-    _navigationTimer = Timer(const Duration(milliseconds: 1400), () {
-      if (mounted) {
-        final sharedPref = getIt<SharedPrefService>();
-        final isOnboardingCompleted =
-            sharedPref.getBool(AppConstants.isOnboardingCompletedKey) ?? false;
-        if (isOnboardingCompleted) {
-          context.go(AppRouterName.login);
-        } else {
-          context.go(AppRouterName.onboarding);
-        }
+    _navigationTimer = Timer(const Duration(milliseconds: 1400), () async {
+      if (!mounted) return;
+
+      final sharedPref = getIt<SharedPrefService>();
+      final secureStorage = getIt<SecureStorageService>();
+
+      final isOnboardingCompleted =
+          sharedPref.getBool(AppConstants.isOnboardingCompletedKey) ?? false;
+
+      if (!isOnboardingCompleted) {
+        if (mounted) context.go(AppRouterName.onboarding);
+        return;
+      }
+
+      final token = await secureStorage.read(AppConstants.userTokenKey);
+      final isAuthenticated = token != null && token.isNotEmpty;
+
+      if (!mounted) return;
+
+      if (!isAuthenticated) {
+        context.go(AppRouterName.login);
+        return;
+      }
+
+      final role = sharedPref.getString(AppConstants.userRoleKey)?.toUpperCase();
+      if (role == 'TEACHER') {
+        context.go(AppRouterName.teacherHome);
+      } else {
+        context.go(AppRouterName.studentHome);
       }
     });
   }
