@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/extension/spacing_extension.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/theme/app_font_weight.dart';
 import '../../../../../../core/theme/app_styles.dart';
 import '../../data/models/teacher_dashboard_response_model.dart';
 
@@ -25,22 +27,20 @@ class TeacherRecentGroupsSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Text(
+              'مجموعاتي',
+              style: AppStyles.font16Bold(context).copyWith(
+                fontWeight: AppFontWeight.extraBold,
+              ),
+            ),
             GestureDetector(
               onTap: onViewAllPressed ?? () {},
               child: Text(
                 'عرض الكل',
-                style: TextStyle(
-                  fontFamily: AppStyles.fontFamily,
+                style: AppStyles.font14MediumPrimary.copyWith(
                   fontSize: 13.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+                  fontWeight: AppFontWeight.bold,
                 ),
-              ),
-            ),
-            Text(
-              'مجموعاتي',
-              style: AppStyles.font16Bold(context).copyWith(
-                fontWeight: FontWeight.w800,
               ),
             ),
           ],
@@ -60,7 +60,9 @@ class TeacherRecentGroupsSection extends StatelessWidget {
             child: Text(
               'لا توجد مجموعات حالية',
               style: AppStyles.font14Regular(context).copyWith(
-                color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                color: isDark
+                    ? AppColors.textMutedDark
+                    : AppColors.textMutedLight,
               ),
             ),
           )
@@ -109,14 +111,16 @@ class _GroupCard extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: Center(
-              child: group.coverImageUrl != null && group.coverImageUrl!.isNotEmpty
+              child:
+                  group.coverImageUrl != null && group.coverImageUrl!.isNotEmpty
                   ? ClipOval(
-                      child: Image.network(
-                        group.coverImageUrl!,
+                      child: CachedNetworkImage(
+                        imageUrl: group.coverImageUrl!,
                         width: 44.w,
                         height: 44.w,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, error, stackTrace) => const _SubjectIcon(),
+                        placeholder: (context, url) => const _SubjectIcon(),
+                        errorWidget: (context, url, error) => const _SubjectIcon(),
                       ),
                     )
                   : const _SubjectIcon(),
@@ -129,10 +133,7 @@ class _GroupCard extends StatelessWidget {
               children: [
                 Text(
                   group.name,
-                  style: TextStyle(
-                    fontFamily: AppStyles.fontFamily,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
+                  style: AppStyles.font14Bold(context).copyWith(
                     color: isDark ? AppColors.white : const Color(0xFF13181D),
                   ),
                   textAlign: TextAlign.right,
@@ -145,32 +146,38 @@ class _GroupCard extends StatelessWidget {
                   children: [
                     Text(
                       'آخر نشاط منذ يوم',
-                      style: TextStyle(
-                        fontFamily: AppStyles.fontFamily,
+                      style: AppStyles.font12Regular(context).copyWith(
                         fontSize: 11.sp,
-                        color: isDark ? AppColors.textMutedDark : const Color(0xFF9CA3AF),
+                        color: isDark
+                            ? AppColors.textMutedDark
+                            : const Color(0xFF9CA3AF),
                       ),
                     ),
                     4.horizontalSpace,
                     Icon(
                       Icons.access_time_rounded,
                       size: 13.sp,
-                      color: isDark ? AppColors.textMutedDark : const Color(0xFF9CA3AF),
+                      color: isDark
+                          ? AppColors.textMutedDark
+                          : const Color(0xFF9CA3AF),
                     ),
                     12.horizontalSpace,
                     Text(
                       '${group.studentCount} طالب',
-                      style: TextStyle(
-                        fontFamily: AppStyles.fontFamily,
+                      style: AppStyles.font12Regular(context).copyWith(
                         fontSize: 11.sp,
-                        color: isDark ? AppColors.textMutedDark : const Color(0xFF9CA3AF),
+                        color: isDark
+                            ? AppColors.textMutedDark
+                            : const Color(0xFF9CA3AF),
                       ),
                     ),
                     4.horizontalSpace,
                     Icon(
                       Icons.people_outline_rounded,
                       size: 14.sp,
-                      color: isDark ? AppColors.textMutedDark : const Color(0xFF9CA3AF),
+                      color: isDark
+                          ? AppColors.textMutedDark
+                          : const Color(0xFF9CA3AF),
                     ),
                   ],
                 ),

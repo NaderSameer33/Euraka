@@ -23,26 +23,6 @@ class TeacherKpiCardsGrid extends StatelessWidget {
             Expanded(
               child: TeacherKpiCard(
                 icon: SvgPicture.asset(
-                  AppAssets.activeExamIcon,
-                  width: 26.sp,
-                  height: 26.sp,
-                  colorFilter: const ColorFilter.mode(
-                    Color(0xFF3B82F6),
-                    BlendMode.srcIn,
-                  ),
-                ),
-                value: '${kpis.activeExamsCount}',
-                title: 'امتحانات نشطة',
-                growthPercent: kpis.activeExamsGrowthPercent,
-                accentColor: const Color(0xFF3B82F6),
-                lightBgColor: const Color(0xFFF0F7FF),
-                darkBgColor: const Color(0xFF132235),
-              ),
-            ),
-            12.horizontalSpace,
-            Expanded(
-              child: TeacherKpiCard(
-                icon: SvgPicture.asset(
                   AppAssets.studentsIcon,
                   width: 26.sp,
                   height: 26.sp,
@@ -59,31 +39,31 @@ class TeacherKpiCardsGrid extends StatelessWidget {
                 darkBgColor: const Color(0xFF11281E),
               ),
             ),
+            12.horizontalSpace,
+            Expanded(
+              child: TeacherKpiCard(
+                icon: SvgPicture.asset(
+                  AppAssets.activeExamIcon,
+                  width: 26.sp,
+                  height: 26.sp,
+                  colorFilter: const ColorFilter.mode(
+                    Color(0xFF3B82F6),
+                    BlendMode.srcIn,
+                  ),
+                ),
+                value: '${kpis.activeExamsCount}',
+                title: 'امتحانات نشطة',
+                growthPercent: kpis.activeExamsGrowthPercent,
+                accentColor: const Color(0xFF3B82F6),
+                lightBgColor: const Color(0xFFF0F7FF),
+                darkBgColor: const Color(0xFF132235),
+              ),
+            ),
           ],
         ),
         12.verticalSpace,
         Row(
           children: [
-            Expanded(
-              child: TeacherKpiCard(
-                icon: SvgPicture.asset(
-                  AppAssets.walletIcon,
-                  width: 26.sp,
-                  height: 26.sp,
-                  colorFilter: const ColorFilter.mode(
-                    Color(0xFFF59E0B),
-                    BlendMode.srcIn,
-                  ),
-                ),
-                value: '${kpis.collectionRatePercentage.toInt()}%',
-                title: 'نسبه التحصيل',
-                growthPercent: kpis.collectionGrowthPercent,
-                accentColor: const Color(0xFFF59E0B),
-                lightBgColor: const Color(0xFFFEF9EE),
-                darkBgColor: const Color(0xFF2B2110),
-              ),
-            ),
-            12.horizontalSpace,
             Expanded(
               child: TeacherKpiCard(
                 icon: SvgPicture.asset(
@@ -103,10 +83,30 @@ class TeacherKpiCardsGrid extends StatelessWidget {
                 darkBgColor: const Color(0xFF221A35),
               ),
             ),
+            12.horizontalSpace,
+
+            Expanded(
+              child: TeacherKpiCard(
+                icon: SvgPicture.asset(
+                  AppAssets.walletIcon,
+                  width: 26.sp,
+                  height: 26.sp,
+                  colorFilter: const ColorFilter.mode(
+                    Color(0xFFF59E0B),
+                    BlendMode.srcIn,
+                  ),
+                ),
+                value: '${kpis.collectionRatePercentage.toInt()}%',
+                title: 'نسبه التحصيل',
+                growthPercent: kpis.collectionGrowthPercent,
+                accentColor: const Color(0xFFF59E0B),
+                lightBgColor: const Color(0xFFFEF9EE),
+                darkBgColor: const Color(0xFF2B2110),
+              ),
+            ),
           ],
         ),
       ],
     );
   }
 }
-

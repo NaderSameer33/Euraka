@@ -43,6 +43,21 @@ class AuthRepo {
           AppConstants.userRoleKey,
           responseModel.data!.user.role,
         );
+        await _sharedPrefService.setString(
+          AppConstants.userFullNameKey,
+          responseModel.data!.user.fullName,
+        );
+        await _sharedPrefService.setString(
+          AppConstants.userEmailKey,
+          responseModel.data!.user.email,
+        );
+        if (responseModel.data!.user.avatarUrl != null &&
+            responseModel.data!.user.avatarUrl!.isNotEmpty) {
+          await _sharedPrefService.setString(
+            AppConstants.userAvatarUrlKey,
+            responseModel.data!.user.avatarUrl!,
+          );
+        }
       }
       return Right(responseModel);
     } on DioException catch (e) {

@@ -17,6 +17,15 @@ class TeacherDashboardCubit extends SafeCubit<TeacherDashboardState> {
   }
 
   String get teacherName {
+    final fullName = _sharedPref.getString(AppConstants.userFullNameKey);
+    if (fullName != null && fullName.trim().isNotEmpty) {
+      final trimmed = fullName.trim();
+      if (trimmed.startsWith('أ/') || trimmed.startsWith('أستاذ')) {
+        return trimmed;
+      }
+      return 'أ/ $trimmed';
+    }
+
     final email = _sharedPref.getString(AppConstants.userEmailKey);
     if (email != null && email.contains('@')) {
       final namePart = email.split('@').first;
@@ -25,6 +34,10 @@ class TeacherDashboardCubit extends SafeCubit<TeacherDashboardState> {
       }
     }
     return 'أ/ أحمد';
+  }
+
+  String? get avatarUrl {
+    return _sharedPref.getString(AppConstants.userAvatarUrlKey);
   }
 
   Future<void> loadDashboard({bool isRefresh = false}) async {
@@ -43,6 +56,7 @@ class TeacherDashboardCubit extends SafeCubit<TeacherDashboardState> {
           emit(TeacherDashboardSuccessState(
             data: response.data!,
             teacherName: teacherName,
+            avatarUrl: avatarUrl,
           ));
         } else {
           emit(TeacherDashboardSuccessState(
@@ -52,6 +66,7 @@ class TeacherDashboardCubit extends SafeCubit<TeacherDashboardState> {
               recentGroups: [],
             ),
             teacherName: teacherName,
+            avatarUrl: avatarUrl,
           ));
         }
       },

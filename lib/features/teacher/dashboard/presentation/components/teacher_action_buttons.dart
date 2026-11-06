@@ -38,12 +38,9 @@ class TeacherActionButtons extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  'اضافه مجموعه',
-                  style: TextStyle(
-                    fontFamily: AppStyles.fontFamily,
+                  'اضافه امتحان',
+                  style: AppStyles.font16BoldPrimary.copyWith(
                     fontSize: 15.sp,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
                   ),
                 ),
               ),
@@ -72,12 +69,9 @@ class TeacherActionButtons extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  'اضافه امتحان',
-                  style: TextStyle(
-                    fontFamily: AppStyles.fontFamily,
+                  'اضافه مجموعه',
+                  style: AppStyles.font16BoldWhite.copyWith(
                     fontSize: 15.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
                   ),
                 ),
               ),
@@ -88,4 +82,3 @@ class TeacherActionButtons extends StatelessWidget {
     );
   }
 }
-

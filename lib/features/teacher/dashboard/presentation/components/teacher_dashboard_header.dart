@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../../core/constants/app_assets.dart';
 import '../../../../../../core/extension/spacing_extension.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/theme/app_font_weight.dart';
 import '../../../../../../core/theme/app_styles.dart';
 
 class TeacherDashboardHeader extends StatelessWidget {
@@ -27,6 +29,58 @@ class TeacherDashboardHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Row(
+          children: [
+            Container(
+              width: 48.w,
+              height: 48.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isDark
+                    ? const Color(0xFF1E2836)
+                    : const Color(0xFFE8F5E9),
+                border: Border.all(
+                  color: AppColors.primary.withValues(alpha: 0.3),
+                  width: 2.0,
+                ),
+              ),
+              child: ClipOval(
+                child: avatarUrl != null && avatarUrl!.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: avatarUrl!,
+                        width: 48.w,
+                        height: 48.w,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => _buildDefaultAvatar(),
+                        errorWidget: (context, url, error) => _buildDefaultAvatar(),
+                      )
+                    : _buildDefaultAvatar(),
+              ),
+            ),
+            12.horizontalSpace,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'مرحبا $teacherName',
+                  style: AppStyles.font16Bold(context).copyWith(
+                    fontWeight: AppFontWeight.extraBold,
+                  ),
+                ),
+                4.verticalSpace,
+                Text(
+                  'عندك $pendingTasksCount مهام محتاجة متابعة النهارده',
+                  style: AppStyles.font12Regular(context).copyWith(
+                    color: isDark
+                        ? AppColors.textMutedDark
+                        : const Color(0xFF6B7280),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
         Stack(
           clipBehavior: Clip.none,
           children: [
@@ -76,60 +130,14 @@ class TeacherDashboardHeader extends StatelessWidget {
                 child: Center(
                   child: Text(
                     '2',
-                    style: TextStyle(
-                      fontFamily: AppStyles.fontFamily,
+                    style: AppStyles.font12Medium(context).copyWith(
                       fontSize: 10.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      fontWeight: AppFontWeight.bold,
+                      color: AppColors.white,
                       height: 1,
                     ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'مرحبا $teacherName',
-                  style: AppStyles.font16Bold(context).copyWith(
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                4.verticalSpace,
-                Text(
-                  'عندك $pendingTasksCount مهام محتاجة متابعة النهارده',
-                  style: AppStyles.font12Regular(context).copyWith(
-                    color: isDark ? AppColors.textMutedDark : const Color(0xFF6B7280),
-                  ),
-                ),
-              ],
-            ),
-            12.horizontalSpace,
-            Container(
-              width: 48.w,
-              height: 48.w,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isDark ? const Color(0xFF1E2836) : const Color(0xFFE8F5E9),
-                border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.3),
-                  width: 2.0,
-                ),
-              ),
-              child: ClipOval(
-                child: avatarUrl != null && avatarUrl!.isNotEmpty
-                    ? Image.network(
-                        avatarUrl!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, error, stackTrace) => _buildDefaultAvatar(),
-                      )
-                    : _buildDefaultAvatar(),
               ),
             ),
           ],
@@ -151,4 +159,3 @@ class TeacherDashboardHeader extends StatelessWidget {
     );
   }
 }
-

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/extension/spacing_extension.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/theme/app_font_weight.dart';
 import '../../../../../../core/theme/app_styles.dart';
 import '../../data/models/teacher_dashboard_response_model.dart';
 
@@ -25,22 +26,20 @@ class TeacherActiveExamsSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Text(
+              'الامتحانات النشطه',
+              style: AppStyles.font16Bold(context).copyWith(
+                fontWeight: AppFontWeight.extraBold,
+              ),
+            ),
             GestureDetector(
               onTap: onViewAllPressed ?? () {},
               child: Text(
                 'عرض الكل',
-                style: TextStyle(
-                  fontFamily: AppStyles.fontFamily,
+                style: AppStyles.font14MediumPrimary.copyWith(
                   fontSize: 13.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+                  fontWeight: AppFontWeight.bold,
                 ),
-              ),
-            ),
-            Text(
-              'الامتحانات النشطه',
-              style: AppStyles.font16Bold(context).copyWith(
-                fontWeight: FontWeight.w800,
               ),
             ),
           ],
@@ -60,7 +59,9 @@ class TeacherActiveExamsSection extends StatelessWidget {
             child: Text(
               'لا توجد امتحانات نشطة حالياً',
               style: AppStyles.font14Regular(context).copyWith(
-                color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
+                color: isDark
+                    ? AppColors.textMutedDark
+                    : AppColors.textMutedLight,
               ),
             ),
           )
@@ -123,10 +124,7 @@ class _ExamCard extends StatelessWidget {
               children: [
                 Text(
                   exam.title.isNotEmpty ? exam.title : exam.groupName,
-                  style: TextStyle(
-                    fontFamily: AppStyles.fontFamily,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
+                  style: AppStyles.font14Bold(context).copyWith(
                     color: isDark ? AppColors.white : const Color(0xFF13181D),
                   ),
                   textAlign: TextAlign.right,
@@ -139,32 +137,38 @@ class _ExamCard extends StatelessWidget {
                   children: [
                     Text(
                       '${exam.durationMinutes} دقيقة',
-                      style: TextStyle(
-                        fontFamily: AppStyles.fontFamily,
+                      style: AppStyles.font12Regular(context).copyWith(
                         fontSize: 11.sp,
-                        color: isDark ? AppColors.textMutedDark : const Color(0xFF9CA3AF),
+                        color: isDark
+                            ? AppColors.textMutedDark
+                            : const Color(0xFF9CA3AF),
                       ),
                     ),
                     4.horizontalSpace,
                     Icon(
                       Icons.timer_outlined,
                       size: 13.sp,
-                      color: isDark ? AppColors.textMutedDark : const Color(0xFF9CA3AF),
+                      color: isDark
+                          ? AppColors.textMutedDark
+                          : const Color(0xFF9CA3AF),
                     ),
                     12.horizontalSpace,
                     Text(
                       '${exam.submissionsCount} تم التسليم',
-                      style: TextStyle(
-                        fontFamily: AppStyles.fontFamily,
+                      style: AppStyles.font12Regular(context).copyWith(
                         fontSize: 11.sp,
-                        color: isDark ? AppColors.textMutedDark : const Color(0xFF9CA3AF),
+                        color: isDark
+                            ? AppColors.textMutedDark
+                            : const Color(0xFF9CA3AF),
                       ),
                     ),
                     4.horizontalSpace,
                     Icon(
                       Icons.check_circle_outline_rounded,
                       size: 14.sp,
-                      color: isDark ? AppColors.textMutedDark : const Color(0xFF9CA3AF),
+                      color: isDark
+                          ? AppColors.textMutedDark
+                          : const Color(0xFF9CA3AF),
                     ),
                   ],
                 ),
@@ -176,4 +180,3 @@ class _ExamCard extends StatelessWidget {
     );
   }
 }
-

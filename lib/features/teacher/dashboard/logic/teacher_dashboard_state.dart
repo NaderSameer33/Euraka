@@ -19,14 +19,16 @@ class TeacherDashboardLoadingState extends TeacherDashboardState {
 class TeacherDashboardSuccessState extends TeacherDashboardState {
   final TeacherDashboardData data;
   final String teacherName;
+  final String? avatarUrl;
 
   const TeacherDashboardSuccessState({
     required this.data,
     this.teacherName = 'أ/ أحمد',
+    this.avatarUrl,
   });
 
   @override
-  List<Object?> get props => [data, teacherName];
+  List<Object?> get props => [data, teacherName, avatarUrl];
 }
 
 class TeacherDashboardErrorState extends TeacherDashboardState {
@@ -37,4 +39,3 @@ class TeacherDashboardErrorState extends TeacherDashboardState {
   @override
   List<Object?> get props => [message];
 }
-

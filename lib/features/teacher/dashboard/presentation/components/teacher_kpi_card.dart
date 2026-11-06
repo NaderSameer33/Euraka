@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/extension/spacing_extension.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/theme/app_font_weight.dart';
 import '../../../../../../core/theme/app_styles.dart';
 
 class TeacherKpiCard extends StatelessWidget {
@@ -58,10 +59,9 @@ class TeacherKpiCard extends StatelessWidget {
           8.verticalSpace,
           Text(
             value,
-            style: TextStyle(
-              fontFamily: AppStyles.fontFamily,
+            style: AppStyles.font24Bold(context).copyWith(
               fontSize: 26.sp,
-              fontWeight: FontWeight.w900,
+              fontWeight: AppFontWeight.black,
               color: isDark ? AppColors.white : const Color(0xFF13181D),
               height: 1.1,
             ),
@@ -69,10 +69,7 @@ class TeacherKpiCard extends StatelessWidget {
           4.verticalSpace,
           Text(
             title,
-            style: TextStyle(
-              fontFamily: AppStyles.fontFamily,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
+            style: AppStyles.font12Medium(context).copyWith(
               color: isDark ? AppColors.textMutedDark : const Color(0xFF6B7280),
             ),
             textAlign: TextAlign.center,
@@ -90,10 +87,9 @@ class TeacherKpiCard extends StatelessWidget {
               2.horizontalSpace,
               Text(
                 growthText,
-                style: TextStyle(
-                  fontFamily: AppStyles.fontFamily,
+                style: AppStyles.font12Medium(context).copyWith(
                   fontSize: 10.sp,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: AppFontWeight.bold,
                   color: accentColor,
                 ),
               ),
@@ -101,8 +97,7 @@ class TeacherKpiCard extends StatelessWidget {
               Flexible(
                 child: Text(
                   'عن الأسبوع الماضي',
-                  style: TextStyle(
-                    fontFamily: AppStyles.fontFamily,
+                  style: AppStyles.font12Regular(context).copyWith(
                     fontSize: 10.sp,
                     color: isDark ? AppColors.textMutedDark : const Color(0xFF9CA3AF),
                   ),
@@ -116,4 +111,3 @@ class TeacherKpiCard extends StatelessWidget {
     );
   }
 }
-

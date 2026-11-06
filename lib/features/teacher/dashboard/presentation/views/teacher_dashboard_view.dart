@@ -5,7 +5,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/extension/spacing_extension.dart';
 import '../../../../../core/services/get_it_service.dart';
 import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/theme/app_styles.dart';
+import '../../../../../core/widgets/app_error_widget.dart';
 import '../../data/models/teacher_dashboard_response_model.dart';
 import '../../logic/teacher_dashboard_cubit.dart';
 import '../../logic/teacher_dashboard_state.dart';
@@ -42,44 +42,9 @@ class _TeacherDashboardViewBody extends StatelessWidget {
         child: BlocBuilder<TeacherDashboardCubit, TeacherDashboardState>(
           builder: (context, state) {
             if (state is TeacherDashboardErrorState) {
-              return Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.error_outline_rounded,
-                        size: 48.sp,
-                        color: AppColors.error,
-                      ),
-                      16.verticalSpace,
-                      Text(
-                        state.message,
-                        style: AppStyles.font14Regular(context),
-                        textAlign: TextAlign.center,
-                      ),
-                      16.verticalSpace,
-                      ElevatedButton(
-                        onPressed: () => cubit.loadDashboard(),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                        ),
-                        child: Text(
-                          'إعادة المحاولة',
-                          style: TextStyle(
-                            fontFamily: AppStyles.fontFamily,
-                            fontSize: 14.sp,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              return AppErrorWidget(
+                message: state.message,
+                onRetry: () => cubit.loadDashboard(),
               );
             }
 
@@ -90,6 +55,9 @@ class _TeacherDashboardViewBody extends StatelessWidget {
             final teacherName = state is TeacherDashboardSuccessState
                 ? state.teacherName
                 : cubit.teacherName;
+            final avatarUrl = state is TeacherDashboardSuccessState
+                ? state.avatarUrl
+                : cubit.avatarUrl;
 
             return RefreshIndicator(
               onRefresh: () => cubit.loadDashboard(isRefresh: true),
@@ -111,6 +79,7 @@ class _TeacherDashboardViewBody extends StatelessWidget {
                     children: [
                       TeacherDashboardHeader(
                         teacherName: teacherName,
+                        avatarUrl: avatarUrl,
                       ),
                       20.verticalSpace,
                       TeacherKpiCardsGrid(kpis: data.kpis),
@@ -132,4 +101,3 @@ class _TeacherDashboardViewBody extends StatelessWidget {
     );
   }
 }
-
