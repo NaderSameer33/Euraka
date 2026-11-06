@@ -24,7 +24,7 @@ class AppErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = theme.colorScheme;
 
     return Center(
       child: SingleChildScrollView(
@@ -38,10 +38,10 @@ class AppErrorWidget extends StatelessWidget {
               width: 72.w,
               height: 72.w,
               decoration: BoxDecoration(
-                color: AppColors.error.withValues(alpha: isDark ? 0.16 : 0.1),
+                color: colorScheme.error.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: AppColors.error.withValues(alpha: 0.25),
+                  color: colorScheme.error.withValues(alpha: 0.25),
                   width: 1.5,
                 ),
               ),
@@ -49,7 +49,7 @@ class AppErrorWidget extends StatelessWidget {
                 child: Icon(
                   icon ?? Icons.error_outline_rounded,
                   size: 36.sp,
-                  color: AppColors.error,
+                  color: colorScheme.error,
                 ),
               ),
             ),
@@ -62,9 +62,7 @@ class AppErrorWidget extends StatelessWidget {
             8.verticalSpace,
             Text(
               message,
-              style: AppStyles.font14Regular(context).copyWith(
-                color: isDark ? AppColors.textMutedDark : AppColors.textMutedLight,
-              ),
+              style: AppStyles.font14Regular(context),
               textAlign: TextAlign.center,
             ),
             if (onRetry != null) ...[
@@ -92,4 +90,3 @@ class AppErrorWidget extends StatelessWidget {
     );
   }
 }
-

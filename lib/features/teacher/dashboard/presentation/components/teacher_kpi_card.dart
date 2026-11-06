@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/extension/spacing_extension.dart';
-import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_font_weight.dart';
 import '../../../../../../core/theme/app_styles.dart';
 
@@ -11,8 +10,6 @@ class TeacherKpiCard extends StatelessWidget {
   final String title;
   final num growthPercent;
   final Color accentColor;
-  final Color lightBgColor;
-  final Color darkBgColor;
 
   const TeacherKpiCard({
     super.key,
@@ -21,27 +18,30 @@ class TeacherKpiCard extends StatelessWidget {
     required this.title,
     required this.growthPercent,
     required this.accentColor,
-    required this.lightBgColor,
-    required this.darkBgColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final cardBgColor = Color.alphaBlend(
+      accentColor.withValues(alpha: 0.10),
+      theme.scaffoldBackgroundColor,
+    );
     final growthText = '${growthPercent >= 0 ? '+' : ''}${growthPercent.toInt()}%';
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
       decoration: BoxDecoration(
-        color: isDark ? darkBgColor : lightBgColor,
+        color: cardBgColor,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: isDark ? accentColor.withValues(alpha: 0.15) : accentColor.withValues(alpha: 0.12),
+          color: accentColor.withValues(alpha: 0.18),
           width: 1.0,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+            color: theme.shadowColor,
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -62,16 +62,13 @@ class TeacherKpiCard extends StatelessWidget {
             style: AppStyles.font24Bold(context).copyWith(
               fontSize: 26.sp,
               fontWeight: AppFontWeight.black,
-              color: isDark ? AppColors.white : const Color(0xFF13181D),
               height: 1.1,
             ),
           ),
           4.verticalSpace,
           Text(
             title,
-            style: AppStyles.font12Medium(context).copyWith(
-              color: isDark ? AppColors.textMutedDark : const Color(0xFF6B7280),
-            ),
+            style: AppStyles.font12Medium(context),
             textAlign: TextAlign.center,
           ),
           8.verticalSpace,
@@ -99,7 +96,7 @@ class TeacherKpiCard extends StatelessWidget {
                   'عن الأسبوع الماضي',
                   style: AppStyles.font12Regular(context).copyWith(
                     fontSize: 10.sp,
-                    color: isDark ? AppColors.textMutedDark : const Color(0xFF9CA3AF),
+                    color: colorScheme.onSurfaceVariant,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),

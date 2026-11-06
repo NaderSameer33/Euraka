@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/extension/spacing_extension.dart';
-import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_font_weight.dart';
 import '../../../../../../core/theme/app_styles.dart';
 import '../../data/models/teacher_dashboard_response_model.dart';
@@ -19,7 +18,8 @@ class TeacherRecentGroupsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,19 +51,15 @@ class TeacherRecentGroupsSection extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 24.h),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: isDark ? AppColors.surfaceDark : AppColors.white,
+              color: colorScheme.surface,
               borderRadius: BorderRadius.circular(16.r),
               border: Border.all(
-                color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                color: colorScheme.outline,
               ),
             ),
             child: Text(
               'لا توجد مجموعات حالية',
-              style: AppStyles.font14Regular(context).copyWith(
-                color: isDark
-                    ? AppColors.textMutedDark
-                    : AppColors.textMutedLight,
-              ),
+              style: AppStyles.font14Regular(context),
             ),
           )
         else
@@ -80,21 +76,22 @@ class _GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.surfaceDark : AppColors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: isDark ? AppColors.borderDark : AppColors.borderLight,
+          color: colorScheme.outline,
           width: 1.0,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+            color: theme.shadowColor,
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -107,7 +104,7 @@ class _GroupCard extends StatelessWidget {
             width: 44.w,
             height: 44.w,
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF1E2836) : const Color(0xFFEFF6FF),
+              color: colorScheme.primary.withValues(alpha: 0.08),
               shape: BoxShape.circle,
             ),
             child: Center(
@@ -133,9 +130,7 @@ class _GroupCard extends StatelessWidget {
               children: [
                 Text(
                   group.name,
-                  style: AppStyles.font14Bold(context).copyWith(
-                    color: isDark ? AppColors.white : const Color(0xFF13181D),
-                  ),
+                  style: AppStyles.font14Bold(context),
                   textAlign: TextAlign.right,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -148,36 +143,26 @@ class _GroupCard extends StatelessWidget {
                       'آخر نشاط منذ يوم',
                       style: AppStyles.font12Regular(context).copyWith(
                         fontSize: 11.sp,
-                        color: isDark
-                            ? AppColors.textMutedDark
-                            : const Color(0xFF9CA3AF),
                       ),
                     ),
                     4.horizontalSpace,
                     Icon(
                       Icons.access_time_rounded,
                       size: 13.sp,
-                      color: isDark
-                          ? AppColors.textMutedDark
-                          : const Color(0xFF9CA3AF),
+                      color: colorScheme.onSurfaceVariant,
                     ),
                     12.horizontalSpace,
                     Text(
                       '${group.studentCount} طالب',
                       style: AppStyles.font12Regular(context).copyWith(
                         fontSize: 11.sp,
-                        color: isDark
-                            ? AppColors.textMutedDark
-                            : const Color(0xFF9CA3AF),
                       ),
                     ),
                     4.horizontalSpace,
                     Icon(
                       Icons.people_outline_rounded,
                       size: 14.sp,
-                      color: isDark
-                          ? AppColors.textMutedDark
-                          : const Color(0xFF9CA3AF),
+                      color: colorScheme.onSurfaceVariant,
                     ),
                   ],
                 ),
@@ -195,10 +180,11 @@ class _SubjectIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Icon(
       Icons.science_outlined,
       size: 24.sp,
-      color: const Color(0xFF3B82F6),
+      color: colorScheme.primary,
     );
   }
 }

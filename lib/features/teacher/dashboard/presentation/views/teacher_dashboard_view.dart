@@ -33,7 +33,7 @@ class _TeacherDashboardViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = theme.colorScheme;
     final cubit = context.read<TeacherDashboardCubit>();
 
     return Scaffold(
@@ -67,8 +67,8 @@ class _TeacherDashboardViewBody extends StatelessWidget {
                 effect: ShimmerEffect(
                   begin: Alignment.centerRight,
                   end: Alignment.centerLeft,
-                  baseColor: isDark ? const Color(0xFF1E242C) : const Color(0xFFE5E7EB),
-                  highlightColor: isDark ? const Color(0xFF2A323D) : const Color(0xFFF3F4F6),
+                  baseColor: colorScheme.surfaceContainerHighest,
+                  highlightColor: colorScheme.surfaceContainer,
                   duration: const Duration(milliseconds: 1400),
                 ),
                 child: SingleChildScrollView(

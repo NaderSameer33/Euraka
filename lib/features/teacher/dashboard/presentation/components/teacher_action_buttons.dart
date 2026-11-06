@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/extension/spacing_extension.dart';
-import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_styles.dart';
 
 class TeacherActionButtons extends StatelessWidget {
@@ -16,7 +15,8 @@ class TeacherActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Row(
       children: [
@@ -29,10 +29,10 @@ class TeacherActionButtons extends StatelessWidget {
               child: Container(
                 height: 48.h,
                 decoration: BoxDecoration(
-                  color: isDark ? AppColors.surfaceDark : AppColors.white,
+                  color: colorScheme.surface,
                   borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(
-                    color: AppColors.primary,
+                    color: colorScheme.primary,
                     width: 1.5,
                   ),
                 ),
@@ -57,11 +57,11 @@ class TeacherActionButtons extends StatelessWidget {
               child: Container(
                 height: 48.h,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: colorScheme.primary,
                   borderRadius: BorderRadius.circular(12.r),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.3),
+                      color: colorScheme.primary.withValues(alpha: 0.3),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),

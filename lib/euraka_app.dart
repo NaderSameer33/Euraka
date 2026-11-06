@@ -35,7 +35,7 @@ class EurakaApp extends StatelessWidget {
                   builder: DevicePreview.appBuilder,
                   theme: AppTheme.lightTheme,
                   darkTheme: AppTheme.darkTheme,
-                  themeMode: themeState.light,
+                  themeMode: themeState.themeMode,
                   routerConfig: AppRoutes.router,
                   supportedLocales: const [
                     Locale('ar'),

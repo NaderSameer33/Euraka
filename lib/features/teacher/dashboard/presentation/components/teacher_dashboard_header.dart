@@ -23,7 +23,7 @@ class TeacherDashboardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = theme.colorScheme;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,11 +36,9 @@ class TeacherDashboardHeader extends StatelessWidget {
               height: 48.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isDark
-                    ? const Color(0xFF1E2836)
-                    : const Color(0xFFE8F5E9),
+                color: colorScheme.primary.withValues(alpha: 0.12),
                 border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.3),
+                  color: colorScheme.primary.withValues(alpha: 0.3),
                   width: 2.0,
                 ),
               ),
@@ -72,9 +70,7 @@ class TeacherDashboardHeader extends StatelessWidget {
                 Text(
                   'عندك $pendingTasksCount مهام محتاجة متابعة النهارده',
                   style: AppStyles.font12Regular(context).copyWith(
-                    color: isDark
-                        ? AppColors.textMutedDark
-                        : const Color(0xFF6B7280),
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],
@@ -88,15 +84,15 @@ class TeacherDashboardHeader extends StatelessWidget {
               width: 44.w,
               height: 44.w,
               decoration: BoxDecoration(
-                color: isDark ? AppColors.surfaceDark : AppColors.white,
+                color: colorScheme.surface,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                  color: colorScheme.outline,
                   width: 1.0,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+                    color: theme.shadowColor,
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -108,7 +104,7 @@ class TeacherDashboardHeader extends StatelessWidget {
                   width: 22.sp,
                   height: 22.sp,
                   colorFilter: ColorFilter.mode(
-                    isDark ? AppColors.textMutedDark : const Color(0xFF7D8391),
+                    colorScheme.onSurfaceVariant,
                     BlendMode.srcIn,
                   ),
                 ),

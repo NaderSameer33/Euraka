@@ -35,8 +35,6 @@ class TeacherKpiCardsGrid extends StatelessWidget {
                 title: 'عدد الطلاب',
                 growthPercent: kpis.totalStudentsGrowthPercent,
                 accentColor: const Color(0xFF10B981),
-                lightBgColor: const Color(0xFFF0FBF5),
-                darkBgColor: const Color(0xFF11281E),
               ),
             ),
             12.horizontalSpace,
@@ -55,8 +53,6 @@ class TeacherKpiCardsGrid extends StatelessWidget {
                 title: 'امتحانات نشطة',
                 growthPercent: kpis.activeExamsGrowthPercent,
                 accentColor: const Color(0xFF3B82F6),
-                lightBgColor: const Color(0xFFF0F7FF),
-                darkBgColor: const Color(0xFF132235),
               ),
             ),
           ],
@@ -79,12 +75,9 @@ class TeacherKpiCardsGrid extends StatelessWidget {
                 title: 'مجموعات',
                 growthPercent: kpis.activeGroupsGrowthPercent,
                 accentColor: const Color(0xFF8B5CF6),
-                lightBgColor: const Color(0xFFF7F4FD),
-                darkBgColor: const Color(0xFF221A35),
               ),
             ),
             12.horizontalSpace,
-
             Expanded(
               child: TeacherKpiCard(
                 icon: SvgPicture.asset(
@@ -100,8 +93,6 @@ class TeacherKpiCardsGrid extends StatelessWidget {
                 title: 'نسبه التحصيل',
                 growthPercent: kpis.collectionGrowthPercent,
                 accentColor: const Color(0xFFF59E0B),
-                lightBgColor: const Color(0xFFFEF9EE),
-                darkBgColor: const Color(0xFF2B2110),
               ),
             ),
           ],
