@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/extension/spacing_extension.dart';
 import '../../../../../core/helper/helper_method.dart';
 import '../../../../../core/routers/app_router_name.dart';
+import '../../../../../core/services/get_it_service.dart';
 import '../../../../../core/widgets/app_success_dialog.dart';
 import '../components/reset_password_form.dart';
 import '../components/reset_password_header.dart';
@@ -24,9 +25,8 @@ class ResetPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ResetPasswordCubit(
-        email: email,
-        resetToken: resetToken,
+      create: (context) => getIt<ResetPasswordCubit>(
+        param1: (email: email, resetToken: resetToken),
       ),
       child: const _ResetPasswordViewBody(),
     );

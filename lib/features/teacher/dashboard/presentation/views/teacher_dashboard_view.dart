@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/extension/spacing_extension.dart';
+import '../../../../../core/services/get_it_service.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_styles.dart';
 import '../../data/models/teacher_dashboard_response_model.dart';
@@ -20,7 +21,7 @@ class TeacherDashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => TeacherDashboardCubit(),
+      create: (context) => getIt<TeacherDashboardCubit>(),
       child: const _TeacherDashboardViewBody(),
     );
   }

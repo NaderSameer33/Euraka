@@ -4,19 +4,20 @@ import '../../../../core/base/safe_cubit.dart';
 import '../../../../core/caching/shared_pref_service.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/routers/app_router_name.dart';
-import '../../../../core/services/get_it_service.dart';
 import '../data/models/forgot_password_request_body.dart';
 import '../data/repos/forgot_password_repo.dart';
 import 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends SafeCubit<ForgotPasswordState> {
   final ForgotPasswordRepo _repo;
+  final SharedPrefService _sharedPrefService;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
 
-  ForgotPasswordCubit({ForgotPasswordRepo? repo})
-      : _repo = repo ?? getIt<ForgotPasswordRepo>(),
-        super(const ForgotPasswordInitialState());
+  ForgotPasswordCubit(
+    this._repo,
+    this._sharedPrefService,
+  ) : super(const ForgotPasswordInitialState());
 
   Future<void> sendResetCode(BuildContext context) async {
     if (!formKey.currentState!.validate()) return;
@@ -33,7 +34,7 @@ class ForgotPasswordCubit extends SafeCubit<ForgotPasswordState> {
         emit(ForgotPasswordErrorState(message: failure.message));
       },
       (response) async {
-        await getIt<SharedPrefService>().setString(AppConstants.userEmailKey, email);
+        await _sharedPrefService.setString(AppConstants.userEmailKey, email);
         emit(ForgotPasswordSuccessState(response: response));
         if (context.mounted) {
           context.push(
@@ -54,4 +55,3 @@ class ForgotPasswordCubit extends SafeCubit<ForgotPasswordState> {
     return super.close();
   }
 }
-

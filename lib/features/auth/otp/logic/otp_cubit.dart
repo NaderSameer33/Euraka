@@ -6,7 +6,6 @@ import '../../../../core/caching/shared_pref_service.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/helper/helper_method.dart';
 import '../../../../core/routers/app_router_name.dart';
-import '../../../../core/services/get_it_service.dart';
 import '../data/models/verify_email_request_body.dart';
 import '../data/models/verify_email_response_model.dart';
 import '../data/repos/otp_repo.dart';
@@ -14,6 +13,7 @@ import 'otp_state.dart';
 
 class OtpCubit extends SafeCubit<OtpState> {
   final OtpRepo _otpRepo;
+  final SharedPrefService _sharedPrefService;
   final String email;
   final String? token;
   final bool isForgotPassword;
@@ -29,13 +29,13 @@ class OtpCubit extends SafeCubit<OtpState> {
 
   Timer? _timer;
 
-  OtpCubit({
-    OtpRepo? otpRepo,
+  OtpCubit(
+    this._otpRepo,
+    this._sharedPrefService, {
     required this.email,
     this.token,
     this.isForgotPassword = false,
-  })  : _otpRepo = otpRepo ?? getIt<OtpRepo>(),
-        super(const OtpInitialState()) {
+  }) : super(const OtpInitialState()) {
     _startTimer();
   }
 
@@ -43,7 +43,7 @@ class OtpCubit extends SafeCubit<OtpState> {
     if (email.isNotEmpty && email != 'ahmed@gmail.com') {
       return email;
     }
-    final cached = getIt<SharedPrefService>().getString(AppConstants.userEmailKey);
+    final cached = _sharedPrefService.getString(AppConstants.userEmailKey);
     if (cached != null && cached.isNotEmpty) {
       return cached;
     }

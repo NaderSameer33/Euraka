@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/base/safe_cubit.dart';
 import '../../../../core/routers/app_router_name.dart';
-import '../../../../core/services/get_it_service.dart';
 import '../data/models/register_request_body.dart';
 import '../data/repos/register_repo.dart';
 import 'register_state.dart';
@@ -16,9 +15,7 @@ class RegisterCubit extends SafeCubit<RegisterState> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
-  RegisterCubit({RegisterRepo? registerRepo})
-      : _registerRepo = registerRepo ?? getIt<RegisterRepo>(),
-        super(const RegisterInitialState());
+  RegisterCubit(this._registerRepo) : super(const RegisterInitialState());
 
   void togglePasswordVisibility() {
     final next = !state.isPasswordObscured;

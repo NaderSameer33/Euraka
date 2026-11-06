@@ -1,7 +1,6 @@
 import '../../../../core/base/safe_cubit.dart';
 import '../../../../core/caching/shared_pref_service.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/services/get_it_service.dart';
 import '../data/models/teacher_dashboard_response_model.dart';
 import '../data/repos/teacher_dashboard_repo.dart';
 import 'teacher_dashboard_state.dart';
@@ -10,12 +9,10 @@ class TeacherDashboardCubit extends SafeCubit<TeacherDashboardState> {
   final TeacherDashboardRepo _repo;
   final SharedPrefService _sharedPref;
 
-  TeacherDashboardCubit({
-    TeacherDashboardRepo? repo,
-    SharedPrefService? sharedPref,
-  })  : _repo = repo ?? getIt<TeacherDashboardRepo>(),
-        _sharedPref = sharedPref ?? getIt<SharedPrefService>(),
-        super(const TeacherDashboardInitialState()) {
+  TeacherDashboardCubit(
+    this._repo,
+    this._sharedPref,
+  ) : super(const TeacherDashboardInitialState()) {
     loadDashboard();
   }
 

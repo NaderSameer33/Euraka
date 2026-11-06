@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/extension/spacing_extension.dart';
+import '../../../../core/services/get_it_service.dart';
 import '../components/role_card.dart';
 import '../components/role_selection_bottom_bar.dart';
 import '../components/role_selection_header.dart';
@@ -14,7 +15,7 @@ class RoleSelectionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RoleSelectionCubit(),
+      create: (context) => getIt<RoleSelectionCubit>(),
       child: const _RoleSelectionViewBody(),
     );
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/base/safe_cubit.dart';
 import '../../../../core/routers/app_router_name.dart';
-import '../../../../core/services/get_it_service.dart';
 import '../data/models/login_request_body.dart';
 import '../data/repos/auth_repo.dart';
 import 'login_state.dart';
@@ -13,9 +12,7 @@ class LoginCubit extends SafeCubit<LoginState> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  LoginCubit({AuthRepo? authRepo})
-      : _authRepo = authRepo ?? getIt<AuthRepo>(),
-        super(const LoginInitialState());
+  LoginCubit(this._authRepo) : super(const LoginInitialState());
 
   void togglePasswordVisibility() {
     final next = !state.isPasswordObscured;
