@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import '../../../../../core/caching/secure_storage_service.dart';
 import '../../../../../core/caching/shared_pref_service.dart';
 import '../../../../../core/constants/app_constants.dart';
 import '../../../../../core/errors/failure.dart';
@@ -10,12 +9,10 @@ import '../models/verify_email_response_model.dart';
 
 class OtpRepo {
   final ApiService _apiService;
-  final SecureStorageService _secureStorageService;
   final SharedPrefService _sharedPrefService;
 
   OtpRepo(
     this._apiService,
-    this._secureStorageService,
     this._sharedPrefService,
   );
 
@@ -24,16 +21,9 @@ class OtpRepo {
     String? token,
   }) async {
     try {
-      final authToken = token ?? await _secureStorageService.read(AppConstants.userTokenKey);
-      final headers = <String, dynamic>{};
-      if (authToken != null && authToken.isNotEmpty) {
-        headers['Authorization'] = 'Bearer $authToken';
-      }
-
       final res = await _apiService.post(
         endpoint: '/auth/verify-email',
         data: body.toJson(),
-        headers: headers,
       );
 
       final responseModel = VerifyEmailResponseModel.fromJson(res.data as Map<String, dynamic>);
@@ -75,15 +65,8 @@ class OtpRepo {
     String? token,
   }) async {
     try {
-      final authToken = token ?? await _secureStorageService.read(AppConstants.userTokenKey);
-      final headers = <String, dynamic>{};
-      if (authToken != null && authToken.isNotEmpty) {
-        headers['Authorization'] = 'Bearer $authToken';
-      }
-
       final res = await _apiService.post(
         endpoint: '/auth/send-verification-email',
-        headers: headers,
       );
       return Right(res.data);
     } on DioException catch (e) {
@@ -123,4 +106,3 @@ class OtpRepo {
     return 'TEACHER';
   }
 }
-

@@ -86,7 +86,6 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<OtpRepo>(
     () => OtpRepo(
       getIt<ApiService>(),
-      getIt<SecureStorageService>(),
       getIt<SharedPrefService>(),
     ),
   );

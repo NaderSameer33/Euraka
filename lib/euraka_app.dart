@@ -26,24 +26,27 @@ class EurakaApp extends StatelessWidget {
           bloc: themeCubit,
           builder: (context, themeState) {
             return ToastificationWrapper(
-              child: MaterialApp.router(
-                title: 'Eureka',
-                debugShowCheckedModeBanner: false,
-                locale: const Locale('ar'),
-                builder: DevicePreview.appBuilder,
-                theme: AppTheme.lightTheme,
-                darkTheme: AppTheme.darkTheme,
-                themeMode: themeState.themeMode,
-                routerConfig: AppRoutes.router,
-                supportedLocales: const [
-                  Locale('ar'),
-                  Locale('en'),
-                ],
-                localizationsDelegates: const [
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
+              child: GestureDetector(
+                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                child: MaterialApp.router(
+                  title: 'Eureka',
+                  debugShowCheckedModeBanner: false,
+                  locale: const Locale('ar'),
+                  builder: DevicePreview.appBuilder,
+                  theme: AppTheme.lightTheme,
+                  darkTheme: AppTheme.darkTheme,
+                  themeMode: themeState.themeMode,
+                  routerConfig: AppRoutes.router,
+                  supportedLocales: const [
+                    Locale('ar'),
+                    Locale('en'),
+                  ],
+                  localizationsDelegates: const [
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                ),
               ),
             );
           },
