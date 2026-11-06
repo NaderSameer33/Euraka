@@ -48,29 +48,32 @@ class LoginCubit extends SafeCubit<LoginState> {
       ),
     );
 
-    if (result.failure != null) {
-      emit(
-        LoginErrorState(
-          message: result.failure!.message,
-          isPasswordObscured: state.isPasswordObscured,
-        ),
-      );
-    } else if (result.response != null) {
-      emit(
-        LoginSuccessState(
-          response: result.response!,
-          isPasswordObscured: state.isPasswordObscured,
-        ),
-      );
-      if (context.mounted) {
-        final role = result.response!.data?.user.role.toUpperCase();
-        if (role == 'TEACHER') {
-          context.go(AppRouterName.teacherHome);
-        } else {
-          context.go(AppRouterName.studentHome);
+    result.fold(
+      (failure) {
+        emit(
+          LoginErrorState(
+            message: failure.message,
+            isPasswordObscured: state.isPasswordObscured,
+          ),
+        );
+      },
+      (response) {
+        emit(
+          LoginSuccessState(
+            response: response,
+            isPasswordObscured: state.isPasswordObscured,
+          ),
+        );
+        if (context.mounted) {
+          final role = response.data?.user.role.toUpperCase();
+          if (role == 'TEACHER') {
+            context.go(AppRouterName.teacherHome);
+          } else {
+            context.go(AppRouterName.studentHome);
+          }
         }
-      }
-    }
+      },
+    );
   }
 
   @override

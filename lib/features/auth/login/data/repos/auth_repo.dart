@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import '../../../../../core/caching/secure_storage_service.dart';
 import '../../../../../core/caching/shared_pref_service.dart';
@@ -18,7 +19,7 @@ class AuthRepo {
     this._sharedPrefService,
   );
 
-  Future<({Failure? failure, LoginResponseModel? response})> login(
+  Future<Either<Failure, LoginResponseModel>> login(
     LoginRequestBody body,
   ) async {
     try {
@@ -43,20 +44,14 @@ class AuthRepo {
           responseModel.data!.user.role,
         );
       }
-      return (failure: null, response: responseModel);
+      return Right(responseModel);
     } on DioException catch (e) {
       final message = e.response?.data is Map
           ? (e.response?.data['message'] as String? ?? 'حدث خطأ في تسجيل الدخول')
           : 'حدث خطأ في الاتصال بالخادم';
-      return (
-        failure: ServerFailure(message, e.response?.statusCode),
-        response: null,
-      );
+      return Left(ServerFailure(message, e.response?.statusCode));
     } catch (e) {
-      return (
-        failure: ServerFailure(e.toString()),
-        response: null,
-      );
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

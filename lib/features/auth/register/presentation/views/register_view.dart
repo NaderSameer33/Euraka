@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:toastification/toastification.dart';
 import '../../../../../core/extension/spacing_extension.dart';
+import '../../../../../core/helper/helper_method.dart';
 import '../../../../../core/widgets/auth_divider.dart';
 import '../components/register_footer.dart';
 import '../components/register_form.dart';
@@ -35,20 +35,14 @@ class _RegisterViewBody extends StatelessWidget {
         child: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) {
             if (state is RegisterErrorState) {
-              toastification.show(
+              HelperMethod.showErrorToast(
                 context: context,
-                type: ToastificationType.error,
-                style: ToastificationStyle.fillColored,
-                title: Text(state.message),
-                autoCloseDuration: const Duration(seconds: 4),
+                message: state.message,
               );
             } else if (state is RegisterSuccessState) {
-              toastification.show(
+              HelperMethod.showSuccessToast(
                 context: context,
-                type: ToastificationType.success,
-                style: ToastificationStyle.fillColored,
-                title: Text(state.response.message),
-                autoCloseDuration: const Duration(seconds: 4),
+                message: state.response.message,
               );
             }
           },

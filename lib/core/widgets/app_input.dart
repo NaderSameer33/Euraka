@@ -41,145 +41,149 @@ class AppInput extends FormField<String> {
     this.fillColor,
     this.borderRadius,
   }) : super(
-          initialValue: controller?.text ?? '',
-          builder: (FormFieldState<String> field) {
-            final context = field.context;
-            final theme = Theme.of(context);
-            final isDark = theme.brightness == Brightness.dark;
-            final defaultFillColor = isDark ? AppColors.inputFillDark : AppColors.inputFillLight;
-            final defaultBorderColor = theme.colorScheme.outline.withValues(alpha: isDark ? 0.35 : 0.6);
-            final radius = BorderRadius.circular(borderRadius ?? 10.r);
-            final hasError = field.hasError;
+         initialValue: controller?.text ?? '',
+         builder: (FormFieldState<String> field) {
+           final context = field.context;
+           final theme = Theme.of(context);
+           final isDark = theme.brightness == Brightness.dark;
+           final defaultFillColor = isDark
+               ? AppColors.inputFillDark
+               : AppColors.inputFillLight;
+           final defaultBorderColor = theme.colorScheme.outline.withValues(
+             alpha: isDark ? 0.35 : 0.6,
+           );
+           final radius = BorderRadius.circular(borderRadius ?? 10.r);
+           final hasError = field.hasError;
 
-            Widget? effectiveSuffixIcon;
-            final errorIcon = Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: Icon(
-                Icons.error,
-                color: AppColors.error,
-                size: 20.sp,
-              ),
-            );
+           Widget? effectiveSuffixIcon;
+           final errorIcon = Padding(
+             padding: EdgeInsets.symmetric(horizontal: 10.w),
+             child: Icon(
+               Icons.error,
+               color: AppColors.error,
+               size: 20.sp,
+             ),
+           );
 
-            if (hasError && suffixIcon != null) {
-              effectiveSuffixIcon = Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  errorIcon,
-                  suffixIcon,
-                ],
-              );
-            } else if (hasError) {
-              effectiveSuffixIcon = errorIcon;
-            } else {
-              effectiveSuffixIcon = suffixIcon;
-            }
+           if (hasError && suffixIcon != null) {
+             effectiveSuffixIcon = Row(
+               mainAxisSize: MainAxisSize.min,
+               children: [
+                 suffixIcon,
+                 errorIcon,
+               ],
+             );
+           } else if (hasError) {
+             effectiveSuffixIcon = errorIcon;
+           } else {
+             effectiveSuffixIcon = suffixIcon;
+           }
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (title != null) ...[
-                  Text(
-                    title,
-                    style: AppStyles.font14Medium(context),
-                  ),
-                  8.verticalSpace,
-                ],
-                TextFormField(
-                  controller: controller,
-                  obscureText: isObscure,
-                  keyboardType: keyboardType,
-                  textInputAction: textInputAction,
-                  onChanged: (val) {
-                    field.didChange(val);
-                    onChanged?.call(val);
-                  },
-                  onFieldSubmitted: onFieldSubmitted,
-                  maxLines: maxLines,
-                  enabled: enabled,
-                  focusNode: focusNode,
-                  style: AppStyles.font16Regular(context),
-                  decoration: InputDecoration(
-                    hintText: hintText,
-                    hintStyle: AppStyles.font14Regular(context),
-                    labelText: labelText,
-                    labelStyle: AppStyles.font14Regular(context),
-                    filled: true,
-                    fillColor: fillColor ?? defaultFillColor,
-                    prefixIcon: prefixIcon,
-                    suffixIcon: effectiveSuffixIcon,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 16.h,
-                    ),
-                    errorStyle: const TextStyle(
-                      fontSize: 0,
-                      height: 0,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: radius,
-                      borderSide: BorderSide(
-                        color: hasError ? AppColors.error : defaultBorderColor,
-                        width: hasError ? 1.5 : 1.0,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: radius,
-                      borderSide: BorderSide(
-                        color: hasError ? AppColors.error : defaultBorderColor,
-                        width: hasError ? 1.5 : 1.0,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: radius,
-                      borderSide: BorderSide(
-                        color: hasError ? AppColors.error : AppColors.primary,
-                        width: 1.5,
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: radius,
-                      borderSide: const BorderSide(
-                        color: AppColors.error,
-                        width: 1.5,
-                      ),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: radius,
-                      borderSide: const BorderSide(
-                        color: AppColors.error,
-                        width: 1.5,
-                      ),
-                    ),
-                  ),
-                ),
-                if (hasError) ...[
-                  6.verticalSpace,
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.error,
-                        color: AppColors.error,
-                        size: 14.sp,
-                      ),
-                      6.horizontalSpace,
-                      Expanded(
-                        child: Text(
-                          field.errorText ?? '',
-                          style: TextStyle(
-                            fontFamily: AppStyles.fontFamily,
-                            fontSize: 12.sp,
-                            color: AppColors.error,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ],
-            );
-          },
-        );
+           return Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             mainAxisSize: MainAxisSize.min,
+             children: [
+               if (title != null) ...[
+                 Text(
+                   title,
+                   style: AppStyles.font14Medium(context),
+                 ),
+                 8.verticalSpace,
+               ],
+               TextFormField(
+                 controller: controller,
+                 obscureText: isObscure,
+                 keyboardType: keyboardType,
+                 textInputAction: textInputAction,
+                 onChanged: (val) {
+                   field.didChange(val);
+                   onChanged?.call(val);
+                 },
+                 onFieldSubmitted: onFieldSubmitted,
+                 maxLines: maxLines,
+                 enabled: enabled,
+                 focusNode: focusNode,
+                 style: AppStyles.font16Regular(context),
+                 decoration: InputDecoration(
+                   hintText: hintText,
+                   hintStyle: AppStyles.font14Regular(context),
+                   labelText: labelText,
+                   labelStyle: AppStyles.font14Regular(context),
+                   filled: true,
+                   fillColor: fillColor ?? defaultFillColor,
+                   prefixIcon: prefixIcon,
+                   suffixIcon: effectiveSuffixIcon,
+                   contentPadding: EdgeInsets.symmetric(
+                     horizontal: 16.w,
+                     vertical: 16.h,
+                   ),
+                   errorStyle: const TextStyle(
+                     fontSize: 0,
+                     height: 0,
+                   ),
+                   border: OutlineInputBorder(
+                     borderRadius: radius,
+                     borderSide: BorderSide(
+                       color: hasError ? AppColors.error : defaultBorderColor,
+                       width: hasError ? 1.5 : 1.0,
+                     ),
+                   ),
+                   enabledBorder: OutlineInputBorder(
+                     borderRadius: radius,
+                     borderSide: BorderSide(
+                       color: hasError ? AppColors.error : defaultBorderColor,
+                       width: hasError ? 1.5 : 1.0,
+                     ),
+                   ),
+                   focusedBorder: OutlineInputBorder(
+                     borderRadius: radius,
+                     borderSide: BorderSide(
+                       color: hasError ? AppColors.error : AppColors.primary,
+                       width: 1.5,
+                     ),
+                   ),
+                   errorBorder: OutlineInputBorder(
+                     borderRadius: radius,
+                     borderSide: const BorderSide(
+                       color: AppColors.error,
+                       width: 1.5,
+                     ),
+                   ),
+                   focusedErrorBorder: OutlineInputBorder(
+                     borderRadius: radius,
+                     borderSide: const BorderSide(
+                       color: AppColors.error,
+                       width: 1.5,
+                     ),
+                   ),
+                 ),
+               ),
+               if (hasError) ...[
+                 6.verticalSpace,
+                 Row(
+                   children: [
+                     Icon(
+                       Icons.error,
+                       color: AppColors.error,
+                       size: 14.sp,
+                     ),
+                     6.horizontalSpace,
+                     Expanded(
+                       child: Text(
+                         field.errorText ?? '',
+                         style: TextStyle(
+                           fontFamily: AppStyles.fontFamily,
+                           fontSize: 12.sp,
+                           color: AppColors.error,
+                           fontWeight: FontWeight.w500,
+                         ),
+                       ),
+                     ),
+                   ],
+                 ),
+               ],
+             ],
+           );
+         },
+       );
 }

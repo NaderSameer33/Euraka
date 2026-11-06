@@ -98,27 +98,30 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
       ),
     );
 
-    if (result.failure != null) {
-      emit(ResetPasswordErrorState(
-        message: result.failure!.message,
-        isNewPasswordObscured: state.isNewPasswordObscured,
-        isConfirmPasswordObscured: state.isConfirmPasswordObscured,
-        passwordStrength: state.passwordStrength,
-        isLengthValid: state.isLengthValid,
-        hasNumber: state.hasNumber,
-        hasSpecialChar: state.hasSpecialChar,
-      ));
-    } else if (result.response != null) {
-      emit(ResetPasswordSuccessState(
-        response: result.response!,
-        isNewPasswordObscured: state.isNewPasswordObscured,
-        isConfirmPasswordObscured: state.isConfirmPasswordObscured,
-        passwordStrength: state.passwordStrength,
-        isLengthValid: state.isLengthValid,
-        hasNumber: state.hasNumber,
-        hasSpecialChar: state.hasSpecialChar,
-      ));
-    }
+    result.fold(
+      (failure) {
+        emit(ResetPasswordErrorState(
+          message: failure.message,
+          isNewPasswordObscured: state.isNewPasswordObscured,
+          isConfirmPasswordObscured: state.isConfirmPasswordObscured,
+          passwordStrength: state.passwordStrength,
+          isLengthValid: state.isLengthValid,
+          hasNumber: state.hasNumber,
+          hasSpecialChar: state.hasSpecialChar,
+        ));
+      },
+      (response) {
+        emit(ResetPasswordSuccessState(
+          response: response,
+          isNewPasswordObscured: state.isNewPasswordObscured,
+          isConfirmPasswordObscured: state.isConfirmPasswordObscured,
+          passwordStrength: state.passwordStrength,
+          isLengthValid: state.isLengthValid,
+          hasNumber: state.hasNumber,
+          hasSpecialChar: state.hasSpecialChar,
+        ));
+      },
+    );
   }
 
   @override

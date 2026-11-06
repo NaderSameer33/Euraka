@@ -28,21 +28,24 @@ class ForgotPasswordCubit extends SafeCubit<ForgotPasswordState> {
       ForgotPasswordRequestBody(email: email),
     );
 
-    if (result.failure != null) {
-      emit(ForgotPasswordErrorState(message: result.failure!.message));
-    } else if (result.response != null) {
-      await getIt<SharedPrefService>().setString(AppConstants.userEmailKey, email);
-      emit(ForgotPasswordSuccessState(response: result.response!));
-      if (context.mounted) {
-        context.push(
-          AppRouterName.otp,
-          extra: {
-            'email': email,
-            'isForgotPassword': true,
-          },
-        );
-      }
-    }
+    await result.fold(
+      (failure) async {
+        emit(ForgotPasswordErrorState(message: failure.message));
+      },
+      (response) async {
+        await getIt<SharedPrefService>().setString(AppConstants.userEmailKey, email);
+        emit(ForgotPasswordSuccessState(response: response));
+        if (context.mounted) {
+          context.push(
+            AppRouterName.otp,
+            extra: {
+              'email': email,
+              'isForgotPassword': true,
+            },
+          );
+        }
+      },
+    );
   }
 
   @override

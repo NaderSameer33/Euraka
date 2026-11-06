@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:toastification/toastification.dart';
 import '../../../../../core/extension/spacing_extension.dart';
+import '../../../../../core/helper/helper_method.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../components/otp_header.dart';
 import '../components/otp_input_fields.dart';
@@ -49,12 +49,9 @@ class _OtpViewBody extends StatelessWidget {
         child: BlocConsumer<OtpCubit, OtpState>(
           listener: (context, state) {
             if (state is OtpSuccessState) {
-              toastification.show(
+              HelperMethod.showSuccessToast(
                 context: context,
-                type: ToastificationType.success,
-                style: ToastificationStyle.fillColored,
-                title: Text(state.response.message),
-                autoCloseDuration: const Duration(seconds: 4),
+                message: state.response.message,
               );
             }
           },

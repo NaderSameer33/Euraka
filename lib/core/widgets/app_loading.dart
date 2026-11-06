@@ -16,11 +16,10 @@ class AppLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: LoadingAnimationWidget.staggeredDotsWave(
+      child: LoadingAnimationWidget.threeArchedCircle(
         color: color ?? AppColors.primary,
         size: size ?? 36.r,
       ),
     );
   }
 }
-
