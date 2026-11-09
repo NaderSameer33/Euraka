@@ -109,9 +109,10 @@ class TeacherGroupsRepo {
     AddStudentRequestBody body,
   ) async {
     try {
+      final formData = await body.toFormData();
       final res = await _apiService.post(
         endpoint: '/teacher/groups/$groupId/students',
-        data: body.toJson(),
+        data: formData,
       );
       final responseModel = AddStudentResponseModel.fromJson(res.data as Map<String, dynamic>);
       return Right(responseModel);

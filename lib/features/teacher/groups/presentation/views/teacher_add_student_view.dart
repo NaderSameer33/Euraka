@@ -58,13 +58,7 @@ class _TeacherAddStudentViewBody extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(width: 40.w),
-                      Text(
-                        'اضافه طالب',
-                        style: AppStyles.font18Bold(context),
-                      ),
                       GestureDetector(
                         onTap: () => context.pop(),
                         child: Container(
@@ -76,13 +70,22 @@ class _TeacherAddStudentViewBody extends StatelessWidget {
                           ),
                           child: Center(
                             child: Icon(
-                              Icons.arrow_forward_rounded,
+                              Icons.arrow_back_rounded,
                               size: 20.sp,
                               color: colorScheme.primary,
                             ),
                           ),
                         ),
                       ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'اضافه طالب',
+                            style: AppStyles.font18Bold(context),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 40.w),
                     ],
                   ),
                 ),
@@ -92,7 +95,7 @@ class _TeacherAddStudentViewBody extends StatelessWidget {
                     child: Form(
                       key: cubit.formKey,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildFieldLabel(context, 'اسم الطالب'),
                           8.verticalSpace,
@@ -114,7 +117,12 @@ class _TeacherAddStudentViewBody extends StatelessWidget {
                           _buildFieldLabel(context, 'صوره الطالب'),
                           8.verticalSpace,
                           AddGroupDashedImageBox(
-                            onTap: () {},
+                            selectedImage: cubit.photoFile,
+                            title: 'اضغط لرفع صوره الطالب',
+                            subTitle: 'JPG , PNG (الحد الاقصى 5MB)',
+                            height: 140.h,
+                            onTap: () => cubit.pickStudentPhoto(context),
+                            onRemove: () => cubit.removeStudentPhoto(),
                           ),
                           16.verticalSpace,
                           _buildFieldLabel(context, 'رقم ولي الامر'),
@@ -175,16 +183,16 @@ class _TeacherAddStudentViewBody extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          '*',
+          text,
           style: AppStyles.font14Bold(context).copyWith(
-            color: AppColors.error,
+            fontWeight: AppFontWeight.bold,
           ),
         ),
         4.horizontalSpace,
         Text(
-          text,
+          '*',
           style: AppStyles.font14Bold(context).copyWith(
-            fontWeight: AppFontWeight.bold,
+            color: AppColors.error,
           ),
         ),
       ],
@@ -217,16 +225,16 @@ class _TeacherAddStudentViewBody extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.keyboard_arrow_down_rounded,
-              size: 22.sp,
-              color: colorScheme.onSurfaceVariant,
-            ),
             Text(
               hasValue ? valueText : hintText,
               style: AppStyles.font14Regular(context).copyWith(
                 color: hasValue ? colorScheme.onSurface : colorScheme.onSurfaceVariant,
               ),
+            ),
+            Icon(
+              Icons.keyboard_arrow_down_rounded,
+              size: 22.sp,
+              color: colorScheme.onSurfaceVariant,
             ),
           ],
         ),
@@ -273,14 +281,15 @@ class _TeacherAddStudentViewBody extends StatelessWidget {
                     )
                   else
                     SizedBox(width: 20.sp),
-                  const Spacer(),
-                  Text(
-                    grade.nameAr,
-                    style: AppStyles.font14Regular(context).copyWith(
-                      fontWeight: isSelected ? AppFontWeight.bold : AppFontWeight.medium,
-                      color: isSelected ? colorScheme.primary : colorScheme.onSurface,
+                  12.horizontalSpace,
+                  Expanded(
+                    child: Text(
+                      grade.nameAr,
+                      style: AppStyles.font14Regular(context).copyWith(
+                        fontWeight: isSelected ? AppFontWeight.bold : AppFontWeight.medium,
+                        color: isSelected ? colorScheme.primary : colorScheme.onSurface,
+                      ),
                     ),
-                    textAlign: TextAlign.right,
                   ),
                 ],
               ),

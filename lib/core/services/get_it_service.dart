@@ -189,6 +189,8 @@ Future<void> setupGetIt() async {
   getIt.registerFactoryParam<AddStudentCubit, ({String groupId, int defaultPrice}), void>(
     (param, _) => AddStudentCubit(
       getIt<TeacherGroupsRepo>(),
+      getIt<SharedPrefService>(),
+      getIt<SecureStorageService>(),
       groupId: param.groupId,
       defaultPrice: param.defaultPrice,
     ),
