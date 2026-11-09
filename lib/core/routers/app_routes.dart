@@ -12,6 +12,10 @@ import '../../features/onboarding/presentation/views/onboarding_view.dart';
 import '../../features/role_selection/presentation/views/role_selection_view.dart';
 import '../../features/splash/presentation/views/splash_view.dart';
 import '../../features/teacher/dashboard/presentation/views/teacher_dashboard_view.dart';
+import '../../features/teacher/groups/presentation/views/teacher_add_group_view.dart';
+import '../../features/teacher/groups/presentation/views/teacher_add_student_view.dart';
+import '../../features/teacher/groups/presentation/views/teacher_group_students_view.dart';
+import '../../features/teacher/groups/presentation/views/teacher_groups_view.dart';
 import '../../features/teacher/main/presentation/views/teacher_main_view.dart';
 import '../../features/teacher/main/presentation/views/teacher_tab_placeholder_view.dart';
 import 'app_router_name.dart';
@@ -116,10 +120,7 @@ class AppRoutes {
             routes: [
               GoRoute(
                 path: AppRouterName.teacherGroups,
-                builder: (context, state) => const TeacherTabPlaceholderView(
-                  title: 'المجموعات',
-                  icon: Icons.groups_rounded,
-                ),
+                builder: (context, state) => const TeacherGroupsView(),
               ),
             ],
           ),
@@ -165,6 +166,46 @@ class AppRoutes {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: AppRouterName.teacherAddGroup,
+        pageBuilder: (context, state) => buildSmoothTransitionPage(
+          context: context,
+          state: state,
+          child: const TeacherAddGroupView(),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterName.teacherGroupStudents,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final groupId = extra?['groupId'] as String? ?? '';
+          final groupName = extra?['groupName'] as String? ?? 'المجموعة';
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherGroupStudentsView(
+              groupId: groupId,
+              groupName: groupName,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherAddStudent,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final groupId = extra?['groupId'] as String? ?? '';
+          final groupName = extra?['groupName'] as String?;
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherAddStudentView(
+              groupId: groupId,
+              groupName: groupName,
+            ),
+          );
+        },
       ),
       GoRoute(
         path: AppRouterName.studentHome,
