@@ -19,11 +19,14 @@ import '../../features/role_selection/data/repos/role_selection_repo.dart';
 import '../../features/role_selection/logic/role_selection_cubit.dart';
 import '../../features/teacher/dashboard/data/repos/teacher_dashboard_repo.dart';
 import '../../features/teacher/dashboard/logic/teacher_dashboard_cubit.dart';
+import '../../features/teacher/groups/data/models/teacher_student_details_model.dart';
 import '../../features/teacher/groups/data/repos/teacher_groups_repo.dart';
 import '../../features/teacher/groups/logic/add_group_cubit.dart';
 import '../../features/teacher/groups/logic/add_student_cubit.dart';
 import '../../features/teacher/groups/logic/group_students_cubit.dart';
+import '../../features/teacher/groups/logic/teacher_edit_student_cubit.dart';
 import '../../features/teacher/groups/logic/teacher_groups_cubit.dart';
+import '../../features/teacher/groups/logic/teacher_student_details_cubit.dart';
 import '../caching/secure_storage_service.dart';
 import '../caching/shared_pref_service.dart';
 import '../theme/logic/theme_cubit.dart';
@@ -193,6 +196,26 @@ Future<void> setupGetIt() async {
       getIt<SecureStorageService>(),
       groupId: param.groupId,
       defaultPrice: param.defaultPrice,
+    ),
+  );
+
+  getIt.registerFactoryParam<TeacherStudentDetailsCubit, ({String studentId, String? groupName, bool? isPaid, String? paymentStatus}), void>(
+    (param, _) => TeacherStudentDetailsCubit(
+      getIt<TeacherGroupsRepo>(),
+      studentId: param.studentId,
+      initialGroupName: param.groupName,
+      currentIsPaid: param.isPaid,
+      currentPaymentStatus: param.paymentStatus,
+    ),
+  );
+
+  getIt.registerFactoryParam<TeacherEditStudentCubit, ({String studentId, TeacherStudentDetailsData? initialData, String? initialGroupId, String? initialGroupName}), void>(
+    (param, _) => TeacherEditStudentCubit(
+      getIt<TeacherGroupsRepo>(),
+      studentId: param.studentId,
+      initialData: param.initialData,
+      initialGroupId: param.initialGroupId,
+      initialGroupName: param.initialGroupName,
     ),
   );
 }

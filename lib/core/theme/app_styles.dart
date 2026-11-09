@@ -127,6 +127,33 @@ class AppStyles {
     );
   }
 
+  static TextStyle font13Medium(BuildContext context) {
+    return TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 13.sp,
+      fontWeight: AppFontWeight.medium,
+      color: Theme.of(context).colorScheme.onSurface,
+    );
+  }
+
+  static TextStyle font13Regular(BuildContext context) {
+    return TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 13.sp,
+      fontWeight: AppFontWeight.regular,
+      color: Theme.of(context).colorScheme.onSurfaceVariant,
+    );
+  }
+
+  static TextStyle font11SemiBold(BuildContext context) {
+    return TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 11.sp,
+      fontWeight: AppFontWeight.semiBold,
+      color: Theme.of(context).colorScheme.onSurface,
+    );
+  }
+
   static TextStyle font13MediumLetterSpacing(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return TextStyle(

@@ -101,7 +101,7 @@ class _TeacherAddStudentViewBody extends StatelessWidget {
                           8.verticalSpace,
                           AppInput(
                             controller: cubit.fullNameController,
-                            hintText: 'احمد عماد محمد',
+                            hintText: 'أدخل اسم الطالب',
                             validator: (v) => AppValidator.validateName(v),
                           ),
                           16.verticalSpace,
@@ -109,7 +109,7 @@ class _TeacherAddStudentViewBody extends StatelessWidget {
                           8.verticalSpace,
                           AppInput(
                             controller: cubit.phoneController,
-                            hintText: '01020924779',
+                            hintText: 'أدخل رقم هاتف الطالب',
                             keyboardType: TextInputType.phone,
                             validator: (v) => AppValidator.validatePhone(v),
                           ),
@@ -129,7 +129,7 @@ class _TeacherAddStudentViewBody extends StatelessWidget {
                           8.verticalSpace,
                           AppInput(
                             controller: cubit.parentPhoneController,
-                            hintText: '01020924779',
+                            hintText: 'أدخل رقم هاتف ولي الأمر',
                             keyboardType: TextInputType.phone,
                             validator: (v) => AppValidator.validatePhone(v),
                           ),

@@ -124,7 +124,7 @@ class GroupStudentCard extends StatelessWidget {
             ),
             const Spacer(),
             Icon(
-              Icons.chevron_right_rounded,
+              Icons.chevron_left_rounded,
               size: 22.sp,
               color: colorScheme.onSurfaceVariant,
             ),

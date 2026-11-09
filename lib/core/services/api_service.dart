@@ -56,6 +56,18 @@ class ApiService {
     );
   }
 
+  Future<Response> patch({
+    required String endpoint,
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    return await dio.patch(
+      endpoint,
+      data: data,
+      queryParameters: queryParameters,
+    );
+  }
+
   Future<Response> delete({
     required String endpoint,
     dynamic data,

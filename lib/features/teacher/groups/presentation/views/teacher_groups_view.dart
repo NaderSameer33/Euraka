@@ -152,14 +152,17 @@ class _TeacherGroupsViewBodyState extends State<_TeacherGroupsViewBody> {
                                 return TeacherGroupCard(
                                   group: group,
                                   teacherName: cubit.teacherName,
-                                  onTap: () {
-                                    context.push(
+                                  onTap: () async {
+                                    await context.push(
                                       AppRouterName.teacherGroupStudents,
                                       extra: {
                                         'groupId': group.id,
                                         'groupName': group.name,
                                       },
                                     );
+                                    if (context.mounted) {
+                                      cubit.loadGroups(isRefresh: true);
+                                    }
                                   },
                                 );
                               },

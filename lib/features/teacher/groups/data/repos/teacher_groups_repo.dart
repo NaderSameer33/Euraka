@@ -8,8 +8,10 @@ import '../models/add_student_request_body.dart';
 import '../models/add_student_response_model.dart';
 import '../models/create_group_request_body.dart';
 import '../models/create_group_response_model.dart';
+import '../models/edit_student_request_body.dart';
 import '../models/group_students_response_model.dart';
 import '../models/teacher_groups_response_model.dart';
+import '../models/teacher_student_details_model.dart';
 
 class TeacherGroupsRepo {
   final ApiService _apiService;
@@ -119,6 +121,46 @@ class TeacherGroupsRepo {
     } on DioException catch (e) {
       final message = e.response?.data is Map
           ? (e.response?.data['message'] as String? ?? 'حدث خطأ أثناء إضافة الطالب إلى المجموعة')
+          : 'حدث خطأ في الاتصال بالخادم';
+      return Left(ServerFailure(message, e.response?.statusCode));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, TeacherStudentDetailsResponseModel>> getStudentDetails(
+    String studentId,
+  ) async {
+    try {
+      final res = await _apiService.get(endpoint: '/teacher/students/$studentId');
+      final responseModel = TeacherStudentDetailsResponseModel.fromJson(
+        res.data as Map<String, dynamic>,
+      );
+      return Right(responseModel);
+    } on DioException catch (e) {
+      final message = e.response?.data is Map
+          ? (e.response?.data['message'] as String? ?? 'حدث خطأ أثناء جلب بيانات الطالب')
+          : 'حدث خطأ في الاتصال بالخادم';
+      return Left(ServerFailure(message, e.response?.statusCode));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, dynamic>> updateStudentProfile(
+    String studentId,
+    EditStudentRequestBody body,
+  ) async {
+    try {
+      final formData = await body.toFormData();
+      final res = await _apiService.patch(
+        endpoint: '/teacher/students/$studentId/profile',
+        data: formData,
+      );
+      return Right(res.data);
+    } on DioException catch (e) {
+      final message = e.response?.data is Map
+          ? (e.response?.data['message'] as String? ?? 'حدث خطأ أثناء تعديل بيانات الطالب')
           : 'حدث خطأ في الاتصال بالخادم';
       return Left(ServerFailure(message, e.response?.statusCode));
     } catch (e) {

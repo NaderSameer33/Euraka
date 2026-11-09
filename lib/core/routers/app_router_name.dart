@@ -14,6 +14,8 @@ class AppRouterName {
   static const String teacherAddGroup = '/teacher-add-group';
   static const String teacherGroupStudents = '/teacher-group-students';
   static const String teacherAddStudent = '/teacher-add-student';
+  static const String teacherStudentDetails = '/teacher-student-details';
+  static const String teacherEditStudent = '/teacher-edit-student';
   static const String teacherSubjects = '/teacher-subjects';
   static const String teacherTasks = '/teacher-tasks';
   static const String teacherWallet = '/teacher-wallet';

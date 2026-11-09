@@ -11,6 +11,7 @@ import '../../../../../core/theme/app_font_weight.dart';
 import '../../../../../core/theme/app_styles.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../core/widgets/app_error_widget.dart';
+import '../../data/models/group_student_model.dart';
 import '../../logic/group_students_cubit.dart';
 import '../../logic/group_students_state.dart';
 import '../components/group_student_card.dart';
@@ -72,9 +73,11 @@ class _TeacherGroupStudentsViewBodyState extends State<_TeacherGroupStudentsView
             }
 
             final isLoading = state is GroupStudentsLoadingState;
-            final students = state is GroupStudentsSuccessState
-                ? state.filteredStudents
-                : GroupStudentsCubit.dummyStudents();
+            final students = isLoading
+                ? GroupStudentsCubit.dummyStudents()
+                : (state is GroupStudentsSuccessState
+                    ? state.filteredStudents
+                    : <GroupStudentModel>[]);
             final title = state is GroupStudentsSuccessState
                 ? state.groupName
                 : cubit.initialGroupName;
@@ -183,8 +186,24 @@ class _TeacherGroupStudentsViewBodyState extends State<_TeacherGroupStudentsView
                               padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
                               itemCount: students.length,
                               itemBuilder: (context, index) {
+                                final student = students[index];
                                 return GroupStudentCard(
-                                  student: students[index],
+                                  student: student,
+                                  onTap: () async {
+                                    final result = await context.push(
+                                      AppRouterName.teacherStudentDetails,
+                                      extra: {
+                                        'studentId': student.studentId,
+                                        'groupId': cubit.groupId,
+                                        'groupName': title,
+                                        'isPaid': student.isPaid || student.paymentStatus == 'مدفوع',
+                                        'paymentStatus': student.paymentStatus,
+                                      },
+                                    );
+                                    if (result != null && context.mounted) {
+                                      cubit.loadStudents();
+                                    }
+                                  },
                                 );
                               },
                             ),
@@ -212,7 +231,7 @@ class _TeacherGroupStudentsViewBodyState extends State<_TeacherGroupStudentsView
                               },
                             );
                             if (result == true && context.mounted) {
-                              cubit.loadStudents(isRefresh: true);
+                              cubit.loadStudents();
                             }
                           },
                         ),

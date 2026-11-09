@@ -12,10 +12,13 @@ import '../../features/onboarding/presentation/views/onboarding_view.dart';
 import '../../features/role_selection/presentation/views/role_selection_view.dart';
 import '../../features/splash/presentation/views/splash_view.dart';
 import '../../features/teacher/dashboard/presentation/views/teacher_dashboard_view.dart';
+import '../../features/teacher/groups/data/models/teacher_student_details_model.dart';
 import '../../features/teacher/groups/presentation/views/teacher_add_group_view.dart';
 import '../../features/teacher/groups/presentation/views/teacher_add_student_view.dart';
+import '../../features/teacher/groups/presentation/views/teacher_edit_student_view.dart';
 import '../../features/teacher/groups/presentation/views/teacher_group_students_view.dart';
 import '../../features/teacher/groups/presentation/views/teacher_groups_view.dart';
+import '../../features/teacher/groups/presentation/views/teacher_student_details_view.dart';
 import '../../features/teacher/main/presentation/views/teacher_main_view.dart';
 import '../../features/teacher/main/presentation/views/teacher_tab_placeholder_view.dart';
 import 'app_router_name.dart';
@@ -201,6 +204,48 @@ class AppRoutes {
             context: context,
             state: state,
             child: TeacherAddStudentView(
+              groupId: groupId,
+              groupName: groupName,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherStudentDetails,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final studentId = extra?['studentId'] as String? ?? '';
+          final groupId = extra?['groupId'] as String?;
+          final groupName = extra?['groupName'] as String?;
+          final isPaid = extra?['isPaid'] as bool?;
+          final paymentStatus = extra?['paymentStatus'] as String?;
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherStudentDetailsView(
+              studentId: studentId,
+              groupId: groupId,
+              groupName: groupName,
+              isPaid: isPaid,
+              paymentStatus: paymentStatus,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherEditStudent,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final studentId = extra?['studentId'] as String? ?? '';
+          final initialData = extra?['initialData'] as TeacherStudentDetailsData?;
+          final groupId = extra?['groupId'] as String?;
+          final groupName = extra?['groupName'] as String?;
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherEditStudentView(
+              studentId: studentId,
+              initialData: initialData,
               groupId: groupId,
               groupName: groupName,
             ),
