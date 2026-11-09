@@ -1,3 +1,5 @@
+import '../../../../../core/constants/app_constants.dart';
+
 class TeacherDashboardResponseModel {
   final bool success;
   final int statusCode;
@@ -148,7 +150,7 @@ class TeacherRecentGroupModel {
       subjectName: json['subjectName'] as String? ?? '',
       gradeLevelName: json['gradeLevelName'] as String? ?? '',
       studentCount: json['studentCount'] as int? ?? 0,
-      coverImageUrl: json['coverImageUrl'] as String?,
+      coverImageUrl: AppConstants.formatImageUrl(json['coverImageUrl'] as String?),
     );
   }
 }

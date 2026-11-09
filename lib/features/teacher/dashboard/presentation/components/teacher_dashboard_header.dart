@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../../core/constants/app_assets.dart';
+import '../../../../../../core/constants/app_constants.dart';
 import '../../../../../../core/extension/spacing_extension.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_font_weight.dart';
@@ -43,9 +44,9 @@ class TeacherDashboardHeader extends StatelessWidget {
                 ),
               ),
               child: ClipOval(
-                child: avatarUrl != null && avatarUrl!.isNotEmpty
+                child: AppConstants.formatImageUrl(avatarUrl) != null
                     ? CachedNetworkImage(
-                        imageUrl: avatarUrl!,
+                        imageUrl: AppConstants.formatImageUrl(avatarUrl)!,
                         width: 48.w,
                         height: 48.w,
                         fit: BoxFit.cover,
