@@ -118,7 +118,7 @@ class TeacherGroupCard extends StatelessWidget {
                   4.verticalSpace,
                   _buildInfoRow(
                     icon: Icons.people_outline_rounded,
-                    text: '${group.studentCount > 0 ? group.studentCount : 42} طالب',
+                    text: '${group.studentCount} طالب',
                     colorScheme: colorScheme,
                     context: context,
                   ),
@@ -151,7 +151,7 @@ class TeacherGroupCard extends StatelessWidget {
                           ),
                           4.horizontalSpace,
                           Text(
-                            '12 مدفوع',
+                            '${group.unpaidCount} غير مدفوع',
                             style: AppStyles.font12Regular(context).copyWith(
                               fontSize: 10.sp,
                               color: AppColors.error,
@@ -173,7 +173,7 @@ class TeacherGroupCard extends StatelessWidget {
                           ),
                           4.horizontalSpace,
                           Text(
-                            '38 مدفوع',
+                            '${group.paidCount} مدفوع',
                             style: AppStyles.font12Regular(context).copyWith(
                               fontSize: 10.sp,
                               color: AppColors.primary,

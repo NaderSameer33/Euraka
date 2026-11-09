@@ -1,3 +1,5 @@
+import '../../../../../core/constants/app_constants.dart';
+
 class GroupStudentModel {
   final String enrollmentId;
   final String studentId;
@@ -42,7 +44,7 @@ class GroupStudentModel {
       phone: json['phone'] as String? ?? '',
       email: json['email'] as String? ?? '',
       parentPhone: json['parentPhone'] as String? ?? '',
-      avatarUrl: json['avatarUrl'] as String?,
+      avatarUrl: AppConstants.formatImageUrl(json['avatarUrl'] as String?),
       joinedAt: json['joinedAt'] as String?,
       enrollmentPrice: json['enrollmentPrice'] as int? ?? 0,
       paymentStatus: json['paymentStatus'] as String? ?? 'غير مدفوع',
@@ -53,4 +55,3 @@ class GroupStudentModel {
     );
   }
 }
-

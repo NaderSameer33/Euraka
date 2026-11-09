@@ -39,11 +39,36 @@ class TeacherGroupsCubit extends SafeCubit<TeacherGroupsState> {
       (failure) {
         emit(TeacherGroupsErrorState(message: failure.message));
       },
-      (response) {
-        final groups = response.data?.groups ?? [];
+      (response) async {
+        final rawGroups = response.data?.groups ?? [];
+        final updatedGroups = await Future.wait(
+          rawGroups.map((group) async {
+            if (group.studentCount == 0) {
+              return group.copyWith(paidCount: 0, unpaidCount: 0);
+            }
+            try {
+              final studentsRes = await _repo.getGroupStudents(group.id);
+              return studentsRes.fold(
+                (_) => group,
+                (studentsData) {
+                  final students = studentsData.data?.students ?? [];
+                  final paid = students.where((s) => s.isPaid).length;
+                  final unpaid = students.length - paid;
+                  return group.copyWith(
+                    paidCount: paid,
+                    unpaidCount: unpaid,
+                    studentCount: students.length,
+                  );
+                },
+              );
+            } catch (_) {
+              return group;
+            }
+          }),
+        );
         emit(TeacherGroupsSuccessState(
-          groups: groups,
-          filteredGroups: groups,
+          groups: updatedGroups,
+          filteredGroups: updatedGroups,
         ));
       },
     );
@@ -84,30 +109,37 @@ class TeacherGroupsCubit extends SafeCubit<TeacherGroupsState> {
         name: 'مجموعه أ',
         gradeLevelName: 'الصف الثالث الثانوي',
         subjectName: 'فيزياء',
-        studentCount: 42,
+        studentCount: 0,
+        paidCount: 0,
+        unpaidCount: 0,
       ),
       TeacherGroupModel(
         id: '2',
         name: 'مجموعه ب',
         gradeLevelName: 'الصف الثالث الثانوي',
         subjectName: 'فيزياء',
-        studentCount: 42,
+        studentCount: 0,
+        paidCount: 0,
+        unpaidCount: 0,
       ),
       TeacherGroupModel(
         id: '3',
         name: 'مجموعه أ',
         gradeLevelName: 'الصف الثالث الثانوي',
         subjectName: 'الكيمياء',
-        studentCount: 42,
+        studentCount: 0,
+        paidCount: 0,
+        unpaidCount: 0,
       ),
       TeacherGroupModel(
         id: '4',
         name: 'مجموعه ج',
         gradeLevelName: 'الصف الثالث الثانوي',
         subjectName: 'فيزياء',
-        studentCount: 42,
+        studentCount: 0,
+        paidCount: 0,
+        unpaidCount: 0,
       ),
     ];
   }
 }
-
