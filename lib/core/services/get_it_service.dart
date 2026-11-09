@@ -19,6 +19,11 @@ import '../../features/role_selection/data/repos/role_selection_repo.dart';
 import '../../features/role_selection/logic/role_selection_cubit.dart';
 import '../../features/teacher/dashboard/data/repos/teacher_dashboard_repo.dart';
 import '../../features/teacher/dashboard/logic/teacher_dashboard_cubit.dart';
+import '../../features/teacher/groups/data/repos/teacher_groups_repo.dart';
+import '../../features/teacher/groups/logic/add_group_cubit.dart';
+import '../../features/teacher/groups/logic/add_student_cubit.dart';
+import '../../features/teacher/groups/logic/group_students_cubit.dart';
+import '../../features/teacher/groups/logic/teacher_groups_cubit.dart';
 import '../caching/secure_storage_service.dart';
 import '../caching/shared_pref_service.dart';
 import '../theme/logic/theme_cubit.dart';
@@ -102,6 +107,10 @@ Future<void> setupGetIt() async {
     () => TeacherDashboardRepo(getIt<ApiService>()),
   );
 
+  getIt.registerLazySingleton<TeacherGroupsRepo>(
+    () => TeacherGroupsRepo(getIt<ApiService>()),
+  );
+
   getIt.registerFactory<OnboardingCubit>(
     () => OnboardingCubit(
       getIt<OnboardingRepo>(),
@@ -151,6 +160,36 @@ Future<void> setupGetIt() async {
     () => TeacherDashboardCubit(
       getIt<TeacherDashboardRepo>(),
       getIt<SharedPrefService>(),
+    ),
+  );
+
+  getIt.registerFactory<TeacherGroupsCubit>(
+    () => TeacherGroupsCubit(
+      getIt<TeacherGroupsRepo>(),
+      getIt<SharedPrefService>(),
+    ),
+  );
+
+  getIt.registerFactory<AddGroupCubit>(
+    () => AddGroupCubit(
+      getIt<TeacherGroupsRepo>(),
+      getIt<SharedPrefService>(),
+    ),
+  );
+
+  getIt.registerFactoryParam<GroupStudentsCubit, ({String groupId, String groupName}), void>(
+    (param, _) => GroupStudentsCubit(
+      getIt<TeacherGroupsRepo>(),
+      groupId: param.groupId,
+      initialGroupName: param.groupName,
+    ),
+  );
+
+  getIt.registerFactoryParam<AddStudentCubit, ({String groupId, int defaultPrice}), void>(
+    (param, _) => AddStudentCubit(
+      getIt<TeacherGroupsRepo>(),
+      groupId: param.groupId,
+      defaultPrice: param.defaultPrice,
     ),
   );
 }

@@ -24,7 +24,7 @@ class TeacherActionButtons extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: onAddGroupPressed ?? () {},
+              onTap: onAddExamPressed ?? () {},
               borderRadius: BorderRadius.circular(12.r),
               child: Container(
                 height: 48.h,
@@ -52,7 +52,7 @@ class TeacherActionButtons extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: onAddExamPressed ?? () {},
+              onTap: onAddGroupPressed ?? () {},
               borderRadius: BorderRadius.circular(12.r),
               child: Container(
                 height: 48.h,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/extension/spacing_extension.dart';
+import '../../../../../core/routers/app_router_name.dart';
 import '../../../../../core/services/get_it_service.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/widgets/app_error_widget.dart';
@@ -84,9 +86,19 @@ class _TeacherDashboardViewBody extends StatelessWidget {
                       20.verticalSpace,
                       TeacherKpiCardsGrid(kpis: data.kpis),
                       18.verticalSpace,
-                      const TeacherActionButtons(),
+                      TeacherActionButtons(
+                        onAddGroupPressed: () async {
+                          final res = await context.push(AppRouterName.teacherAddGroup);
+                          if (res == true && context.mounted) {
+                            cubit.loadDashboard(isRefresh: true);
+                          }
+                        },
+                      ),
                       20.verticalSpace,
-                      TeacherRecentGroupsSection(groups: data.recentGroups),
+                      TeacherRecentGroupsSection(
+                        groups: data.recentGroups,
+                        onViewAllPressed: () => context.go(AppRouterName.teacherGroups),
+                      ),
                       12.verticalSpace,
                       TeacherActiveExamsSection(exams: data.activeExams),
                       24.verticalSpace,
