@@ -174,6 +174,7 @@ Future<void> setupGetIt() async {
     () => AddGroupCubit(
       getIt<TeacherGroupsRepo>(),
       getIt<SharedPrefService>(),
+      getIt<SecureStorageService>(),
     ),
   );
 

@@ -42,6 +42,10 @@ class RegisterRepo {
           );
         }
         await _sharedPrefService.setString(
+          AppConstants.userIdKey,
+          responseModel.data!.user.id,
+        );
+        await _sharedPrefService.setString(
           AppConstants.userRoleKey,
           responseModel.data!.user.role,
         );
