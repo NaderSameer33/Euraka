@@ -106,7 +106,7 @@ class _TeacherAddGroupViewBody extends StatelessWidget {
                                 stages: cubit.stages,
                                 selectedGrade: cubit.selectedGrade,
                                 onSelected: (stage, grade) {
-                                  cubit.selectGrade(stage, grade);
+                                   cubit.selectGrade(stage, grade);
                                 },
                               );
                             },
@@ -115,7 +115,12 @@ class _TeacherAddGroupViewBody extends StatelessWidget {
                           _buildFieldLabel(context, 'صوره المجموعه'),
                           8.verticalSpace,
                           AddGroupDashedImageBox(
-                            onTap: () {},
+                            selectedImage: cubit.coverFile,
+                            title: 'اضغط لرفع صوره المجموعه',
+                            subTitle: 'JPG , PNG (الحد الاقصى 5MB)',
+                            height: 140.h,
+                            onTap: () => cubit.pickCoverImage(context),
+                            onRemove: () => cubit.removeCoverImage(),
                           ),
                           16.verticalSpace,
                           _buildFieldLabel(context, 'اختر الماده'),
@@ -142,6 +147,17 @@ class _TeacherAddGroupViewBody extends StatelessWidget {
                             controller: cubit.teacherNameController,
                             hintText: 'محمد احمد',
                             validator: (v) => AppValidator.validateEmpty(v, 'اسم المدرس'),
+                          ),
+                          16.verticalSpace,
+                          _buildFieldLabel(context, 'صوره المدرس', isRequired: false),
+                          8.verticalSpace,
+                          AddGroupDashedImageBox(
+                            selectedImage: cubit.teacherPhotoFile,
+                            title: 'اضغط لرفع صوره المدرس',
+                            subTitle: 'JPG , PNG (الحد الاقصى 5MB)',
+                            height: 110.h,
+                            onTap: () => cubit.pickTeacherPhoto(context),
+                            onRemove: () => cubit.removeTeacherPhoto(),
                           ),
                           16.verticalSpace,
                           _buildFieldLabel(context, 'وصف المجموعه'),
@@ -175,17 +191,19 @@ class _TeacherAddGroupViewBody extends StatelessWidget {
     );
   }
 
-  Widget _buildFieldLabel(BuildContext context, String text) {
+  Widget _buildFieldLabel(BuildContext context, String text, {bool isRequired = true}) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          '*',
-          style: AppStyles.font14Bold(context).copyWith(
-            color: AppColors.error,
+        if (isRequired) ...[
+          Text(
+            '*',
+            style: AppStyles.font14Bold(context).copyWith(
+              color: AppColors.error,
+            ),
           ),
-        ),
-        4.horizontalSpace,
+          4.horizontalSpace,
+        ],
         Text(
           text,
           style: AppStyles.font14Bold(context).copyWith(

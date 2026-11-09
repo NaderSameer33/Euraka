@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:equatable/equatable.dart';
 import '../data/models/academic_stage_model.dart';
 import '../data/models/academic_subject_model.dart';
@@ -42,6 +43,9 @@ class AddGroupLookupsLoadedState extends AddGroupState {
   final GradeLevelModel? selectedGrade;
   final AcademicStageModel? selectedStage;
   final AcademicSubjectModel? selectedSubject;
+  final File? coverFile;
+  final File? teacherPhotoFile;
+  final int version;
 
   const AddGroupLookupsLoadedState({
     required this.stages,
@@ -49,6 +53,9 @@ class AddGroupLookupsLoadedState extends AddGroupState {
     this.selectedGrade,
     this.selectedStage,
     this.selectedSubject,
+    this.coverFile,
+    this.teacherPhotoFile,
+    this.version = 0,
   });
 
   @override
@@ -58,6 +65,8 @@ class AddGroupLookupsLoadedState extends AddGroupState {
         selectedGrade,
         selectedStage,
         selectedSubject,
+        coverFile?.path,
+        teacherPhotoFile?.path,
+        version,
       ];
 }
-
