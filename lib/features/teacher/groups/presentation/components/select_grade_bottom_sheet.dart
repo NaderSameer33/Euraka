@@ -75,7 +75,7 @@ class SelectGradeBottomSheet extends StatelessWidget {
               itemBuilder: (context, stageIndex) {
                 final stage = stages[stageIndex];
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),

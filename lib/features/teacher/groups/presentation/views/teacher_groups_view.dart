@@ -91,15 +91,15 @@ class _TeacherGroupsViewBodyState extends State<_TeacherGroupsViewBody> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'عرض الكل',
-                        style: AppStyles.font14MediumPrimary.copyWith(
-                          fontWeight: AppFontWeight.bold,
-                        ),
-                      ),
-                      Text(
                         'مجموعاتي',
                         style: AppStyles.font16Bold(context).copyWith(
                           fontWeight: AppFontWeight.extraBold,
+                        ),
+                      ),
+                      Text(
+                        'عرض الكل',
+                        style: AppStyles.font14MediumPrimary.copyWith(
+                          fontWeight: AppFontWeight.bold,
                         ),
                       ),
                     ],

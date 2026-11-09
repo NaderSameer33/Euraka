@@ -32,17 +32,10 @@ class TeacherGroupsSearchBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 14.w),
       child: Row(
         children: [
-          Icon(
-            Icons.search_rounded,
-            size: 20.sp,
-            color: colorScheme.onSurfaceVariant,
-          ),
-          8.horizontalSpace,
           Expanded(
             child: TextField(
               controller: controller,
               onChanged: onChanged,
-              textAlign: TextAlign.right,
               style: AppStyles.font14Regular(context),
               decoration: InputDecoration(
                 hintText: hintText ?? '...ابحث عن مجموعه',
@@ -56,6 +49,12 @@ class TeacherGroupsSearchBar extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
               ),
             ),
+          ),
+          8.horizontalSpace,
+          Icon(
+            Icons.search_rounded,
+            size: 20.sp,
+            color: colorScheme.onSurfaceVariant,
           ),
         ],
       ),

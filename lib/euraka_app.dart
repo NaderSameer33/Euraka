@@ -32,7 +32,13 @@ class EurakaApp extends StatelessWidget {
                   title: 'Eureka',
                   debugShowCheckedModeBanner: false,
                   locale: const Locale('ar'),
-                  builder: DevicePreview.appBuilder,
+                  builder: (context, child) {
+                    final previewChild = DevicePreview.appBuilder(context, child);
+                    return Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: previewChild,
+                    );
+                  },
                   theme: AppTheme.lightTheme,
                   darkTheme: AppTheme.darkTheme,
                   themeMode: themeState.themeMode,

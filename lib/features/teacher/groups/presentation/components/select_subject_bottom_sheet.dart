@@ -91,10 +91,7 @@ class SelectSubjectBottomSheet extends StatelessWidget {
                   tileColor: isSelected
                       ? colorScheme.primary.withValues(alpha: 0.08)
                       : colorScheme.surface,
-                  leading: isSelected
-                      ? Icon(Icons.check_circle_rounded, color: colorScheme.primary)
-                      : null,
-                  trailing: subject.iconUrl != null && subject.iconUrl!.isNotEmpty
+                  leading: subject.iconUrl != null && subject.iconUrl!.isNotEmpty
                       ? CachedNetworkImage(
                           imageUrl: subject.iconUrl!,
                           width: 28.w,
@@ -103,13 +100,15 @@ class SelectSubjectBottomSheet extends StatelessWidget {
                           errorWidget: (context, url, error) => const Icon(Icons.menu_book_rounded),
                         )
                       : Icon(Icons.menu_book_rounded, color: colorScheme.primary),
+                  trailing: isSelected
+                      ? Icon(Icons.check_circle_rounded, color: colorScheme.primary)
+                      : null,
                   title: Text(
                     subject.nameAr,
                     style: AppStyles.font14Regular(context).copyWith(
                       fontWeight: isSelected ? AppFontWeight.bold : AppFontWeight.medium,
                       color: isSelected ? colorScheme.primary : colorScheme.onSurface,
                     ),
-                    textAlign: TextAlign.right,
                   ),
                 );
               },

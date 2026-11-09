@@ -62,7 +62,7 @@ class TeacherGroupCard extends StatelessWidget {
                 ),
                 Positioned(
                   top: 8.h,
-                  right: 8.w,
+                  left: 8.w,
                   child: Container(
                     width: 28.w,
                     height: 28.w,
@@ -90,12 +90,11 @@ class TeacherGroupCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     group.name,
                     style: AppStyles.font14Bold(context),
-                    textAlign: TextAlign.right,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -145,16 +144,16 @@ class TeacherGroupCard extends StatelessWidget {
                             width: 6.w,
                             height: 6.w,
                             decoration: const BoxDecoration(
-                              color: AppColors.error,
+                              color: AppColors.primary,
                               shape: BoxShape.circle,
                             ),
                           ),
                           4.horizontalSpace,
                           Text(
-                            '${group.unpaidCount} غير مدفوع',
+                            '${group.paidCount} مدفوع',
                             style: AppStyles.font12Regular(context).copyWith(
                               fontSize: 10.sp,
-                              color: AppColors.error,
+                              color: AppColors.primary,
                               fontWeight: AppFontWeight.medium,
                             ),
                           ),
@@ -167,16 +166,16 @@ class TeacherGroupCard extends StatelessWidget {
                             width: 6.w,
                             height: 6.w,
                             decoration: const BoxDecoration(
-                              color: AppColors.primary,
+                              color: AppColors.error,
                               shape: BoxShape.circle,
                             ),
                           ),
                           4.horizontalSpace,
                           Text(
-                            '${group.paidCount} مدفوع',
+                            '${group.unpaidCount} غير مدفوع',
                             style: AppStyles.font12Regular(context).copyWith(
                               fontSize: 10.sp,
-                              color: AppColors.primary,
+                              color: AppColors.error,
                               fontWeight: AppFontWeight.medium,
                             ),
                           ),
@@ -224,24 +223,22 @@ class TeacherGroupCard extends StatelessWidget {
     required BuildContext context,
   }) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        Icon(
+          icon,
+          size: 13.sp,
+          color: colorScheme.onSurfaceVariant,
+        ),
+        4.horizontalSpace,
         Flexible(
           child: Text(
             text,
             style: AppStyles.font12Regular(context).copyWith(
               fontSize: 10.5.sp,
             ),
-            textAlign: TextAlign.right,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-        ),
-        4.horizontalSpace,
-        Icon(
-          icon,
-          size: 13.sp,
-          color: colorScheme.onSurfaceVariant,
         ),
       ],
     );

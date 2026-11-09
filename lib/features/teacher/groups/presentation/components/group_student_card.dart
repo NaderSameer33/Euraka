@@ -45,63 +45,6 @@ class GroupStudentCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(
-              Icons.chevron_left_rounded,
-              size: 22.sp,
-              color: colorScheme.onSurfaceVariant,
-            ),
-            const Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  student.fullName,
-                  style: AppStyles.font14Bold(context),
-                  textAlign: TextAlign.right,
-                ),
-                4.verticalSpace,
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      student.phone,
-                      style: AppStyles.font12Regular(context),
-                    ),
-                    4.horizontalSpace,
-                    Icon(
-                      Icons.phone_outlined,
-                      size: 13.sp,
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ],
-                ),
-                6.verticalSpace,
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      isPaid ? 'مدفوع' : 'غير مدفوع',
-                      style: AppStyles.font12Regular(context).copyWith(
-                        fontSize: 11.sp,
-                        color: isPaid ? AppColors.primary : AppColors.error,
-                        fontWeight: AppFontWeight.medium,
-                      ),
-                    ),
-                    4.horizontalSpace,
-                    Container(
-                      width: 6.w,
-                      height: 6.w,
-                      decoration: BoxDecoration(
-                        color: isPaid ? AppColors.primary : AppColors.error,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            12.horizontalSpace,
             Container(
               width: 52.w,
               height: 52.w,
@@ -114,17 +57,76 @@ class GroupStudentCard extends StatelessWidget {
                 ),
               ),
               child: ClipOval(
-                child: student.avatarUrl != null &&
+                child:
+                    student.avatarUrl != null &&
                         student.avatarUrl!.isNotEmpty &&
                         !student.avatarUrl!.contains('default-avatar')
                     ? CachedNetworkImage(
                         imageUrl: student.avatarUrl!,
                         fit: BoxFit.cover,
-                        placeholder: (context, url) => _buildDefaultAvatar(colorScheme),
-                        errorWidget: (context, url, error) => _buildDefaultAvatar(colorScheme),
+                        placeholder: (context, url) =>
+                            _buildDefaultAvatar(colorScheme),
+                        errorWidget: (context, url, error) =>
+                            _buildDefaultAvatar(colorScheme),
                       )
                     : _buildDefaultAvatar(colorScheme),
               ),
+            ),
+            12.horizontalSpace,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  student.fullName,
+                  style: AppStyles.font14Bold(context),
+                ),
+                4.verticalSpace,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.phone_outlined,
+                      size: 13.sp,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                    4.horizontalSpace,
+                    Text(
+                      student.phone,
+                      style: AppStyles.font12Regular(context),
+                    ),
+                  ],
+                ),
+                6.verticalSpace,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 6.w,
+                      height: 6.w,
+                      decoration: BoxDecoration(
+                        color: isPaid ? AppColors.primary : AppColors.error,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    4.horizontalSpace,
+                    Text(
+                      isPaid ? 'مدفوع' : 'غير مدفوع',
+                      style: AppStyles.font12Regular(context).copyWith(
+                        fontSize: 11.sp,
+                        color: isPaid ? AppColors.primary : AppColors.error,
+                        fontWeight: AppFontWeight.medium,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const Spacer(),
+            Icon(
+              Icons.chevron_right_rounded,
+              size: 22.sp,
+              color: colorScheme.onSurfaceVariant,
             ),
           ],
         ),
@@ -142,4 +144,3 @@ class GroupStudentCard extends StatelessWidget {
     );
   }
 }
-

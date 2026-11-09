@@ -50,13 +50,7 @@ class _TeacherAddGroupViewBody extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(width: 40.w),
-                      Text(
-                        'اضافه مجموعه',
-                        style: AppStyles.font18Bold(context),
-                      ),
                       GestureDetector(
                         onTap: () => context.pop(),
                         child: Container(
@@ -68,13 +62,22 @@ class _TeacherAddGroupViewBody extends StatelessWidget {
                           ),
                           child: Center(
                             child: Icon(
-                              Icons.arrow_forward_rounded,
+                              Icons.arrow_back_rounded,
                               size: 20.sp,
                               color: colorScheme.primary,
                             ),
                           ),
                         ),
                       ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'اضافه مجموعه',
+                            style: AppStyles.font18Bold(context),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 40.w),
                     ],
                   ),
                 ),
@@ -84,7 +87,7 @@ class _TeacherAddGroupViewBody extends StatelessWidget {
                     child: Form(
                       key: cubit.formKey,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildFieldLabel(context, 'اسم المجموعه'),
                           8.verticalSpace,
@@ -195,21 +198,21 @@ class _TeacherAddGroupViewBody extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (isRequired) ...[
-          Text(
-            '*',
-            style: AppStyles.font14Bold(context).copyWith(
-              color: AppColors.error,
-            ),
-          ),
-          4.horizontalSpace,
-        ],
         Text(
           text,
           style: AppStyles.font14Bold(context).copyWith(
             fontWeight: AppFontWeight.bold,
           ),
         ),
+        if (isRequired) ...[
+          4.horizontalSpace,
+          Text(
+            '*',
+            style: AppStyles.font14Bold(context).copyWith(
+              color: AppColors.error,
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -240,16 +243,16 @@ class _TeacherAddGroupViewBody extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.keyboard_arrow_down_rounded,
-              size: 22.sp,
-              color: colorScheme.onSurfaceVariant,
-            ),
             Text(
               hasValue ? valueText : hintText,
               style: AppStyles.font14Regular(context).copyWith(
                 color: hasValue ? colorScheme.onSurface : colorScheme.onSurfaceVariant,
               ),
+            ),
+            Icon(
+              Icons.keyboard_arrow_down_rounded,
+              size: 22.sp,
+              color: colorScheme.onSurfaceVariant,
             ),
           ],
         ),

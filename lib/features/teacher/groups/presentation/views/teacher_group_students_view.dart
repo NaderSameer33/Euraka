@@ -85,18 +85,7 @@ class _TeacherGroupStudentsViewBodyState extends State<_TeacherGroupStudentsView
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(width: 40.w),
-                      Expanded(
-                        child: Text(
-                          title,
-                          style: AppStyles.font18Bold(context),
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
                       GestureDetector(
                         onTap: () => context.pop(),
                         child: Container(
@@ -108,13 +97,23 @@ class _TeacherGroupStudentsViewBodyState extends State<_TeacherGroupStudentsView
                           ),
                           child: Center(
                             child: Icon(
-                              Icons.arrow_forward_rounded,
+                              Icons.arrow_back_rounded,
                               size: 20.sp,
                               color: colorScheme.primary,
                             ),
                           ),
                         ),
                       ),
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: AppStyles.font18Bold(context),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(width: 40.w),
                     ],
                   ),
                 ),
@@ -133,15 +132,15 @@ class _TeacherGroupStudentsViewBodyState extends State<_TeacherGroupStudentsView
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'عرض الكل',
-                        style: AppStyles.font14MediumPrimary.copyWith(
-                          fontWeight: AppFontWeight.bold,
-                        ),
-                      ),
-                      Text(
                         'طلابي',
                         style: AppStyles.font16Bold(context).copyWith(
                           fontWeight: AppFontWeight.extraBold,
+                        ),
+                      ),
+                      Text(
+                        'عرض الكل',
+                        style: AppStyles.font14MediumPrimary.copyWith(
+                          fontWeight: AppFontWeight.bold,
                         ),
                       ),
                     ],
@@ -197,6 +196,29 @@ class _TeacherGroupStudentsViewBodyState extends State<_TeacherGroupStudentsView
                   child: Row(
                     children: [
                       Expanded(
+                        child: AppButton(
+                          text: 'اضافه طالب',
+                          height: 48.h,
+                          borderRadius: 12.r,
+                          textStyle: AppStyles.font16BoldWhite.copyWith(
+                            fontSize: 15.sp,
+                          ),
+                          onPressed: () async {
+                            final result = await context.push(
+                              AppRouterName.teacherAddStudent,
+                              extra: {
+                                'groupId': cubit.groupId,
+                                'groupName': title,
+                              },
+                            );
+                            if (result == true && context.mounted) {
+                              cubit.loadStudents(isRefresh: true);
+                            }
+                          },
+                        ),
+                      ),
+                      12.horizontalSpace,
+                      Expanded(
                         child: Material(
                           color: Colors.transparent,
                           child: InkWell(
@@ -221,29 +243,6 @@ class _TeacherGroupStudentsViewBodyState extends State<_TeacherGroupStudentsView
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      12.horizontalSpace,
-                      Expanded(
-                        child: AppButton(
-                          text: 'اضافه طالب',
-                          height: 48.h,
-                          borderRadius: 12.r,
-                          textStyle: AppStyles.font16BoldWhite.copyWith(
-                            fontSize: 15.sp,
-                          ),
-                          onPressed: () async {
-                            final result = await context.push(
-                              AppRouterName.teacherAddStudent,
-                              extra: {
-                                'groupId': cubit.groupId,
-                                'groupName': title,
-                              },
-                            );
-                            if (result == true && context.mounted) {
-                              cubit.loadStudents(isRefresh: true);
-                            }
-                          },
                         ),
                       ),
                     ],
