@@ -21,6 +21,8 @@ import '../../features/teacher/groups/presentation/views/teacher_groups_view.dar
 import '../../features/teacher/groups/presentation/views/teacher_student_details_view.dart';
 import '../../features/teacher/main/presentation/views/teacher_main_view.dart';
 import '../../features/teacher/main/presentation/views/teacher_tab_placeholder_view.dart';
+import '../../features/teacher/subjects/presentation/views/teacher_add_subject_view.dart';
+import '../../features/teacher/subjects/presentation/views/teacher_subjects_view.dart';
 import 'app_router_name.dart';
 import 'smooth_page_transition.dart';
 
@@ -131,10 +133,7 @@ class AppRoutes {
             routes: [
               GoRoute(
                 path: AppRouterName.teacherSubjects,
-                builder: (context, state) => const TeacherTabPlaceholderView(
-                  title: 'المواد',
-                  icon: Icons.menu_book_rounded,
-                ),
+                builder: (context, state) => const TeacherSubjectsView(),
               ),
             ],
           ),
@@ -176,6 +175,14 @@ class AppRoutes {
           context: context,
           state: state,
           child: const TeacherAddGroupView(),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterName.teacherAddSubject,
+        pageBuilder: (context, state) => buildSmoothTransitionPage(
+          context: context,
+          state: state,
+          child: const TeacherAddSubjectView(),
         ),
       ),
       GoRoute(

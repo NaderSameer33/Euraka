@@ -137,7 +137,7 @@ class _BottomBarItemWidget extends StatelessWidget {
       ),
     );
 
-    if (item.isCenter && isSelected) {
+    if (isSelected) {
       return GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
