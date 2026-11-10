@@ -35,13 +35,21 @@ class TeacherSubjectModel {
 
   factory TeacherSubjectModel.fromJson(Map<String, dynamic> json) {
     final count = json['_count'] as Map<String, dynamic>?;
-    final units = count?['units'] as int? ?? 0;
-    final groupsNum = count?['groups'] as int? ?? 0;
+    final units = count?['units'] as int? ?? (json['unitsCount'] as int? ?? 0);
+    final groupsNum = count?['groups'] as int? ?? (json['groupsCount'] as int? ?? 0);
 
     final groupsList = (json['groups'] as List<dynamic>?)
             ?.map((e) => TeacherSubjectGroupSummary.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [];
+
+    final gradeLevelObj = json['gradeLevel'] != null
+        ? TeacherSubjectGradeLevelModel.fromJson(
+            json['gradeLevel'] as Map<String, dynamic>,
+          )
+        : null;
+
+    final gradeId = json['gradeLevelId'] as String? ?? gradeLevelObj?.id;
 
     return TeacherSubjectModel(
       id: json['id'] as String? ?? '',
@@ -51,12 +59,8 @@ class TeacherSubjectModel {
       createdById: json['createdById'] as String?,
       isGlobal: json['isGlobal'] as bool? ?? false,
       description: json['description'] as String?,
-      gradeLevelId: json['gradeLevelId'] as String?,
-      gradeLevel: json['gradeLevel'] != null
-          ? TeacherSubjectGradeLevelModel.fromJson(
-              json['gradeLevel'] as Map<String, dynamic>,
-            )
-          : null,
+      gradeLevelId: gradeId,
+      gradeLevel: gradeLevelObj,
       unitsCount: units,
       groupsCount: groupsNum > 0 ? groupsNum : groupsList.length,
       groups: groupsList,

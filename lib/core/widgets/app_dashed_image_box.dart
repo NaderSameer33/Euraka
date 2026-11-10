@@ -22,7 +22,7 @@ class AppDashedImageBox extends StatelessWidget {
     this.onTap,
     this.onRemove,
   });
-
+ 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

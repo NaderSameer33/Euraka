@@ -22,7 +22,7 @@ class TeacherSubjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final gradeText = subject.gradeLevel?.nameAr ?? 'الصف الدراسي';
+    final gradeText = subject.gradeLevel?.nameAr ?? (subject.isGlobal ? 'مادة عامة' : 'الصف الدراسي');
     final hasIconUrl =
         subject.formattedIconUrl != null &&
         subject.formattedIconUrl!.isNotEmpty &&
