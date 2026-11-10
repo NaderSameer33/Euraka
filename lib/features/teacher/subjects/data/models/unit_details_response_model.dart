@@ -86,18 +86,5 @@ class UnitDetailsData {
       lessons: rawLessons,
     );
   }
-
-  static UnitDetailsData dummy({String title = 'الجبر', String subjectName = 'الرياضيات'}) {
-    return UnitDetailsData(
-      id: 'dummy',
-      subjectId: 'dummy_sub',
-      gradeLevelId: 'dummy_grade',
-      title: title,
-      unitNumber: 1,
-      subjectName: subjectName,
-      description: 'مفاهيم الجبر الأساسية',
-      lessons: UnitLessonModel.dummyLessons(),
-    );
-  }
 }
 

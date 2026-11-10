@@ -127,56 +127,41 @@ class UnitLessonModel {
     required this.title,
     this.chapterTitle = 'الفصل الأول',
     this.lessonNumber = 1,
-    this.pdfCount = 3,
-    this.videoCount = 1,
+    this.pdfCount = 0,
+    this.videoCount = 0,
   });
 
   factory UnitLessonModel.fromJson(Map<String, dynamic> json) {
+    final materialsList = json['materials'] as List<dynamic>?;
+    final videosList = json['videos'] as List<dynamic>?;
+    final count = json['_count'] as Map<String, dynamic>?;
+
+    final derivedPdfCount = materialsList != null
+        ? materialsList.where((m) {
+            if (m is Map) {
+              final type = (m['fileType'] as String? ?? m['type'] as String? ?? '').toLowerCase();
+              final name = (m['title'] as String? ?? m['name'] as String? ?? '').toLowerCase();
+              return type.contains('pdf') || name.contains('pdf');
+            }
+            return true;
+          }).length
+        : (count?['materials'] as int? ??
+            (count?['pdf'] as int? ??
+                (json['pdfCount'] as int? ?? (json['materialsCount'] as int? ?? 0))));
+
+    final derivedVideoCount = videosList != null
+        ? videosList.length
+        : (count?['videos'] as int? ??
+            (json['videoCount'] as int? ?? (json['videosCount'] as int? ?? 0)));
+
     return UnitLessonModel(
       id: json['id'] as String? ?? '',
-      title: json['title'] as String? ?? '',
+      title: json['title'] as String? ?? (json['name'] as String? ?? ''),
       chapterTitle: json['chapterTitle'] as String? ?? 'الفصل الأول',
       lessonNumber: json['lessonNumber'] as int? ?? (json['order'] as int? ?? 1),
-      pdfCount: json['pdfCount'] as int? ?? 3,
-      videoCount: json['videoCount'] as int? ?? 1,
+      pdfCount: derivedPdfCount,
+      videoCount: derivedVideoCount,
     );
-  }
-
-  static List<UnitLessonModel> dummyLessons() {
-    return const [
-      UnitLessonModel(
-        id: '1',
-        title: 'المعادلات الخطيه',
-        chapterTitle: 'الفصل الاول',
-        lessonNumber: 1,
-        pdfCount: 3,
-        videoCount: 1,
-      ),
-      UnitLessonModel(
-        id: '2',
-        title: 'الاعداد الصحيحه',
-        chapterTitle: 'الفصل الثاني',
-        lessonNumber: 2,
-        pdfCount: 3,
-        videoCount: 1,
-      ),
-      UnitLessonModel(
-        id: '3',
-        title: 'الكسور والنسب',
-        chapterTitle: 'الفصل الثاني',
-        lessonNumber: 3,
-        pdfCount: 3,
-        videoCount: 1,
-      ),
-      UnitLessonModel(
-        id: '4',
-        title: 'المتباينات',
-        chapterTitle: 'الفصل الثاني',
-        lessonNumber: 4,
-        pdfCount: 3,
-        videoCount: 1,
-      ),
-    ];
   }
 }
 

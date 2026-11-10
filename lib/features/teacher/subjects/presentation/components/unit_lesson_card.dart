@@ -23,7 +23,8 @@ class UnitLessonCard extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final isHighlighted = index < 2;
 
-    final numberFormatted = (index + 1).toString().padLeft(2, '0');
+    final numberFormatted =
+        (lesson.lessonNumber > 0 ? lesson.lessonNumber : index + 1).toString().padLeft(2, '0');
 
     return GestureDetector(
       onTap: onTap,

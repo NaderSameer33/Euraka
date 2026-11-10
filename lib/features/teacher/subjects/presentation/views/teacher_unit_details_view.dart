@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/extension/spacing_extension.dart';
-import '../../../../../core/helper/helper_method.dart';
+import '../../../../../core/routers/app_router_name.dart';
 import '../../../../../core/services/get_it_service.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_font_weight.dart';
@@ -177,9 +177,11 @@ class _TeacherUnitDetailsViewBody extends StatelessWidget {
                                   lesson: lesson,
                                   index: index,
                                   onTap: () {
-                                    HelperMethod.showSuccessToast(
-                                      context: context,
-                                      message: lesson.title,
+                                    context.push(
+                                      AppRouterName.teacherLessonDetails,
+                                      extra: {
+                                        'lessonId': lesson.id,
+                                      },
                                     );
                                   },
                                 );
@@ -195,11 +197,18 @@ class _TeacherUnitDetailsViewBody extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                   child: AppButton(
                     text: 'اضافه درس جديد',
-                    onPressed: () {
-                      HelperMethod.showSuccessToast(
-                        context: context,
-                        message: 'سيتم فتح صفحة إضافة درس قريباً',
+                    onPressed: () async {
+                      final added = await context.push<bool>(
+                        AppRouterName.teacherAddLesson,
+                        extra: {
+                          'subjectId': data.subjectId.isNotEmpty ? data.subjectId : null,
+                          'unitId': cubit.unitId,
+                          'nextOrder': data.lessons.length + 1,
+                        },
                       );
+                      if (added == true) {
+                        cubit.loadDetails();
+                      }
                     },
                   ),
                 ),
