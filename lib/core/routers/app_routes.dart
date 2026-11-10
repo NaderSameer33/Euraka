@@ -19,10 +19,18 @@ import '../../features/teacher/groups/presentation/views/teacher_edit_student_vi
 import '../../features/teacher/groups/presentation/views/teacher_group_students_view.dart';
 import '../../features/teacher/groups/presentation/views/teacher_groups_view.dart';
 import '../../features/teacher/groups/presentation/views/teacher_student_details_view.dart';
+import '../../features/teacher/lessons/presentation/views/teacher_add_lesson_material_view.dart';
+import '../../features/teacher/lessons/presentation/views/teacher_add_lesson_video_view.dart';
+import '../../features/teacher/lessons/presentation/views/teacher_add_lesson_view.dart';
+import '../../features/teacher/lessons/presentation/views/teacher_lesson_details_view.dart';
+import '../../features/teacher/lessons/presentation/views/teacher_lesson_video_details_view.dart';
 import '../../features/teacher/main/presentation/views/teacher_main_view.dart';
 import '../../features/teacher/main/presentation/views/teacher_tab_placeholder_view.dart';
 import '../../features/teacher/subjects/presentation/views/teacher_add_subject_view.dart';
+import '../../features/teacher/subjects/presentation/views/teacher_add_unit_view.dart';
+import '../../features/teacher/subjects/presentation/views/teacher_subject_units_view.dart';
 import '../../features/teacher/subjects/presentation/views/teacher_subjects_view.dart';
+import '../../features/teacher/subjects/presentation/views/teacher_unit_details_view.dart';
 import 'app_router_name.dart';
 import 'smooth_page_transition.dart';
 
@@ -186,6 +194,62 @@ class AppRoutes {
         ),
       ),
       GoRoute(
+        path: AppRouterName.teacherSubjectUnits,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final subjectId = extra?['subjectId'] as String? ?? '';
+          final gradeLevelId = extra?['gradeLevelId'] as String?;
+          final subjectName = extra?['subjectName'] as String? ?? 'المادة الدراسية';
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherSubjectUnitsView(
+              subjectId: subjectId,
+              gradeLevelId: gradeLevelId,
+              initialSubjectName: subjectName,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherAddUnit,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final subjectId = extra?['subjectId'] as String?;
+          final subjectName = extra?['subjectName'] as String?;
+          final gradeLevelId = extra?['gradeLevelId'] as String?;
+          final nextUnitNumber = extra?['nextUnitNumber'] as int?;
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherAddUnitView(
+              initialSubjectId: subjectId,
+              initialSubjectName: subjectName,
+              initialGradeLevelId: gradeLevelId,
+              initialUnitNumber: nextUnitNumber,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherUnitDetails,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final unitId = extra?['unitId'] as String? ?? '';
+          final title = extra?['title'] as String? ?? extra?['name'] as String?;
+          final subjectName = extra?['subjectName'] as String?;
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherUnitDetailsView(
+              unitId: unitId,
+              initialTitle: title,
+              initialSubjectName: subjectName,
+            ),
+          );
+        },
+      ),
+      GoRoute(
         path: AppRouterName.teacherGroupStudents,
         pageBuilder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
@@ -255,6 +319,88 @@ class AppRoutes {
               initialData: initialData,
               groupId: groupId,
               groupName: groupName,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherLessonDetails,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final lessonId = extra?['lessonId'] as String? ?? '';
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherLessonDetailsView(
+              lessonId: lessonId,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherAddLesson,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final subjectId = extra?['subjectId'] as String?;
+          final unitId = extra?['unitId'] as String?;
+          final nextOrder = extra?['nextOrder'] as int?;
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherAddLessonView(
+              initialSubjectId: subjectId,
+              initialUnitId: unitId,
+              initialLessonOrder: nextOrder,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherLessonVideoDetails,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final videoId = extra?['videoId'] as String? ?? '';
+          final title = extra?['title'] as String? ?? extra?['name'] as String?;
+          final breadcrumb = extra?['breadcrumb'] as String?;
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherLessonVideoDetailsView(
+              videoId: videoId,
+              initialName: title,
+              initialBreadcrumb: breadcrumb,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherAddLessonVideo,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final lessonId = extra?['lessonId'] as String? ?? '';
+          final breadcrumb = extra?['breadcrumb'] as String?;
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherAddLessonVideoView(
+              lessonId: lessonId,
+              breadcrumb: breadcrumb,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherAddLessonMaterial,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final lessonId = extra?['lessonId'] as String? ?? '';
+          final breadcrumb = extra?['breadcrumb'] as String?;
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherAddLessonMaterialView(
+              lessonId: lessonId,
+              breadcrumb: breadcrumb,
             ),
           );
         },

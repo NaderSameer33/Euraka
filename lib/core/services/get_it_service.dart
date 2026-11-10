@@ -27,6 +27,7 @@ import '../../features/teacher/groups/logic/group_students_cubit.dart';
 import '../../features/teacher/groups/logic/teacher_edit_student_cubit.dart';
 import '../../features/teacher/groups/logic/teacher_groups_cubit.dart';
 import '../../features/teacher/groups/logic/teacher_student_details_cubit.dart';
+import '../../features/teacher/lessons/data/repos/teacher_lessons_repo.dart';
 import '../../features/teacher/subjects/data/repos/teacher_subjects_repo.dart';
 import '../../features/teacher/subjects/logic/add_subject_cubit.dart';
 import '../../features/teacher/subjects/logic/teacher_subjects_cubit.dart';
@@ -119,6 +120,10 @@ Future<void> setupGetIt() async {
 
   getIt.registerLazySingleton<TeacherSubjectsRepo>(
     () => TeacherSubjectsRepo(getIt<ApiService>()),
+  );
+
+  getIt.registerLazySingleton<TeacherLessonsRepo>(
+    () => TeacherLessonsRepo(getIt<ApiService>()),
   );
 
   getIt.registerFactory<OnboardingCubit>(

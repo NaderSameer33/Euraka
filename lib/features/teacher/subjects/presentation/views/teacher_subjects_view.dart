@@ -153,6 +153,16 @@ class _TeacherSubjectsViewBodyState extends State<_TeacherSubjectsViewBody> {
                                 return TeacherSubjectCard(
                                   subject: subject,
                                   teacherName: cubit.teacherName,
+                                  onTap: () {
+                                    context.push(
+                                      AppRouterName.teacherSubjectUnits,
+                                      extra: {
+                                        'subjectId': subject.id,
+                                        'subjectName': subject.displayName,
+                                        'gradeLevelId': subject.gradeLevelId,
+                                      },
+                                    );
+                                  },
                                 );
                               },
                             ),

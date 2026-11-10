@@ -18,6 +18,14 @@ class AppRouterName {
   static const String teacherEditStudent = '/teacher-edit-student';
   static const String teacherSubjects = '/teacher-subjects';
   static const String teacherAddSubject = '/teacher-add-subject';
+  static const String teacherSubjectUnits = '/teacher-subject-units';
+  static const String teacherAddUnit = '/teacher-add-unit';
+  static const String teacherUnitDetails = '/teacher-unit-details';
+  static const String teacherLessonDetails = '/teacher-lesson-details';
+  static const String teacherAddLesson = '/teacher-add-lesson';
+  static const String teacherLessonVideoDetails = '/teacher-lesson-video-details';
+  static const String teacherAddLessonVideo = '/teacher-add-lesson-video';
+  static const String teacherAddLessonMaterial = '/teacher-add-lesson-material';
   static const String teacherTasks = '/teacher-tasks';
   static const String teacherWallet = '/teacher-wallet';
   static const String studentHome = '/student-home';
