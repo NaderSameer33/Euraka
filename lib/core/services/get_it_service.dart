@@ -27,6 +27,10 @@ import '../../features/teacher/groups/logic/group_students_cubit.dart';
 import '../../features/teacher/groups/logic/teacher_edit_student_cubit.dart';
 import '../../features/teacher/groups/logic/teacher_groups_cubit.dart';
 import '../../features/teacher/groups/logic/teacher_student_details_cubit.dart';
+import '../../features/teacher/homework/data/repos/teacher_homework_repo.dart';
+import '../../features/teacher/homework/logic/create_homework_cubit.dart';
+import '../../features/teacher/homework/logic/teacher_homework_details_cubit.dart';
+import '../../features/teacher/homework/logic/teacher_homework_list_cubit.dart';
 import '../../features/teacher/lessons/data/repos/teacher_lessons_repo.dart';
 import '../../features/teacher/subjects/data/repos/teacher_subjects_repo.dart';
 import '../../features/teacher/subjects/logic/add_subject_cubit.dart';
@@ -124,6 +128,10 @@ Future<void> setupGetIt() async {
 
   getIt.registerLazySingleton<TeacherLessonsRepo>(
     () => TeacherLessonsRepo(getIt<ApiService>()),
+  );
+
+  getIt.registerLazySingleton<TeacherHomeworkRepo>(
+    () => TeacherHomeworkRepo(getIt<ApiService>()),
   );
 
   getIt.registerFactory<OnboardingCubit>(
@@ -241,6 +249,25 @@ Future<void> setupGetIt() async {
       initialData: param.initialData,
       initialGroupId: param.initialGroupId,
       initialGroupName: param.initialGroupName,
+    ),
+  );
+
+  getIt.registerFactory<CreateHomeworkCubit>(
+    () => CreateHomeworkCubit(
+      getIt<TeacherHomeworkRepo>(),
+      getIt<TeacherGroupsRepo>(),
+      getIt<TeacherSubjectsRepo>(),
+    ),
+  );
+
+  getIt.registerFactory<TeacherHomeworkListCubit>(
+    () => TeacherHomeworkListCubit(getIt<TeacherHomeworkRepo>()),
+  );
+
+  getIt.registerFactoryParam<TeacherHomeworkDetailsCubit, String, void>(
+    (homeworkId, _) => TeacherHomeworkDetailsCubit(
+      getIt<TeacherHomeworkRepo>(),
+      homeworkId: homeworkId,
     ),
   );
 }

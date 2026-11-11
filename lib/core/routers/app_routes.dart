@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../caching/shared_pref_service.dart';
 import '../constants/app_constants.dart';
@@ -19,6 +20,11 @@ import '../../features/teacher/groups/presentation/views/teacher_edit_student_vi
 import '../../features/teacher/groups/presentation/views/teacher_group_students_view.dart';
 import '../../features/teacher/groups/presentation/views/teacher_groups_view.dart';
 import '../../features/teacher/groups/presentation/views/teacher_student_details_view.dart';
+import '../../features/teacher/homework/logic/create_homework_cubit.dart';
+import '../../features/teacher/homework/logic/teacher_homework_list_cubit.dart';
+import '../../features/teacher/homework/presentation/views/teacher_create_homework_view.dart';
+import '../../features/teacher/homework/presentation/views/teacher_homework_details_view.dart';
+import '../../features/teacher/homework/presentation/views/teacher_homework_list_view.dart';
 import '../../features/teacher/lessons/presentation/views/teacher_add_lesson_material_view.dart';
 import '../../features/teacher/lessons/presentation/views/teacher_add_lesson_video_view.dart';
 import '../../features/teacher/lessons/presentation/views/teacher_add_lesson_view.dart';
@@ -402,6 +408,45 @@ class AppRoutes {
             ),
           );
         },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherHomeworkList,
+        pageBuilder: (context, state) => buildSmoothTransitionPage(
+          context: context,
+          state: state,
+          child: BlocProvider(
+            create: (context) => getIt<TeacherHomeworkListCubit>(),
+            child: const TeacherHomeworkListView(),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterName.teacherHomeworkDetails,
+        pageBuilder: (context, state) {
+          String homeworkId = '';
+          if (state.extra is String) {
+            homeworkId = state.extra as String;
+          } else if (state.extra is Map) {
+            final map = state.extra as Map<String, dynamic>;
+            homeworkId = map['homeworkId'] as String? ?? map['id'] as String? ?? '';
+          }
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherHomeworkDetailsView(homeworkId: homeworkId),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRouterName.teacherCreateHomework,
+        pageBuilder: (context, state) => buildSmoothTransitionPage(
+          context: context,
+          state: state,
+          child: BlocProvider(
+            create: (context) => getIt<CreateHomeworkCubit>(),
+            child: const TeacherCreateHomeworkView(),
+          ),
+        ),
       ),
       GoRoute(
         path: AppRouterName.studentHome,
