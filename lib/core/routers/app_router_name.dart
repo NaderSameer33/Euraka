@@ -27,6 +27,9 @@ class AppRouterName {
   static const String teacherAddLessonVideo = '/teacher-add-lesson-video';
   static const String teacherAddLessonMaterial = '/teacher-add-lesson-material';
   static const String teacherTasks = '/teacher-tasks';
+  static const String teacherHomeworkList = '/teacher-homework-list';
+  static const String teacherHomeworkDetails = '/teacher-homework-details';
+  static const String teacherCreateHomework = '/teacher-create-homework';
   static const String teacherWallet = '/teacher-wallet';
   static const String studentHome = '/student-home';
 }
