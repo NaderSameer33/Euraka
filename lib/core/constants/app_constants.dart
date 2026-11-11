@@ -4,6 +4,8 @@ class AppConstants {
   static const String appName = 'Eureka';
   static const String baseHost = 'https://eureka.growfet.com';
   static const String baseUrl = 'https://eureka.growfet.com/api/v1';
+  static const String socketUrl = 'https://eureka.growfet.com';
+  static const String socketPath = '/socket.io';
   static const String userTokenKey = 'USER_TOKEN';
   static const String userRefreshTokenKey = 'USER_REFRESH_TOKEN';
   static const String userIdKey = 'USER_ID';
