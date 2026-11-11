@@ -31,6 +31,7 @@ import '../../features/teacher/subjects/presentation/views/teacher_add_unit_view
 import '../../features/teacher/subjects/presentation/views/teacher_subject_units_view.dart';
 import '../../features/teacher/subjects/presentation/views/teacher_subjects_view.dart';
 import '../../features/teacher/subjects/presentation/views/teacher_unit_details_view.dart';
+import '../../features/teacher/tasks/presentation/views/teacher_tasks_view.dart';
 import 'app_router_name.dart';
 import 'smooth_page_transition.dart';
 
@@ -157,10 +158,7 @@ class AppRoutes {
             routes: [
               GoRoute(
                 path: AppRouterName.teacherTasks,
-                builder: (context, state) => const TeacherTabPlaceholderView(
-                  title: 'المهام',
-                  icon: Icons.task_alt_rounded,
-                ),
+                builder: (context, state) => const TeacherTasksView(),
               ),
             ],
           ),

@@ -14,6 +14,10 @@ class AppAssets {
   static const String resetPasswordImage = 'assets/images/reset_passwrod.png';
   static const String unitImage = 'assets/images/unit_image.png';
   static const String lessonDetailsImage = 'assets/images/lesson_details_image.png';
+  static const String examImage = 'assets/images/exam.png';
+  static const String homeworkImage = 'assets/images/home_work.png';
+  static const String hadoorImage = 'assets/images/hadoor.png';
+  static const String messagingImage = 'assets/images/messaging.png';
 
   static const String emailIcon = 'assets/icons/email.svg';
   static const String lockIcon = 'assets/icons/lock.svg';
