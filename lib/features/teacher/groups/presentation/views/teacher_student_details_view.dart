@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/extension/spacing_extension.dart';
+import '../../../../../core/helper/helper_method.dart';
 import '../../../../../core/routers/app_router_name.dart';
 import '../../../../../core/services/get_it_service.dart';
 import '../../../../../core/theme/app_colors.dart';
@@ -12,6 +13,7 @@ import '../../../../../core/theme/app_styles.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../core/widgets/app_error_widget.dart';
 import '../../../../../core/widgets/app_loading.dart';
+import '../../../chat/data/repos/teacher_chat_repo.dart';
 import '../../data/models/teacher_student_details_model.dart';
 import '../../logic/teacher_student_details_cubit.dart';
 import '../../logic/teacher_student_details_state.dart';
@@ -250,7 +252,47 @@ class _TeacherStudentDetailsContent extends StatelessWidget {
                       top: false,
                       child: AppButton(
                         text: 'ارسال رساله',
-                        onPressed: () {},
+                        onPressed: () async {
+                          final targetGroupId = enrolledGroup?.groupId;
+                          if (targetGroupId == null || targetGroupId.isEmpty) {
+                            HelperMethod.showErrorToast(
+                              context: context,
+                              message: 'لم يتم العثور على مجموعة الطالب',
+                            );
+                            return;
+                          }
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (_) => const Center(child: AppLoading()),
+                          );
+                          final targetStudentId = student.userId.isNotEmpty ? student.userId : cubit.studentId;
+                          final result = await getIt<TeacherChatRepo>().startOrRetrieveConversation(
+                            groupId: targetGroupId,
+                            studentId: targetStudentId,
+                          );
+                          if (context.mounted) {
+                            Navigator.of(context, rootNavigator: true).pop();
+                          }
+                          result.fold(
+                            (failure) {
+                              if (context.mounted) {
+                                HelperMethod.showErrorToast(
+                                  context: context,
+                                  message: failure.message,
+                                );
+                              }
+                            },
+                            (conversation) {
+                              if (context.mounted) {
+                                context.push(
+                                  AppRouterName.teacherChat,
+                                  extra: conversation,
+                                );
+                              }
+                            },
+                          );
+                        },
                       ),
                     ),
                   ),

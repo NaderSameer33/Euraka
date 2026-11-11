@@ -12,6 +12,10 @@ import '../../features/auth/reset_password/presentation/views/reset_password_vie
 import '../../features/onboarding/presentation/views/onboarding_view.dart';
 import '../../features/role_selection/presentation/views/role_selection_view.dart';
 import '../../features/splash/presentation/views/splash_view.dart';
+import '../../features/teacher/chat/data/models/teacher_conversation_model.dart';
+import '../../features/teacher/chat/presentation/views/teacher_chat_view.dart';
+import '../../features/teacher/chat/presentation/views/teacher_communication_hub_view.dart';
+import '../../features/teacher/chat/presentation/views/teacher_inbox_view.dart';
 import '../../features/teacher/dashboard/presentation/views/teacher_dashboard_view.dart';
 import '../../features/teacher/groups/data/models/teacher_student_details_model.dart';
 import '../../features/teacher/groups/presentation/views/teacher_add_group_view.dart';
@@ -288,12 +292,23 @@ class AppRoutes {
       GoRoute(
         path: AppRouterName.teacherStudentDetails,
         pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          final studentId = extra?['studentId'] as String? ?? '';
-          final groupId = extra?['groupId'] as String?;
-          final groupName = extra?['groupName'] as String?;
-          final isPaid = extra?['isPaid'] as bool?;
-          final paymentStatus = extra?['paymentStatus'] as String?;
+          String studentId = '';
+          String? groupId;
+          String? groupName;
+          bool? isPaid;
+          String? paymentStatus;
+
+          if (state.extra is String) {
+            studentId = state.extra as String;
+          } else if (state.extra is Map) {
+            final extra = Map<String, dynamic>.from(state.extra as Map);
+            studentId = extra['studentId'] as String? ?? '';
+            groupId = extra['groupId'] as String?;
+            groupName = extra['groupName'] as String?;
+            isPaid = extra['isPaid'] as bool?;
+            paymentStatus = extra['paymentStatus'] as String?;
+          }
+
           return buildSmoothTransitionPage(
             context: context,
             state: state,
@@ -447,6 +462,51 @@ class AppRoutes {
             child: const TeacherCreateHomeworkView(),
           ),
         ),
+      ),
+      GoRoute(
+        path: AppRouterName.teacherCommunicationHub,
+        pageBuilder: (context, state) => buildSmoothTransitionPage(
+          context: context,
+          state: state,
+          child: const TeacherCommunicationHubView(),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterName.teacherInbox,
+        pageBuilder: (context, state) => buildSmoothTransitionPage(
+          context: context,
+          state: state,
+          child: const TeacherInboxView(),
+        ),
+      ),
+      GoRoute(
+        path: AppRouterName.teacherChat,
+        pageBuilder: (context, state) {
+          String conversationId = '';
+          TeacherConversationModel? conversation;
+
+          if (state.extra is TeacherConversationModel) {
+            conversation = state.extra as TeacherConversationModel;
+            conversationId = conversation.id;
+          } else if (state.extra is String) {
+            conversationId = state.extra as String;
+          } else if (state.extra is Map) {
+            final map = Map<String, dynamic>.from(state.extra as Map);
+            conversationId = map['conversationId'] as String? ?? map['id'] as String? ?? '';
+            if (map['conversation'] is TeacherConversationModel) {
+              conversation = map['conversation'] as TeacherConversationModel;
+            }
+          }
+
+          return buildSmoothTransitionPage(
+            context: context,
+            state: state,
+            child: TeacherChatView(
+              conversationId: conversationId,
+              conversation: conversation,
+            ),
+          );
+        },
       ),
       GoRoute(
         path: AppRouterName.studentHome,

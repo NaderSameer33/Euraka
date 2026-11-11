@@ -54,6 +54,10 @@ class _TeacherTasksViewState extends State<TeacherTasksView> {
       context.push(AppRouterName.teacherCreateHomework);
       return;
     }
+    if (task.id == 'messaging') {
+      context.push(AppRouterName.teacherCommunicationHub);
+      return;
+    }
     HelperMethod.showInfoToast(
       context: context,
       message: 'سيتم فتح ${task.buttonText} قريباً',
