@@ -18,6 +18,14 @@ class AppAssets {
   static const String homeworkImage = 'assets/images/home_work.png';
   static const String hadoorImage = 'assets/images/hadoor.png';
   static const String messagingImage = 'assets/images/messaging.png';
+  static const String mcqImage = 'assets/images/mcq.png';
+  static const String maqulyImage = 'assets/images/maquly.png';
+
+  static const String editIcon = 'assets/icons/edit.svg';
+  static const String trashIcon = 'assets/icons/trash.svg';
+  static const String scoreIcon = 'assets/icons/score.svg';
+  static const String timeIcon = 'assets/icons/time.svg';
+  static const String pdfIcon = 'assets/icons/pdf.svg';
 
   static const String emailIcon = 'assets/icons/email.svg';
   static const String lockIcon = 'assets/icons/lock.svg';
