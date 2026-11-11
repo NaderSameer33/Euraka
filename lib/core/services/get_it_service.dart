@@ -17,6 +17,8 @@ import '../../features/onboarding/data/repos/onboarding_repo.dart';
 import '../../features/onboarding/logic/onboarding_cubit.dart';
 import '../../features/role_selection/data/repos/role_selection_repo.dart';
 import '../../features/role_selection/logic/role_selection_cubit.dart';
+import '../../features/teacher/chat/data/repos/teacher_chat_repo.dart';
+import '../../features/teacher/chat/logic/teacher_conversations_cubit.dart';
 import '../../features/teacher/dashboard/data/repos/teacher_dashboard_repo.dart';
 import '../../features/teacher/dashboard/logic/teacher_dashboard_cubit.dart';
 import '../../features/teacher/groups/data/models/teacher_student_details_model.dart';
@@ -40,6 +42,7 @@ import '../caching/shared_pref_service.dart';
 import '../theme/logic/theme_cubit.dart';
 import 'api_service.dart';
 import 'auth_interceptor.dart';
+import 'socket_service.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -132,6 +135,14 @@ Future<void> setupGetIt() async {
 
   getIt.registerLazySingleton<TeacherHomeworkRepo>(
     () => TeacherHomeworkRepo(getIt<ApiService>()),
+  );
+
+  getIt.registerLazySingleton<SocketService>(
+    () => SocketService(getIt<SecureStorageService>()),
+  );
+
+  getIt.registerLazySingleton<TeacherChatRepo>(
+    () => TeacherChatRepo(getIt<ApiService>()),
   );
 
   getIt.registerFactory<OnboardingCubit>(
@@ -268,6 +279,13 @@ Future<void> setupGetIt() async {
     (homeworkId, _) => TeacherHomeworkDetailsCubit(
       getIt<TeacherHomeworkRepo>(),
       homeworkId: homeworkId,
+    ),
+  );
+
+  getIt.registerFactory<TeacherConversationsCubit>(
+    () => TeacherConversationsCubit(
+      getIt<TeacherChatRepo>(),
+      getIt<SocketService>(),
     ),
   );
 }

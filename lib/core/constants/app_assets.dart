@@ -18,6 +18,8 @@ class AppAssets {
   static const String homeworkImage = 'assets/images/home_work.png';
   static const String hadoorImage = 'assets/images/hadoor.png';
   static const String messagingImage = 'assets/images/messaging.png';
+  static const String chatImage = 'assets/images/chat_image.png';
+  static const String notificationMegaphoneImage = 'assets/images/notiractin.png';
   static const String mcqImage = 'assets/images/mcq.png';
   static const String maqulyImage = 'assets/images/maquly.png';
 
